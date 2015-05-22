@@ -72,9 +72,7 @@ passport.use(new FacebookStrategy({
 //===
 
 
-<<<<<<< HEAD
 
->>>>>>> added oauth base and api request base
 
 
 
@@ -85,6 +83,7 @@ passport.use(new FacebookStrategy({
 
 
 //==passport setup
+
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -124,22 +123,18 @@ passport.use(new FacebookStrategy({
     });
   }
 ));
-
-
 //===
 
 
 
 
-=======
->>>>>>> added oauth base and api request base
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
 //passport Oauth
 app.use(session({ secret: 'keyboard cat' }));
 // Initialize Passport!  Also use passport.session() middleware, to support
@@ -147,7 +142,6 @@ app.use(session({ secret: 'keyboard cat' }));
 app.use(passport.initialize());
 app.use(passport.session());
 //===
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 //when asking for the main site, send them to the index
@@ -185,11 +179,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-//for dummy data only
-// var token = 'CAACEdEose0cBACLgiiM5kRWCSL5HQNzQr7lolR02zxZBdXB7JwOCOy34CmPmlPGmZBDhLrnUn7tuJx6jhvnnfXWL7g7MDRpZCNAtk0z6xZBomVwfgmXECZAtNMJ4p9gxTo04nEooR4HTaz0rnJxq8BDoTc7WZAQjMlHgyAGnRrZBb1WrgwULIGVAkH67g8I6tOZCNbLIUZCWlc2qPkSbCKg3jyPfmy5LaZChAZD';
-// api.facebookGET(token, '/me?fields=photos', function(data){
-//   console.log(data)
-// })
 utils.handleFacebookData();
+
 
 module.exports = app;
