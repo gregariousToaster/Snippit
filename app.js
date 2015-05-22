@@ -28,6 +28,9 @@ app.set('view engine', 'ejs');
 
 
 
+
+
+
 //==passport setup
 
 // Passport session setup.
@@ -74,7 +77,6 @@ passport.use(new FacebookStrategy({
 
 
 
->>>>>>> added oauth base and api request base
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
