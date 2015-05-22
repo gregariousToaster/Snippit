@@ -26,7 +26,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//==passport setup
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -66,8 +65,6 @@ passport.use(new FacebookStrategy({
     });
   }
 ));
-
-
 //===
 
 
@@ -77,7 +74,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
 //passport Oauth
 app.use(session({ secret: 'keyboard cat' }));
 // Initialize Passport!  Also use passport.session() middleware, to support
@@ -85,7 +81,6 @@ app.use(session({ secret: 'keyboard cat' }));
 app.use(passport.initialize());
 app.use(passport.session());
 //===
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -122,11 +117,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-//for dummy data only
-// var token = 'CAACEdEose0cBACLgiiM5kRWCSL5HQNzQr7lolR02zxZBdXB7JwOCOy34CmPmlPGmZBDhLrnUn7tuJx6jhvnnfXWL7g7MDRpZCNAtk0z6xZBomVwfgmXECZAtNMJ4p9gxTo04nEooR4HTaz0rnJxq8BDoTc7WZAQjMlHgyAGnRrZBb1WrgwULIGVAkH67g8I6tOZCNbLIUZCWlc2qPkSbCKg3jyPfmy5LaZChAZD';
-// api.facebookGET(token, '/me?fields=photos', function(data){
-//   console.log(data)
-// })
 utils.handleFacebookData();
+
 
 module.exports = app;
