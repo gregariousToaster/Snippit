@@ -1,4 +1,4 @@
+# Dependency directory
 node_modules
-bower_components
-*.sqlite
-*.DS_Store
+
+.DS_Store
