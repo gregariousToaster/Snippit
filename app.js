@@ -72,6 +72,7 @@ passport.use(new FacebookStrategy({
 //===
 
 
+<<<<<<< HEAD
 
 >>>>>>> added oauth base and api request base
 
@@ -130,6 +131,8 @@ passport.use(new FacebookStrategy({
 
 
 
+=======
+>>>>>>> added oauth base and api request base
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
