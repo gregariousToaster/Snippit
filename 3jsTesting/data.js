@@ -118,4 +118,3 @@ var table = [
         ['Uus', 'Ununseptium', '(294)', 17, 7],
         ['Uuo', 'Ununoctium', '(294)', 18, 7]
       ];
-console.dir(table);
