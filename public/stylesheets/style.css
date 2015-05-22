@@ -1,8 +1,30 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 16px/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #787876;
+}
+
+h1, h3 {
+  font-weight: 300;
+  margin-bottom: 5px;
 }
 
 a {
-  color: #00B7FF;
+  text-decoration: none;
+  color: #EA6045;
+}
+
+a:hover {
+  color: #2F3440;
+}
+
+.container {
+  width: 90%;
+  margin: 0px auto;
+}
+
+footer {
+  margin-top: 30px;
+  border-top: 1px solid #efefef;
+  padding-top: 20px;
+  font-style: italic;
 }
