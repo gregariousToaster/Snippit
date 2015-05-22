@@ -4,6 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var session = require('express-session')
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -12,15 +15,10 @@ var users = require('./routes/users');
 var utils = require('./server/utils.js');
 var api = require('./server/APIrequests.js');
 //===
-
-//==passport and Oauth
-var passport = require('passport');
-var FacebookStrategy = require('passport-facebook');
-var FACEBOOK_APP_ID = "1424355067886211"
-var FACEBOOK_APP_SECRET = "fb8a1c1d039a4d90c396f95c7bfd2562";
-//===
-
 var app = express();
+
+
+require('./server/config/passport.js')(passport); // pass passport for configuration
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -135,6 +133,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+//===
+
 //passport Oauth
 app.use(session({ secret: 'keyboard cat' }));
 // Initialize Passport!  Also use passport.session() middleware, to support
@@ -144,8 +144,8 @@ app.use(passport.session());
 //===
 app.use(express.static(path.join(__dirname, 'public')));
 
-//when asking for the main site, send them to the index
-app.use('/', routes);
+
+app.use('/', routes(passport));
 app.use('/users', users);
 
 // catch 404 and forward to error handler
@@ -179,7 +179,36 @@ app.use(function(err, req, res, next) {
   });
 });
 
-utils.handleFacebookData();
+
+/// GET /auth/facebook
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Facebook authentication will involve
+//   redirecting the user to facebook.com.  After authorization, Facebook will
+//   redirect the user back to this application at /auth/facebook/callback
+app.get('/auth/facebook',
+  passport.authenticate('facebook'),
+  function(req, res){
+    // The request will be redirected to Facebook for authentication, so this
+    // function will not be called.
+  });
+
+// GET /auth/facebook/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get('/auth/facebook/callback', 
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+// utils.handleFacebookData();
 
 
 module.exports = app;
