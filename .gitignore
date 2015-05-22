@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-# Dependency directory
-node_modules
-
-.DS_Store
-=======
 node_modules
 bower_components
 *.sqlite
 *.DS_Store
->>>>>>> added oauth base and api request base
