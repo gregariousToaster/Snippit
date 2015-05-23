@@ -20,7 +20,10 @@ module.exports = function(passport) {
 //   request.  The first step in Facebook authentication will involve
 //   redirecting the user to facebook.com.  After authorization, Facebook will
 //   redirect the user back to this application at /auth/facebook/callback
-  router.get('/auth/facebook', passport.authenticate('facebook'), function(req, res){
+  router.get('/auth/facebook', passport.authenticate('facebook', {
+    scope:
+      ['user_photos', 'user_friends']
+    }), function(req, res){
   // The request will be redirected to Facebook for authentication, so this
   // function will not be called.
   });
