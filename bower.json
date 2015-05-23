@@ -1,0 +1,11 @@
+{
+  "name": "famousAngularStarter",
+  "version": "0.5.0",
+  "dependencies": {
+    "famous-angular": "0.5.0",
+    "angular-ui-router": "0.2.13"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.2.26"
+  }
+}
