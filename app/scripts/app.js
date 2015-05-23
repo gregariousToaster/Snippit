@@ -1,19 +1,18 @@
 'use strict';
 
-angular.module('famousAngularStarter',
+angular.module('snippit',
   ['ui.router',
     'famous.angular' ])
+  .run(function(){
+
+  })
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
-      .state('home', {
+      .state('app', {
         url: '/',
         templateUrl: 'partials/main.html',
-        controller: 'MainCtrl'
-      })
-      .state('jade', {
-        url: '/jade',
-        templateUrl: 'partials/jade.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        auth: true
       });
 
     $urlRouterProvider.otherwise('/');

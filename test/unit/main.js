@@ -3,7 +3,7 @@
 describe('controllers', function(){
   var scope;
 
-  beforeEach(module('famousAngularStarter'));
+  beforeEach(module('snippit'));
 
   beforeEach(inject(function($rootScope) {
   	scope = $rootScope.$new();
