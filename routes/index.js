@@ -1,4 +1,5 @@
 var express = require('express');
+var utils = require('../server/utils.js')
 
 
 // module.exports = router;
@@ -38,7 +39,10 @@ module.exports = function(passport) {
   router.get('/auth/facebook/callback', 
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     function(req, res) {
-      res.redirect('/');
+      debugger;
+      utils.checkData(req, res, function(){
+        res.redirect('/');  
+      })
   });
 
   router.get('/logout', function(req, res){
