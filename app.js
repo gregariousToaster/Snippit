@@ -8,7 +8,12 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 
-var session = require('express-session');
+//=== Database
+var mongoose    = require('mongoose');
+
+
+
+var session = require('express-session')
 
 
 var routes = require('./routes/index');
@@ -20,6 +25,7 @@ var api = require('./server/APIrequests.js');
 //===
 var app = express();
 
+mongoose.connect('mongodb://localhost/GregariousToaster');
 
 require('./server/config/passport.js')(passport); // pass passport for configuration
 
