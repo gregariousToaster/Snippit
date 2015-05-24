@@ -6,7 +6,6 @@ exports.handleFacebookData = function(){
     if (err) {
       return console.log(err, "error on intialize");
     }else{
-      debugger;
       var dat = JSON.parse(data);
       
     }
