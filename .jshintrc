@@ -1,24 +1,18 @@
 {
-  "node": true,
-  "esnext": true,
-  "bitwise": true,
   "camelcase": true,
   "curly": true,
   "eqeqeq": true,
-  "immed": true,
+  "freeze": true,
   "indent": 2,
-  "latedef": true,
-  "newcap": true,
-  "noarg": true,
+  "newcap": false,
   "quotmark": "single",
-  "regexp": true,
+  "maxdepth": 3,
+  "maxstatements": 50,
+  "maxlen": 80,
+  "eqnull": true,
+  "funcscope": true,
+  "strict": true,
   "undef": true,
   "unused": true,
-  "strict": true,
-  "trailing": true,
-  "smarttabs": true,
-  "white": true,
-  "globals": {
-    "angular": false
-  }
+  "node": true
 }
