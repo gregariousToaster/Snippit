@@ -2,18 +2,34 @@
 
 angular.module('snippit',
   ['snippit.main',
+   'snippit.auth',
    'ui.router',
-   'famous.angular'
+   'famous.angular',
   ])
-  .run(function(){
+  .run(function() {
   })
-  .config(function ($stateProvider, $urlRouterProvider){
+  .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('app', {
-        url:'/',
+        url: '/',
         templateUrl: 'templates/main.html',
         controller: 'MainController',
+      })
+      .state('app.famous', {
+        url: '/famous',
+        templateUrl: 'templates/main.html',
+        controller: 'MainController',
+      })
+      .state('signin', {
+        url: '/signin',
+        templateUrl: 'templates/signin.html',
+        controller: 'AuthController',
+      })
+      .state('signup', {
+        url: '/signup',
+        templateUrl: 'templates/signup.html',
+        controller: 'AuthController',
       });
     $urlRouterProvider.otherwise('/');
-  });
+  }]);
 

@@ -8,6 +8,7 @@ var gulp = require('gulp'),
   jscs = require('gulp-jscs'),
   rename = require('gulp-rename'),
   notify = require('gulp-notify'),
+  nodemon = require('gulp-nodemon'),
   del = require('del');
 
 gulp.task('lint', function() {
@@ -39,6 +40,14 @@ gulp.task('clean', function(cb) {
     del(['public/dist/js', 'public/dist/stylesheets'], cb);
 });
 
+gulp.task('start', function () {
+  nodemon({
+    script: 'bin/www',
+    ext: 'js html',
+    env: { 'NODE_ENV': 'development' }
+  });
+});
+
 gulp.task('default', ['clean'], function() {
-  gulp.start('lint', 'scripts', 'styles');
+  gulp.start('lint', 'scripts', 'styles', 'start');
 });
