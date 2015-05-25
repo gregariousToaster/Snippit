@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('snippit',
-  ['snippit.main',
-   'snippit.auth',
-   'snippit.famous',
-   'ui.router',
-   'famous.angular',
+angular.module('snippit', ['snippit.main',
+  'snippit.auth',
+  'snippit.famous',
+  'ui.router',
+  'famous.angular'
   ])
   .run(function() {
   })
@@ -13,7 +12,8 @@ angular.module('snippit',
     $stateProvider
       .state('app', {
         url: '/app',
-        templateUrl: 'templates/main.html'
+        templateUrl: 'templates/main.html',
+        controller: 'MainController',
       })
       .state('app.famous', {
         url: '/famous',
