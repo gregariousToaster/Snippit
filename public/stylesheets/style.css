@@ -3,6 +3,12 @@ body {
     font-family: sans-serif;
 }
 
+.facebook {
+  height: 50px;
+  width: 300px;
+  margin-left: -70px;
+}
+
 .center-box {
     padding: 15px 50px 15px 50px;
     text-align: center;
