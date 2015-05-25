@@ -26,24 +26,9 @@ function init() {
     el.className = 'element';
     el.style.backgroundColor = 'rgb(234,234,234)';
 
-    var number = document.createElement( 'div' );
     var image = document.createElement( 'img' );
     image.src = pics[i].source;
-    image.className = 'image';
-    number.className = 'number';
-    number.appendChild( image );
-    // number.textContent = i + 1;
-    el.appendChild( number );
-
-    var symbol = document.createElement( 'div' );
-    symbol.className = 'symbol';
-    el.appendChild( symbol );
-
-    // var details = document.createElement( 'div' );
-    // details.className = 'details';
-    // // details.innerHTML = table[i][1] + '<br>' + table[i][2];
-    // el.appendChild( details );
-
+    el.appendChild( image );
 
     var object = new THREE.CSS3DObject(el);
     object.position.x = Math.random() * 4000 - 2000;
@@ -76,8 +61,8 @@ function init() {
     // table
 
     var tableObject = new THREE.Object3D();
-    tableObject.position.x = (table[i][3] * 140) - 1330;
-    tableObject.position.y = - (table[i][4] * 180) + 990;
+    tableObject.position.x = ((i % 5) * 140) - 420; // 18 columns
+    tableObject.position.y = - ((Math.floor(i / 5) + 1) * 180) + 540; // 10 rows
 
     targets.table.push( tableObject );
 
