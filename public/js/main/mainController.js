@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('snippit.main', [])
-  .controller('MainController', function ($scope, $famous){
+  .controller('MainController', function($scope, $famous) {
     var Transitionable = $famous['famous/transitions/Transitionable'];
     var Timer = $famous['famous/utilities/Timer'];
 
-    $scope.log = function(arg){
+    $scope.log = function(arg) {
       console.log(arg);
     };
 
     $scope.spinner = {
-      speed: 500
+      speed: 500,
     };
     $scope.rotateY = new Transitionable(0);
 
-    //run function on every tick of the Famo.us engine
+    // Run function on every tick of the Famo.us engine
     Timer.every(function() {
       var adjustedSpeed = parseFloat($scope.spinner.speed) / 1200;
       $scope.rotateY.set($scope.rotateY.get() + adjustedSpeed);
@@ -23,6 +23,6 @@ angular.module('snippit.main', [])
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
-      'Karma'
+      'Karma',
     ];
   });

@@ -3,14 +3,19 @@
 angular.module('snippit',
   ['snippit.main',
    'ui.router',
-   'famous.angular'
+   'famous.angular',
   ])
-  .run(function(){
+  .run(function() {
   })
-  .config(function ($stateProvider, $urlRouterProvider){
+  .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('app', {
-        url:'/',
+        url: '/',
+        templateUrl: 'templates/main.html',
+        controller: 'MainController',
+      })
+      .state('app.famous', {
+        url: '/famous',
         templateUrl: 'templates/main.html',
         controller: 'MainController',
       });
