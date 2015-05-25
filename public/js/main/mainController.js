@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sandy.main', [])
+angular.module('snippit.main', [])
   .controller('MainController', function ($scope, $famous){
     var Transitionable = $famous['famous/transitions/Transitionable'];
     var Timer = $famous['famous/utilities/Timer'];

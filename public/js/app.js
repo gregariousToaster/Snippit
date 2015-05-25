@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('sandy',
-  ['sandy.main',
+angular.module('snippit',
+  ['snippit.main',
    'ui.router',
    'famous.angular'
   ])
