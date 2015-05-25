@@ -18,8 +18,9 @@ function init() {
   scene = new THREE.Scene();
 
   // init objects
+  var pics = data.photos.data;
 
-  for ( var i = 0; i < table.length; i++ ) {
+  for ( var i = 0; i < pics.length; i++ ) {
 
     var el = document.createElement( 'div' );
     el.className = 'element';
@@ -27,7 +28,7 @@ function init() {
 
     var number = document.createElement( 'div' );
     var image = document.createElement( 'img' );
-    image.src = 'img.jpg';
+    image.src = pics[i].source;
     image.className = 'image';
     number.className = 'number';
     number.appendChild( image );
@@ -36,13 +37,12 @@ function init() {
 
     var symbol = document.createElement( 'div' );
     symbol.className = 'symbol';
-    // symbol.textContent = table[i][0];
     el.appendChild( symbol );
 
-    var details = document.createElement( 'div' );
-    details.className = 'details';
-    details.innerHTML = table[i][1] + '<br>' + table[i][2];
-    el.appendChild( details );
+    // var details = document.createElement( 'div' );
+    // details.className = 'details';
+    // // details.innerHTML = table[i][1] + '<br>' + table[i][2];
+    // el.appendChild( details );
 
 
     var object = new THREE.CSS3DObject(el);
