@@ -7,6 +7,7 @@ var targets = { table: [], sphere: [], helix: [], grid: [] };
 
 init();
 animate();
+console.log(camera);
 
 function init() {
 
@@ -152,24 +153,22 @@ function init() {
 
   //
 
-  controls = new THREE.TrackballControls( camera, renderer.domElement );
-  controls.rotateSpeed = 0.5;
-  controls.minDistance = 500;
-  controls.maxDistance = 6000;
+  controls = new THREE.OrbitControls( camera );
+  controls.damping = 0.2;
   controls.addEventListener( 'change', render );
+
 
   var buttonClick = function(event){
     view = this.id;
     transform(targets[view], 2000);
     
-      camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
-      camera.position.z = 3000;
+    new TWEEN.Tween(camera.position)
+      .to( { x: 0, y: 0, z: 3000 }, 2000)
+      .start();
 
-      controls = new THREE.TrackballControls( camera, renderer.domElement );
-      controls.rotateSpeed = 0.5;
-      controls.minDistance = 500;
-      controls.maxDistance = 6000;
-      controls.addEventListener( 'change', render );
+    new TWEEN.Tween(camera.rotation)
+      .to( {_x: -0, _y: 0, _z: -0}, 2000)
+      .start();
   }
 
   var buttons = document.getElementsByTagName('button');
