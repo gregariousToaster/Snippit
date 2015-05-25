@@ -35,6 +35,14 @@ exports.checkData = function(req, res, cb){
     })
 }
 
+// exports.handleFacebookData1 = function(){
+//   api.facebookGET('FB_ACCESS_TOKEN', '/me/friends', function(data){
+//     console.log(data);
+//   });
+
+// }
+
+
 exports.handleFacebookData = function(){
   fs.readFile('./server/dummydata', 'utf8', function (err, data) {
     if (err) {
