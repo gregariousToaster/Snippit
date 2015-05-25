@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('snippit')
-  .controller('MainCtrl', function($scope, $famous) {
+angular.module('snippit.main', [])
+  .controller('MainController', function ($scope, $famous){
     var Transitionable = $famous['famous/transitions/Transitionable'];
     var Timer = $famous['famous/utilities/Timer'];
 
@@ -25,5 +25,4 @@ angular.module('snippit')
       'AngularJS',
       'Karma'
     ];
-
   });
