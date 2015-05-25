@@ -14,7 +14,6 @@
     "express": "~4.12.2",
     "express-session": "^1.11.2",
     "gulp": "^3.8.11",
-
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
     "ejs": "^2.3.1",
@@ -29,8 +28,5 @@
     "gulp-notify": "^2.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.2.0"
-    "passport-facebook": "^2.0.0",
-    "q": "^1.4.1",
-    "serve-favicon": "~2.2.0"
   }
 }
