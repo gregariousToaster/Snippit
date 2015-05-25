@@ -10,6 +10,7 @@ var utils = require('../server/utils.js')
 module.exports = function(passport) {
 
   var router = express.Router();
+  
   router.get('/', ensureAuthenticated, function(req, res){
     res.render('index', { title: 'express' });
   });
