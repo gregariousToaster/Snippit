@@ -1,12 +1,45 @@
 // var data = require('./dummydata');
 var fs = require('fs');
+var Q = require('q');
+var User = require('./config/userModel.js');
+// var api = require('./APIrequests.js');
+
+
+
+exports.checkData = function(req, res, cb){
+  var userObj = req.user
+  var findUser = Q.nbind(User.findOne, User);
+  // exports.addData()
+
+  findUser({id: userObj.id})
+    .then(function(user){
+      if(!user) {
+        var newUser = new User({
+          id: userObj.id,
+          name: userObj.displayName
+        });
+
+        newUser.save(function(err, result){
+          if(err){
+            console.log(err, 'error!')
+          }else{
+            console.log(result, 'success!!')
+          }
+        });
+        cb(user)
+      }else{
+        console.log("user found", user)
+
+        cb(user)
+      }
+    })
+}
 
 exports.handleFacebookData = function(){
   fs.readFile('./server/dummydata', 'utf8', function (err, data) {
     if (err) {
       return console.log(err, "error on intialize");
     }else{
-      debugger;
       var dat = JSON.parse(data);
       
     }

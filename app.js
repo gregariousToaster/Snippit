@@ -8,7 +8,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 
-var session = require('express-session');
+//=== Database
+var mongoose    = require('mongoose');
+
+
+
+var session = require('express-session')
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -19,6 +25,7 @@ var api = require('./server/APIrequests.js');
 //===
 var app = express();
 
+mongoose.connect('mongodb://localhost/GregariousToaster');
 
 require('./server/config/passport.js')(passport); // pass passport for configuration
 
@@ -37,11 +44,10 @@ app.use(session({ secret: 'keyboard cat' }));
 app.use(passport.initialize());
 app.use(passport.session());
 //===
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', routes(passport));
-// app.use('/', routes);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

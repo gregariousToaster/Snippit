@@ -33,7 +33,7 @@ module.exports = function(passport) {
     },
     function(accessToken, refreshToken, profile, done) {
       // asynchronous verification, for effect...
-      process.nextTick(function () {
+      process.nextTick(function() {
         
         // To keep the example simple, the user's Facebook profile is returned to
         // represent the logged-in user.  In a typical application, you would want
