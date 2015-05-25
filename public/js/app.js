@@ -1,24 +1,24 @@
 'use strict';
 
-angular.module('snippit',
-  ['snippit.main',
-   'snippit.auth',
-   'ui.router',
-   'famous.angular',
+angular.module('snippit', ['snippit.main',
+  'snippit.auth',
+  'snippit.famous',
+  'ui.router',
+  'famous.angular'
   ])
   .run(function() {
   })
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('app', {
-        url: '/',
+        url: '/app',
         templateUrl: 'templates/main.html',
         controller: 'MainController',
       })
       .state('app.famous', {
         url: '/famous',
-        templateUrl: 'templates/main.html',
-        controller: 'MainController',
+        templateUrl: 'templates/famous.html',
+        controller: 'FamousController',
       })
       .state('signin', {
         url: '/signin',
@@ -30,6 +30,6 @@ angular.module('snippit',
         templateUrl: 'templates/signup.html',
         controller: 'AuthController',
       });
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/app');
   }]);
 
