@@ -3,6 +3,7 @@
 angular.module('snippit',
   ['snippit.main',
    'snippit.auth',
+   'snippit.famous',
    'ui.router',
    'famous.angular',
   ])
@@ -11,14 +12,13 @@ angular.module('snippit',
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('app', {
-        url: '/',
-        templateUrl: 'templates/main.html',
-        controller: 'MainController',
+        url: '/app',
+        templateUrl: 'templates/main.html'
       })
       .state('app.famous', {
         url: '/famous',
-        templateUrl: 'templates/main.html',
-        controller: 'MainController',
+        templateUrl: 'templates/famous.html',
+        controller: 'FamousController',
       })
       .state('signin', {
         url: '/signin',
@@ -30,6 +30,6 @@ angular.module('snippit',
         templateUrl: 'templates/signup.html',
         controller: 'AuthController',
       });
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/app');
   }]);
 
