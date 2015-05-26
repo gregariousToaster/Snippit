@@ -2,14 +2,15 @@
 var fs = require('fs');
 var Q = require('q');
 var User = require('./config/userModel.js');
-// var api = require('./APIrequests.js');
+var api = require('./APIrequests.js');
 
 
 
 exports.checkData = function(req, res, cb){
   var userObj = req.user
   var findUser = Q.nbind(User.findOne, User);
-  // exports.addData()
+  // exports.addData()]\
+  debugger;
 
   findUser({id: userObj.id})
     .then(function(user){
@@ -34,6 +35,12 @@ exports.checkData = function(req, res, cb){
       }
     })
 }
+
+
+
+
+
+
 
 exports.handleFacebookData = function(){
   fs.readFile('./server/dummydata', 'utf8', function (err, data) {

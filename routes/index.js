@@ -11,8 +11,10 @@ module.exports = function(passport) {
 
   var router = express.Router();
   
-  router.get('/', ensureAuthenticated, function(req, res){
+  router.get('/', function(req, res){
+    console.log("authenticated")
     res.render('index', { title: 'express' });
+
   });
 
 
@@ -38,11 +40,10 @@ module.exports = function(passport) {
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
   router.get('/auth/facebook/callback', 
-    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req, res) {
-      utils.checkData(req, res, function(){
-        res.redirect('/');  
-      })
+      console.log("RETUNRED")
+      res.redirect('/');  
   });
 
   router.get('/logout', function(req, res){
@@ -57,5 +58,6 @@ module.exports = function(passport) {
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.render('login')
+  console.log("NOT AUTHENTICATED")
+  res.redirect('/#/signin')
 }

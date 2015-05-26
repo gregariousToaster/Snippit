@@ -1,8 +1,12 @@
 //==passport and Oauth
 var FacebookStrategy = require('passport-facebook');
-
 var configAuth = require('./auth.js');
-//===
+var utils = require('../utils.js')
+var Q = require('q')//===
+var User = require('./userModel.js');
+var facebook = require('../APIrequests.js');
+
+
 
 module.exports = function(passport) {
 // Passport session setup.
@@ -32,16 +36,41 @@ module.exports = function(passport) {
       callbackURL: configAuth.facebookAuth.callbackURL
     },
     function(accessToken, refreshToken, profile, done) {
+      var findUser = Q.nbind(User.findOne, User);
+      // exports.addData()
+      // facebook.GET(accessToken, '/v2.3/'+profile.id+'?fields=photos', function(data){
+      //   console.log(data)
+      // })
+
+      findUser({id: profile.id}).then(function(user){
+        if(!user) {
+          var newUser = new User({
+            id: profile.id,
+            name: profile.displayName,
+            FBtoken: accessToken
+          });
+
+          newUser.save(function(err, result){
+            if(err){
+              console.log(err, 'error!')
+            }else{
+             console.log(result, 'success!!')
+             return done(err, result);
+            }
+          });
+        }else{
+          console.log("user found", user)
+          return done(err, user);
+        }
+      });
       // asynchronous verification, for effect...
-      process.nextTick(function() {
-        
+
         // To keep the example simple, the user's Facebook profile is returned to
         // represent the logged-in user.  In a typical application, you would want
         // to associate the Facebook account with a user record in your database,
         // and return that user instead.
-        return done(null, profile);
-      });
-    }
-  ));
-
+        // return done(null, profile);
+    
+  }))
 }
+
