@@ -7,13 +7,15 @@ var targets = { table: [], sphere: [], helix: [],doubleHelix: [],tripleHelix: []
 
 init();
 animate();
-console.log(camera);
+// console.log(camera);
 
 function init() {
 
   camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
   camera.position.z = 800;
   scene = new THREE.Scene();
+  camera.lookAt(new THREE.Vector3(999,100,0));
+  window.camera = camera;
 
   // init objects
   var pics = data.photos.data.concat(data.photos.data).concat(data.photos.data);
@@ -188,6 +190,13 @@ function init() {
     new TWEEN.Tween(camera.rotation)
       .to( {_x: -0, _y: 0, _z: -0}, 2000)
       .start();
+
+      //tween the value of the orbit controls center
+      //since they have taken over the lookAt function
+    new TWEEN.Tween(controls.center)
+      .to( {x: 0, y: 0, z: 0}, 2000)
+      .start();
+      
   }
 
   var buttons = document.getElementsByTagName('button');
