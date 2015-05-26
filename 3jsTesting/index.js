@@ -7,15 +7,12 @@ var targets = { table: [], sphere: [], helix: [],doubleHelix: [],tripleHelix: []
 
 init();
 animate();
-// console.log(camera);
 
 function init() {
 
   camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
   camera.position.z = 800;
   scene = new THREE.Scene();
-  camera.lookAt(new THREE.Vector3(999,100,0));
-  window.camera = camera;
 
   // init objects
   var pics = data.photos.data.concat(data.photos.data).concat(data.photos.data);
@@ -171,13 +168,13 @@ function init() {
   renderer.domElement.style.position = 'absolute';
   document.getElementById( 'container' ).appendChild( renderer.domElement );
 
-  //
+  //Set up the camera controls, overwrite some of the native controls like lookAt()
 
   controls = new THREE.OrbitControls( camera );
   controls.damping = 0.2;
   controls.addEventListener( 'change', render );
 
-
+//on button click, move the camera into position
   var buttonClick = function(event){
     debugger;
     view = this.id;
@@ -198,6 +195,7 @@ function init() {
       .start();
   }
 
+//add event listeners to each of the buttons on the front page
   var buttons = document.getElementsByTagName('button');
   for (var i = 1; i < 7; i++) {
     buttons[i].addEventListener('click', buttonClick, false);
