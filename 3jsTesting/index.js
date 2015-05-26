@@ -27,7 +27,12 @@ function init() {
     image.src = pics[i].source;
     el.appendChild( image );
 
+    var back = document.createElement( 'div' );
+    back.className = 'back';
+    el.appendChild( back );
+
     var object = new THREE.CSS3DObject(el);
+    console.log(object);
     object.position.x = Math.random() * 4000 - 2000;
     object.position.y = Math.random() * 4000 - 2000;
     object.position.z = Math.random() * 4000 - 2000;
@@ -172,6 +177,7 @@ function init() {
 
 
   var buttonClick = function(event){
+    debugger;
     view = this.id;
     transform(targets[view], 2000);
     

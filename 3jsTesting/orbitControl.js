@@ -34,7 +34,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	// This option actually enables dollying in and out; left as "zoom" for
 	// backwards compatibility
-	this.noZoom = true;
+	this.noZoom = false;
 	this.zoomSpeed = 1.0;
 
 	// Limits to how far you can dolly in and out ( PerspectiveCamera only )
@@ -59,8 +59,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	// How far you can orbit vertically, upper and lower limits.
 	// Range is 0 to Math.PI radians.
-	this.minPolarAngle = 0; // radians
-	this.maxPolarAngle = Math.PI; // radians
+	this.minPolarAngle = Math.PI/4; // radians
+	this.maxPolarAngle = Math.PI/4 * 3; // radians
 
 	// How far you can orbit horizontally, upper and lower limits.
 	// If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].

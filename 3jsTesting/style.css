@@ -3,7 +3,7 @@ html, body {
 }
 
 body {
-  background-color: #0092A5;
+  background-color: #fff;
   margin: 0;
   font-family: Helvetica, sans-serif;;
   overflow: hidden;
@@ -11,6 +11,12 @@ body {
 
 a {
   color: #9e9e9e;
+}
+
+.blur {
+  width: 100%;
+  height: 100%;
+  /*background: gray;*/
 }
 
 #info {
@@ -39,6 +45,7 @@ a {
   border-radius: 4px;
   text-align: center;
   cursor: default;
+  box-shadow: 0 0 25px #888;
 }
 
 .element:hover {
@@ -49,6 +56,13 @@ a {
   min-height: 160px;
   min-width: 120px;
   height: 100%;
+}
+
+.back{
+  background: black;
+  position: relative;
+  top: -100px;
+  z-index: -1;
 }
 
 button {
