@@ -2,9 +2,7 @@
 
 angular.module('snippit', ['snippit.main',
   'snippit.auth',
-  'snippit.famous',
-  'ui.router',
-  'famous.angular'
+  'ui.router'
   ])
   .run(function() {
   })
@@ -14,11 +12,6 @@ angular.module('snippit', ['snippit.main',
         url: '/app',
         templateUrl: 'templates/main.html',
         controller: 'MainController',
-      })
-      .state('app.famous', {
-        url: '/famous',
-        templateUrl: 'templates/famous.html',
-        controller: 'FamousController',
       })
       .state('signin', {
         url: '/signin',
@@ -42,35 +35,6 @@ angular.module('snippit.auth', ['snippit'])
     $scope.facebook = function() {
       $window.location.href = 'auth/facebook';
     };
-  }]);
-
-'use strict';
-
-angular.module('snippit.famous', ['snippit'])
-  .controller('FamousController', ['$scope', '$famous', function($scope, $famous) {
-    var Transitionable = $famous['famous/transitions/Transitionable'];
-    var Timer = $famous['famous/utilities/Timer'];
-
-    $scope.log = function(arg) {
-      console.log(arg);
-    };
-
-    $scope.spinner = {
-      speed: 500,
-    };
-    $scope.rotateY = new Transitionable(0);
-
-    // Run function on every tick of the Famo.us engine
-    Timer.every(function() {
-      var adjustedSpeed = parseFloat($scope.spinner.speed) / 1200;
-      $scope.rotateY.set($scope.rotateY.get() + adjustedSpeed);
-    }, 1);
-
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma',
-    ];
   }]);
 
 'use strict';

@@ -12,3 +12,9 @@ Post MVP:
 
 threeJS:
   move camera to display an item
+
+Khoa:
+- Remove Famous
+- Work with Quest on authentication
+- Add mainController function for making a POST request to server for FB API
+

@@ -2,9 +2,7 @@
 
 angular.module('snippit', ['snippit.main',
   'snippit.auth',
-  'snippit.famous',
-  'ui.router',
-  'famous.angular'
+  'ui.router'
   ])
   .run(function() {
   })
@@ -14,11 +12,6 @@ angular.module('snippit', ['snippit.main',
         url: '/app',
         templateUrl: 'templates/main.html',
         controller: 'MainController',
-      })
-      .state('app.famous', {
-        url: '/famous',
-        templateUrl: 'templates/famous.html',
-        controller: 'FamousController',
       })
       .state('signin', {
         url: '/signin',
