@@ -117,7 +117,7 @@ function init() {
 
   for ( var i = 0, l = objects.length; i < l; i ++ ) {
     if(i%2===0){
-      var phi = i * 0.175 + Math.PI+9;
+      var phi = i * 0.175;
 
       var doubleHelixObject = new THREE.Object3D();
 
