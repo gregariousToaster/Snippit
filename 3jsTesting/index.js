@@ -136,7 +136,6 @@ function init() {
 
   // triple helix
   var tripleHelixVector = new THREE.Vector3();
-
   for ( var i = 0, l = objects.length; i < l; i ++ ) {
     var tripleHelixObject = new THREE.Object3D();
     if(i%3===0){
