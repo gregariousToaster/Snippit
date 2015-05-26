@@ -7,7 +7,6 @@ var targets = { table: [], sphere: [], helix: [],doubleHelix: [],tripleHelix: []
 
 init();
 animate();
-console.log(camera);
 
 function init() {
 
@@ -169,13 +168,13 @@ function init() {
   renderer.domElement.style.position = 'absolute';
   document.getElementById( 'container' ).appendChild( renderer.domElement );
 
-  //
+  //Set up the camera controls, overwrite some of the native controls like lookAt()
 
   controls = new THREE.OrbitControls( camera );
   controls.damping = 0.2;
   controls.addEventListener( 'change', render );
 
-
+//on button click, move the camera into position
   var buttonClick = function(event){
     debugger;
     view = this.id;
@@ -188,8 +187,15 @@ function init() {
     new TWEEN.Tween(camera.rotation)
       .to( {_x: -0, _y: 0, _z: -0}, 2000)
       .start();
+
+      //tween the value of the orbit controls center
+      //since they have taken over the lookAt function
+    new TWEEN.Tween(controls.center)
+      .to( {x: 0, y: 0, z: 0}, 2000)
+      .start();
   }
 
+//add event listeners to each of the buttons on the front page
   var buttons = document.getElementsByTagName('button');
   for (var i = 1; i < 7; i++) {
     buttons[i].addEventListener('click', buttonClick, false);
