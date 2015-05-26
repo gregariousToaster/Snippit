@@ -26,3 +26,20 @@ angular.module('snippit', ['snippit.main',
     $urlRouterProvider.otherwise('/app');
   }]);
 
+
+'use strict';
+
+angular.module('snippit.auth', ['snippit'])
+  .controller('AuthController', ['$scope', '$window', function($scope, $window) {
+
+    $scope.facebook = function() {
+      $window.location.href = 'auth/facebook';
+    };
+  }]);
+
+'use strict';
+
+angular.module('snippit.main', ['snippit'])
+  .controller('MainController', ['$scope', function($scope) {
+
+  }]);
