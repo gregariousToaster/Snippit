@@ -41,7 +41,6 @@ module.exports = function(passport) {
       // facebook.GET(accessToken, '/v2.3/'+profile.id+'?fields=photos', function(data){
       //   console.log(data)
       // })
-
       findUser({id: profile.id}).then(function(user){
         if(!user) {
           var newUser = new User({
@@ -55,12 +54,12 @@ module.exports = function(passport) {
               console.log(err, 'error!')
             }else{
              console.log(result, 'success!!')
-             return done(err, result);
+             return done(null, result);
             }
           });
         }else{
           console.log("user found", user)
-          return done(err, user);
+          return done(null, user);
         }
       });
       // asynchronous verification, for effect...
