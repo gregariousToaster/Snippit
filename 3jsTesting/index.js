@@ -22,7 +22,6 @@ function init() {
 
     var el = document.createElement( 'div' );
     el.className = 'element';
-    el.style.backgroundColor = 'rgb(234,234,234)';
 
     var image = document.createElement( 'img' );
     image.src = pics[i].source;
@@ -35,19 +34,7 @@ function init() {
     scene.add( object );
 
     var cardClick = function(){
-
-      var target = targets[view][this]
-
-      // new TWEEN.Tween(camera.rotation)
-      //   .to( { x: 0, y: 0, z: target.rotation.z }, 2000)
-      //   .start();
-
-      // console.log(targets[view][this]);
-      // camera.position.x = targets[view][this].position.x;
-      // camera.position.y = targets[view][this].position.y;
-      // camera.position.z = targets[view][this].position.z + 500;
-      // camera.rotation = 0;
-      // render();
+      console.log(this);
     }
 
     var bound = cardClick.bind(i);
