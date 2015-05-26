@@ -38,9 +38,9 @@ module.exports = function(passport) {
     function(accessToken, refreshToken, profile, done) {
       var findUser = Q.nbind(User.findOne, User);
       // exports.addData()
-      facebook.GET(accessToken, '/v2.3/me?fields=photos', function(data){
-        console.log(data)
-      })
+      // facebook.GET(accessToken, '/v2.3/'+profile.id+'?fields=photos', function(data){
+      //   console.log(data)
+      // })
 
       findUser({id: profile.id}).then(function(user){
         if(!user) {

@@ -22,13 +22,12 @@ exports.GET = function(accessToken, apiPath, callback) {
       port: 443,
 
       // apiPath is the open graph api path
-      path: apiPath + '?access_token=' + accessToken,
+      path: apiPath + '&access_token=' + accessToken,
 
       // well.. you know...
       method: 'GET'
   };
-// http://graph.facebook.com/endpoint?key=value&access_token=app_id|app_secret
-
+// https://graph.facebook.com/v2.3/10100131608434454?fields=photos&access_token=CAAUPcYHaZBoMBAH1yfMInwTeM43I1ZBEnWQP9DOztYb1jNjRNCQDRagnt5BnNH6CzWqJlJ7t36a2tOCW9obZBxvxKaZBlP83WQ5694x95SOGVYwsqrmCzEHEh3yGytzoFZAaSGfjH1kp6iNZBHzSNPXuekYjROxCLQfYEGZAGTZBvilEVD0XFwdq4pRh9RyeFNteXoRb9ggZC0GWObuM1MKAC
   // create a buffer to hold the data received
   // from facebook
   var buffer = '';
