@@ -12,7 +12,7 @@ console.log(camera);
 function init() {
 
   camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
-  camera.position.z = 3000;
+  camera.position.z = 800;
   scene = new THREE.Scene();
 
   // init objects
@@ -22,32 +22,24 @@ function init() {
 
     var el = document.createElement( 'div' );
     el.className = 'element';
-    el.style.backgroundColor = 'rgb(234,234,234)';
 
     var image = document.createElement( 'img' );
     image.src = pics[i].source;
     el.appendChild( image );
 
+    var back = document.createElement( 'div' );
+    back.className = 'back';
+    el.appendChild( back );
+
     var object = new THREE.CSS3DObject(el);
+    console.log(object);
     object.position.x = Math.random() * 4000 - 2000;
     object.position.y = Math.random() * 4000 - 2000;
     object.position.z = Math.random() * 4000 - 2000;
     scene.add( object );
 
     var cardClick = function(){
-
-      var target = targets[view][this]
-
-      // new TWEEN.Tween(camera.rotation)
-      //   .to( { x: 0, y: 0, z: target.rotation.z }, 2000)
-      //   .start();
-
-      // console.log(targets[view][this]);
-      // camera.position.x = targets[view][this].position.x;
-      // camera.position.y = targets[view][this].position.y;
-      // camera.position.z = targets[view][this].position.z + 500;
-      // camera.rotation = 0;
-      // render();
+      console.log(this);
     }
 
     var bound = cardClick.bind(i);
@@ -59,7 +51,7 @@ function init() {
     // table
 
     var tableObject = new THREE.Object3D();
-    tableObject.position.x = ((i % 5) * 140) - 420; // 18 columns
+    tableObject.position.x = ((i % 5) * 140) - 280; // 18 columns
     tableObject.position.y = - ((Math.floor(i / 5) + 1) * 180) + 540; // 10 rows
 
     targets.table.push( tableObject );
@@ -185,6 +177,7 @@ function init() {
 
 
   var buttonClick = function(event){
+    debugger;
     view = this.id;
     transform(targets[view], 2000);
     
@@ -198,7 +191,7 @@ function init() {
   }
 
   var buttons = document.getElementsByTagName('button');
-  for (var i = 0; i < 6; i++) {
+  for (var i = 1; i < 7; i++) {
     buttons[i].addEventListener('click', buttonClick, false);
   };
   transform( targets.table, 2000 );
@@ -214,7 +207,7 @@ function transform( targets, duration ) {
   TWEEN.removeAll();
 
   for ( var i = 0; i < objects.length; i ++ ) {
-
+    console.log(targets);
     var object = objects[i];
     var target = targets[i];
 
@@ -257,3 +250,11 @@ function animate() {
 function render() {
   renderer.render( scene, camera );
 }
+
+$('#sign').on('click', function(){
+  $('#container').toggleClass('blur');
+  $('.hidden').fadeIn();
+  $('.overlay').fadeOut();
+  $('#sign').fadeOut();
+
+})

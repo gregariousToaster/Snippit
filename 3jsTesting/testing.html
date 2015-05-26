@@ -7,13 +7,19 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="three.js"></script>
     <script src="tween.js"></script>
-    <script src="Control.js"></script>
+    <script src="orbitControl.js"></script>
     <script src="CSS3D.js"></script>
 
-    <div id="container"></div>
-    <div id="menu">
+    <button id="sign">SIGN-IN</button>
+    <div class="overlay">
+      
+    </div>
+
+    <div id="container" class="blur transition"></div>
+    <div id="menu" class="hidden transition">
       <button id="table">TABLE</button>
       <button id="sphere">SPHERE</button>
       <button id="helix">HELIX</button>
@@ -22,7 +28,7 @@
       <button id="grid">GRID</button>
     </div>
 
-  <script type="text/javascript" src="data2.js"></script>
+  <script type="text/javascript" src="data.js"></script>
   <script type="text/javascript" src="index.js"></script>
   </body>
 </html>
