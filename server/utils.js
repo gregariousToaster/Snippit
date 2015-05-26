@@ -43,7 +43,6 @@ exports.checkData = function(req, res, cb){
 
 
 
-
 exports.handleFacebookData = function(){
   fs.readFile('./server/dummydata', 'utf8', function (err, data) {
     if (err) {
