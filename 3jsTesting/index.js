@@ -3,7 +3,7 @@ var controls;
 
 var view = 'table';
 var objects = [];
-var targets = { table: [], sphere: [], helix: [], grid: [] };
+var targets = { table: [], sphere: [], helix: [],doubleHelix: [], grid: [] };
 
 init();
 animate();
@@ -12,13 +12,11 @@ console.log(camera);
 function init() {
 
   camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
-
   camera.position.z = 3000;
-
   scene = new THREE.Scene();
 
   // init objects
-  var pics = data.photos.data;
+  var pics = data.photos.data.concat(data.photos.data).concat(data.photos.data);
 
   for ( var i = 0; i < pics.length; i++ ) {
 
@@ -114,7 +112,38 @@ function init() {
     targets.helix.push( helixObject );
 
   }
+  // double helix
+  var doubleHelixVector = new THREE.Vector3();
 
+  for ( var i = 0, l = objects.length; i < l; i ++ ) {
+    if(i%2===0){
+      var phi = i * 0.175 + Math.PI+9;
+
+      var doubleHelixObject = new THREE.Object3D();
+
+      doubleHelixObject.position.x = 500 * Math.sin( phi );
+      doubleHelixObject.position.y = - ( i * 50 ) + 450;
+      doubleHelixObject.position.z = 500 * Math.cos( phi );
+
+      doubleHelixVector.x = doubleHelixObject.position.x * 2;
+      doubleHelixVector.y = doubleHelixObject.position.y;
+      doubleHelixVector.z = doubleHelixObject.position.z * 2;
+    }else{
+      var phi = i * 0.175 + Math.PI;
+
+      var doubleHelixObject = new THREE.Object3D();
+
+      doubleHelixObject.position.x = 500 * Math.sin( phi );
+      doubleHelixObject.position.y = - ( i * 50 ) + 450;
+      doubleHelixObject.position.z = 500 * Math.cos( phi );
+
+      doubleHelixVector.x = doubleHelixObject.position.x * 2;
+      doubleHelixVector.y = doubleHelixObject.position.y;
+      doubleHelixVector.z = doubleHelixObject.position.z * 2;
+    }
+    doubleHelixObject.lookAt( doubleHelixVector );
+    targets.doubleHelix.push( doubleHelixObject );
+  }
   // grid
 
   for ( var i = 0; i < objects.length; i ++ ) {
@@ -157,7 +186,7 @@ function init() {
   }
 
   var buttons = document.getElementsByTagName('button');
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < 5; i++) {
     buttons[i].addEventListener('click', buttonClick, false);
   };
   transform( targets.table, 2000 );
