@@ -12,7 +12,7 @@ console.log(camera);
 function init() {
 
   camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
-  camera.position.z = 3000;
+  camera.position.z = 800;
   scene = new THREE.Scene();
 
   // init objects
@@ -51,7 +51,7 @@ function init() {
     // table
 
     var tableObject = new THREE.Object3D();
-    tableObject.position.x = ((i % 5) * 140) - 420; // 18 columns
+    tableObject.position.x = ((i % 5) * 140) - 280; // 18 columns
     tableObject.position.y = - ((Math.floor(i / 5) + 1) * 180) + 540; // 10 rows
 
     targets.table.push( tableObject );
@@ -191,7 +191,7 @@ function init() {
   }
 
   var buttons = document.getElementsByTagName('button');
-  for (var i = 0; i < 6; i++) {
+  for (var i = 1; i < 7; i++) {
     buttons[i].addEventListener('click', buttonClick, false);
   };
   transform( targets.table, 2000 );
@@ -207,7 +207,7 @@ function transform( targets, duration ) {
   TWEEN.removeAll();
 
   for ( var i = 0; i < objects.length; i ++ ) {
-
+    console.log(targets);
     var object = objects[i];
     var target = targets[i];
 
@@ -250,3 +250,11 @@ function animate() {
 function render() {
   renderer.render( scene, camera );
 }
+
+$('#sign').on('click', function(){
+  $('#container').toggleClass('blur');
+  $('.hidden').fadeIn();
+  $('.overlay').fadeOut();
+  $('#sign').fadeOut();
+
+})
