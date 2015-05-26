@@ -196,7 +196,6 @@ function init() {
     new TWEEN.Tween(controls.center)
       .to( {x: 0, y: 0, z: 0}, 2000)
       .start();
-      
   }
 
   var buttons = document.getElementsByTagName('button');
