@@ -1,6 +1,6 @@
 var express = require('express');
 var utils = require('../server/utils.js')
-
+var jwt = require('jwt-simple');
 
 // module.exports = router;
 
@@ -10,7 +10,7 @@ var utils = require('../server/utils.js')
 module.exports = function(passport) {
 
   var router = express.Router();
-  
+
   router.get('/',ensureAuthenticated, function(req, res){
     console.log("authenticated")
     res.redirect('/');
@@ -43,11 +43,12 @@ module.exports = function(passport) {
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-  router.get('/auth/facebook/callback', 
+
+  router.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/#/signin' }),
     function(req, res) {
       console.log("RETUNRED")
-      res.redirect('/testinghere');  
+      res.redirect('/testinghere');
   });
 
   router.get('/logout', function(req, res){
@@ -57,7 +58,7 @@ module.exports = function(passport) {
 
   router.get('/auth/isAuthenticated', function(req, res){
     var authorized = {};
-    authorized[auth] = req.isAuthenticated() 
+    authorized[auth] = req.isAuthenticated()
     res.json(authorized);
   });
     // etc.
@@ -67,9 +68,9 @@ module.exports = function(passport) {
 
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { 
+  if (req.isAuthenticated()) {
     console.log(req.isAuthenticated(), "AM I TRUE OR FALSE")
-    return next(); 
+    return next();
   }
   console.log("NOT AUTHENTICATED")
   res.redirect('/#/signin')

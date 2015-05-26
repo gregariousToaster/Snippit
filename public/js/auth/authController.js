@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('snippit.auth', ['snippit'])
-  .controller('AuthController', ['$scope', '$window', function($scope, $window) {
+angular.module('snippit.auth', ['snippit', 'snippit.services'])
+  .controller('AuthController', ['$scope', '$window', 'Auth', function($scope, $window, Auth) {
 
     $scope.facebook = function() {
-      $window.location.href = 'auth/facebook';
+      Auth.signin();
     };
   }]);
