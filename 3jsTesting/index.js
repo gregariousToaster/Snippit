@@ -12,9 +12,7 @@ console.log(camera);
 function init() {
 
   camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
-
   camera.position.z = 3000;
-
   scene = new THREE.Scene();
 
   // init objects
