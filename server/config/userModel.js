@@ -7,6 +7,7 @@ var UserSchema = new mongoose.Schema({
   name:  String,
   username: String,
   email: String,
+  FBtoken: String,
   data: {
     picture: [],
     source: [],
