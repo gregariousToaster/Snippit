@@ -3,7 +3,7 @@ var controls;
 
 var view = 'table';
 var objects = [];
-var targets = { table: [], sphere: [], helix: [],doubleHelix: [], grid: [] };
+var targets = { table: [], sphere: [], helix: [],doubleHelix: [],tripleHelix: [], grid: [] };
 
 init();
 animate();
@@ -116,33 +116,45 @@ function init() {
   var doubleHelixVector = new THREE.Vector3();
 
   for ( var i = 0, l = objects.length; i < l; i ++ ) {
+    var doubleHelixObject = new THREE.Object3D();
     if(i%2===0){
-      var phi = i * 0.175 + Math.PI+9;
-
-      var doubleHelixObject = new THREE.Object3D();
-
-      doubleHelixObject.position.x = 500 * Math.sin( phi );
-      doubleHelixObject.position.y = - ( i * 50 ) + 450;
-      doubleHelixObject.position.z = 500 * Math.cos( phi );
-
-      doubleHelixVector.x = doubleHelixObject.position.x * 2;
-      doubleHelixVector.y = doubleHelixObject.position.y;
-      doubleHelixVector.z = doubleHelixObject.position.z * 2;
+      var phi = i * 0.175;
     }else{
       var phi = i * 0.175 + Math.PI;
-
-      var doubleHelixObject = new THREE.Object3D();
-
-      doubleHelixObject.position.x = 500 * Math.sin( phi );
-      doubleHelixObject.position.y = - ( i * 50 ) + 450;
-      doubleHelixObject.position.z = 500 * Math.cos( phi );
-
-      doubleHelixVector.x = doubleHelixObject.position.x * 2;
-      doubleHelixVector.y = doubleHelixObject.position.y;
-      doubleHelixVector.z = doubleHelixObject.position.z * 2;
     }
+     doubleHelixObject.position.x = 500 * Math.sin( phi );
+    doubleHelixObject.position.y = - ( i * 50 ) + 450;
+    doubleHelixObject.position.z = 500 * Math.cos( phi );
+
+    doubleHelixVector.x = doubleHelixObject.position.x * 2;
+    doubleHelixVector.y = doubleHelixObject.position.y;
+    doubleHelixVector.z = doubleHelixObject.position.z * 2;
+
     doubleHelixObject.lookAt( doubleHelixVector );
     targets.doubleHelix.push( doubleHelixObject );
+  }
+
+  // triple helix
+  var tripleHelixVector = new THREE.Vector3();
+  for ( var i = 0, l = objects.length; i < l; i ++ ) {
+    var tripleHelixObject = new THREE.Object3D();
+    if(i%3===0){
+      var phi = i * 0.1;
+    }else if(i%3===1){
+      var phi = i * 0.1 + (2/3)*Math.PI;
+    }else{
+      var phi = i * 0.1 + (4/3)*Math.PI;
+    }
+    tripleHelixObject.position.x = 500 * Math.sin( phi );
+    tripleHelixObject.position.y = - ( i * 50 ) + 450;
+    tripleHelixObject.position.z = 500 * Math.cos( phi );
+
+    tripleHelixVector.x = tripleHelixObject.position.x * 2;
+    tripleHelixVector.y = tripleHelixObject.position.y;
+    tripleHelixVector.z = tripleHelixObject.position.z * 2;
+
+    tripleHelixObject.lookAt( tripleHelixVector );
+    targets.tripleHelix.push( tripleHelixObject );
   }
   // grid
 
@@ -186,7 +198,7 @@ function init() {
   }
 
   var buttons = document.getElementsByTagName('button');
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 6; i++) {
     buttons[i].addEventListener('click', buttonClick, false);
   };
   transform( targets.table, 2000 );
