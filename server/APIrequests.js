@@ -12,7 +12,7 @@
 
 var https = require('https');
 
-exports.facebookGET = function(accessToken, apiPath, callback) {
+exports.GET = function(accessToken, apiPath, callback) {
   // creating options object for the https request
   var options = {
       // the facebook open graph domain
@@ -27,13 +27,14 @@ exports.facebookGET = function(accessToken, apiPath, callback) {
       // well.. you know...
       method: 'GET'
   };
-
+// http://graph.facebook.com/endpoint?key=value&access_token=app_id|app_secret
 
   // create a buffer to hold the data received
   // from facebook
   var buffer = '';
 
   // initialize the get request
+  console.log(options)
   var request = https.get(options, function(result){
       result.setEncoding('utf8');
 
