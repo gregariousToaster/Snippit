@@ -10,6 +10,7 @@ var _ = require('underscore');
 exports.checkData = function(req, res, cb){
   var userObj = req.user
   var findUser = Q.nbind(User.findOne, User);
+
   // exports.addData()]\
   debugger;
 
@@ -47,18 +48,22 @@ exports.checkData = function(req, res, cb){
 exports.handleFacebookData = function(req, res, dat, cb){
  var findUser = Q.nbind(User.findOne, User);
  // exports.addData()]\
-
+ console.log("Handling")
  findUser({id: req.user.id})
    .then(function(user){
      if(!user) {
       console.log("ERROR, USER NOT FOUND, UTILS LINE:53")
      }else{
+      console.log("user found IN HANDLE FACEBOOK")
+      dat = JSON.parse(dat);
+
       _.each(dat.photos.data, function(post){
         user.data.picture.push(post.source);
         user.data.caption.push(post.name);
       });
 
       user.save(function(err, result){
+        console.log("saving")
         if(err) {
           console.log(err, "facebookData error")
         }else{
@@ -67,7 +72,7 @@ exports.handleFacebookData = function(req, res, dat, cb){
       });
 
       cb(JSON.stringify(user.data))
-     }
+      }
    })
 
 }
