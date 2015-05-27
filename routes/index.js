@@ -53,7 +53,7 @@ module.exports = function(passport) {
     authorized['auth'] = req.isAuthenticated()
     res.json(authorized);
   });
-    // etc.
+
 
     return router;
 };
