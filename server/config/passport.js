@@ -69,7 +69,7 @@ module.exports = function(passport) {
         // to associate the Facebook account with a user record in your database,
         // and return that user instead.
         // return done(null, profile);
-    
+
   }))
 }
 
