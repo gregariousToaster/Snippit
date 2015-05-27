@@ -148,6 +148,14 @@ function init() {
       .start();
 
     new TWEEN.Tween(camera.rotation)
+<<<<<<< HEAD
+=======
+      .to({_x: -0, _y: 0, _z: -0}, 2000)
+      // .easing(TWEEN.Easing.Circular.Out)
+      .start();
+
+    new TWEEN.Tween(camera.rotation)
+>>>>>>> updated the easing
       .to( {_x: -0, _y: 0, _z: -0}, 2000)
       .easing(TWEEN.Easing.Circular.Out)
 <<<<<<< HEAD
