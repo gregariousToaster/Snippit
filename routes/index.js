@@ -55,8 +55,8 @@ module.exports = function(passport) {
 
   router.get('/queryFacebook', function(req, res){
     facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'?fields=photos', function(data){
-      console.log(data)
       utils.handleFacebookData(req, res, data, function(user){
+        console.log(user)
         res.JSON(user)
       })
     })
