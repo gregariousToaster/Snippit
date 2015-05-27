@@ -129,6 +129,31 @@ function init() {
 
   }
 
+    // cardioid
+
+  var cardioidVector = new THREE.Vector3();
+
+  for ( var i = 0, l = objects.length; i < l; i ++ ) {
+
+    var phi = Math.acos( -1 + ( 2 * i ) / l );
+    var theta = Math.sqrt( Math.PI ) * phi;
+
+    var cardioidObject = new THREE.Object3D();
+    //u is theta
+    //v is phi
+    // cardioidObject.position.x = Math.cos( phi )*(1+ theta*Math.cos(phi/2) );
+    // cardioidObject.position.y = Math.sin( phi )*(1+ theta*Math.cos(phi/2) );
+    // cardioidObject.position.z = 80*theta*Math.sin( phi/2 );
+    cardioidObject.position.x = 800 * Math.cos( theta ) * Math.sin( phi );
+    cardioidObject.position.y = 800 * Math.sin( theta ) * Math.sin( phi );
+    cardioidObject.position.z = 800 * Math.cos( theta );
+
+    cardioidObject.lookAt( cardioidVector );
+
+    targets.cardioid.push( cardioidObject );
+
+  }
+
   //
 
   renderer = new THREE.CSS3DRenderer();
@@ -173,7 +198,9 @@ function init() {
 
 //add event listeners to each of the buttons on the front page
   var buttons = document.getElementsByTagName('button');
+
   for (var i = 0; i < 6; i++) {
+
     buttons[i].addEventListener('click', buttonClick, false);
   };
   transform(targets.table, 2000);
