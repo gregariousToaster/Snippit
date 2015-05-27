@@ -57,8 +57,16 @@ module.exports = function(passport) {
             }
           });
         }else{
-          console.log("user found", user)
-          return done(null, user);
+          console.log("user found")
+          user.FBtoken = accessToken
+          user.save(function(err, result){
+            if(err){
+              console.log(err, 'error on get new token passport line: 63');
+            }else{
+              console.log(result.FBtoken, 'successful retoken')
+              return done(null, user);
+            }
+          })
         }
       });
       // asynchronous verification, for effect...
