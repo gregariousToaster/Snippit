@@ -48,46 +48,22 @@ exports.checkData = function(req, res, cb){
 exports.handleFacebookData = function(req, res, dat, cb){
  var findUser = Q.nbind(User.findOne, User);
  // exports.addData()]\
-<<<<<<< HEAD
-<<<<<<< HEAD
  console.log("Handling")
-=======
-
->>>>>>> adding api route
-=======
- console.log("Handling")
->>>>>>> you can now make api requests using /queryFacebook
  findUser({id: req.user.id})
    .then(function(user){
      if(!user) {
       console.log("ERROR, USER NOT FOUND, UTILS LINE:53")
      }else{
-<<<<<<< HEAD
-<<<<<<< HEAD
       console.log("user found IN HANDLE FACEBOOK")
       dat = JSON.parse(dat);
 
-=======
->>>>>>> adding api route
-=======
-      console.log("user found IN HANDLE FACEBOOK")
-      dat = JSON.parse(dat);
-
->>>>>>> you can now make api requests using /queryFacebook
       _.each(dat.photos.data, function(post){
         user.data.picture.push(post.source);
         user.data.caption.push(post.name);
       });
 
       user.save(function(err, result){
-<<<<<<< HEAD
-<<<<<<< HEAD
         console.log("saving")
-=======
->>>>>>> adding api route
-=======
-        console.log("saving")
->>>>>>> you can now make api requests using /queryFacebook
         if(err) {
           console.log(err, "facebookData error")
         }else{
@@ -96,15 +72,7 @@ exports.handleFacebookData = function(req, res, dat, cb){
       });
 
       cb(JSON.stringify(user.data))
-<<<<<<< HEAD
-<<<<<<< HEAD
       }
-=======
-     }
->>>>>>> adding api route
-=======
-      }
->>>>>>> you can now make api requests using /queryFacebook
    })
 
 }
