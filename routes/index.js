@@ -1,5 +1,6 @@
 var express = require('express');
 var utils = require('../server/utils.js');
+var facebook = require('../server/APIrequests.js');
 
 // module.exports = router;
 
@@ -29,8 +30,6 @@ module.exports = function(passport) {
   // function will not be called.
   });
 
-
-
 // GET /auth/facebook/callback
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
@@ -52,6 +51,15 @@ module.exports = function(passport) {
     var authorized = {};
     authorized['auth'] = req.isAuthenticated()
     res.json(authorized);
+  });
+
+  router.get('/queryFacebook', function(req, res){
+    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'?fields=photos', function(data){
+      console.log(data)
+      utils.handleFacebookData(req, res, data, function(user){
+        res.JSON(user)
+      })
+    })
   });
 
 

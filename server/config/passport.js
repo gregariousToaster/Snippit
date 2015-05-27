@@ -4,7 +4,6 @@ var configAuth = require('./auth.js');
 var utils = require('../utils.js')
 var Q = require('q')//===
 var User = require('./userModel.js');
-var facebook = require('../APIrequests.js');
 
 
 
