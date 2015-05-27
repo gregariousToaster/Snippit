@@ -3,7 +3,7 @@ var controls;
 
 var view = 'table';
 var objects = [];
-var targets = { table: [], sphere: [], helix: [],doubleHelix: [],tripleHelix: [], grid: [] };
+var targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 var options = {
   table: {
     minPolar: (Math.PI/4),
@@ -48,27 +48,27 @@ animate();
 
 function init() {
 
-  camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
+  camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 10000);
   camera.position.z = 800;
   scene = new THREE.Scene();
 
   // init objects
   var pics = data.photos.data.concat(data.photos.data).concat(data.photos.data);
 
-  for ( var i = 0; i < pics.length; i++ ) {
+  for (var i = 0; i < pics.length; i++) {
 
-    var el = document.createElement( 'div' );
+    var el = document.createElement('div');
     el.className = 'element';
 
-    var image = document.createElement( 'img' );
+    var image = document.createElement('img');
     image.src = pics[i].source;
-    el.appendChild( image );
+    el.appendChild(image);
 
     var object = new THREE.CSS3DObject(el);
     object.position.x = Math.random() * 4000 - 2000;
     object.position.y = Math.random() * 4000 - 2000;
     object.position.z = Math.random() * 4000 - 2000;
-    scene.add( object );
+    scene.add(object);
 
     var cardClick = function(){
       console.log(objects[this]);
@@ -78,7 +78,7 @@ function init() {
 
     el.addEventListener('click', bound);
 
-    objects.push( object );
+    objects.push(object);
 
     // table
 
@@ -86,15 +86,14 @@ function init() {
     tableObject.position.x = ((i % 5) * 140) - 280; // 18 columns
     tableObject.position.y = - ((Math.floor(i / 5) + 1) * 180) + 540; // 10 rows
 
-    targets.table.push( tableObject );
-
+    targets.table.push(tableObject);
   }
 
   // sphere
 
   var sphereVector = new THREE.Vector3();
 
-  for ( var i = 0, l = objects.length; i < l; i ++ ) {
+  for (var i = 0, l = objects.length; i < l; i++) {
 
     var phi = Math.acos(-1 + ( 2 * i) / l);
     var theta = Math.sqrt(l * Math.PI) * phi;
@@ -105,105 +104,39 @@ function init() {
     sphereObject.position.y = 800 * Math.sin( theta ) * Math.sin( phi );
     sphereObject.position.z = 800 * Math.cos( phi );
 
-    sphereVector.copy( sphereObject.position ).multiplyScalar( 2 );
+    sphereVector.copy(sphereObject.position).multiplyScalar(2);
 
-    sphereObject.lookAt( sphereVector );
+    sphereObject.lookAt(sphereVector);
 
-    targets.sphere.push( sphereObject );
-
-  }
-
-  // helix
-
-  var helixVector = new THREE.Vector3();
-
-  for ( var i = 0, l = objects.length; i < l; i ++ ) {
-
-    var phi = i * 0.175 + Math.PI;
-
-    var helixObject = new THREE.Object3D();
-
-    helixObject.position.x = 900 * Math.sin( phi );
-    helixObject.position.y = - ( i * 8 ) + 450;
-    helixObject.position.z = 900 * Math.cos( phi );
-
-    helixVector.x = helixObject.position.x * 2;
-    helixVector.y = helixObject.position.y;
-    helixVector.z = helixObject.position.z * 2;
-
-    helixObject.lookAt( helixVector );
-
-    targets.helix.push( helixObject );
+    targets.sphere.push(sphereObject);
 
   }
-  // double helix
-  var doubleHelixVector = new THREE.Vector3();
 
-  for ( var i = 0, l = objects.length; i < l; i ++ ) {
-    var doubleHelixObject = new THREE.Object3D();
-    if(i % 2 === 0){
-      var phi = i * 0.175;
-    }else{
-      var phi = i * 0.175 + Math.PI;
-    }
-     doubleHelixObject.position.x = 500 * Math.sin( phi );
-    doubleHelixObject.position.y = - ( i * 50 ) + 450;
-    doubleHelixObject.position.z = 500 * Math.cos( phi );
+  // helixes
+  helix(1, objects, 'helix', 0.175, 450, 900, 900, 8);
+  helix(2, objects, 'doubleHelix', 0.175, 450, 500, 500, 50);
+  helix(3, objects, 'tripleHelix', 0.1, 450, 500, 500, 50);
 
-    doubleHelixVector.x = doubleHelixObject.position.x * 2;
-    doubleHelixVector.y = doubleHelixObject.position.y;
-    doubleHelixVector.z = doubleHelixObject.position.z * 2;
-
-    doubleHelixObject.lookAt( doubleHelixVector );
-    targets.doubleHelix.push( doubleHelixObject );
-  }
-
-  // triple helix
-  var tripleHelixVector = new THREE.Vector3();
-  for ( var i = 0, l = objects.length; i < l; i ++ ) {
-    var tripleHelixObject = new THREE.Object3D();
-    if(i%3===0){
-      var phi = i * 0.1;
-    }else if(i%3===1){
-      var phi = i * 0.1 + (2/3)*Math.PI;
-    }else{
-      var phi = i * 0.1 + (4/3)*Math.PI;
-    }
-    tripleHelixObject.position.x = 500 * Math.sin( phi );
-    tripleHelixObject.position.y = - ( i * 50 ) + 450;
-    tripleHelixObject.position.z = 500 * Math.cos( phi );
-
-    tripleHelixVector.x = tripleHelixObject.position.x * 2;
-    tripleHelixVector.y = tripleHelixObject.position.y;
-    tripleHelixVector.z = tripleHelixObject.position.z * 2;
-
-    tripleHelixObject.lookAt( tripleHelixVector );
-    targets.tripleHelix.push( tripleHelixObject );
-  }
-  // grid
-
-  for ( var i = 0; i < objects.length; i ++ ) {
+  for (var i = 0; i < objects.length; i++) {
 
     var gridObject = new THREE.Object3D();
 
     gridObject.position.x = ((i % 5) * 400) - 800;
-    gridObject.position.y = (- (Math.floor(i / 5) % 5) * 400) + 800;
+    gridObject.position.y = (-(Math.floor(i / 5) % 5) * 400) + 800;
     gridObject.position.z = (Math.floor(i / 25)) * 1000 - 2000;
 
-    targets.grid.push( gridObject );
+    targets.grid.push(gridObject);
 
   }
 
   //
 
   renderer = new THREE.CSS3DRenderer();
-  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.domElement.style.position = 'absolute';
-  document.getElementById( 'container' ).appendChild( renderer.domElement );
+  document.getElementById('container').appendChild(renderer.domElement);
 
   //Set up the camera controls, overwrite some of the native controls like lookAt()
-
-  
 
 //on button click, move the camera into position
   var buttonClick = function(event){
@@ -211,17 +144,17 @@ function init() {
     transform(targets[view], 2000);
     
     new TWEEN.Tween(camera.position)
-      .to( { x: 0, y: 0, z: 3000 }, 2000)
+      .to({x: 0, y: 0, z: 3000}, 2000)
       .start();
 
     new TWEEN.Tween(camera.rotation)
-      .to( {_x: -0, _y: 0, _z: -0}, 2000)
+      .to({_x: -0, _y: 0, _z: -0}, 2000)
       .start();
 
       //tween the value of the orbit controls center
       //since they have taken over the lookAt function
     new TWEEN.Tween(controls.center)
-      .to( {x: 0, y: 0, z: 0}, 2000)
+      .to({x: 0, y: 0, z: 0}, 2000)
       .start();
   }
 
@@ -230,39 +163,57 @@ function init() {
   for (var i = 0; i < 6; i++) {
     buttons[i].addEventListener('click', buttonClick, false);
   };
-  transform( targets.table, 2000 );
+  transform(targets.table, 2000);
 
   //
 
-  window.addEventListener( 'resize', onWindowResize, false );
+  window.addEventListener('resize', onWindowResize, false);
 
 }
 
-function transform( targets, duration ) {
+function transform(targets, duration) {
 
   TWEEN.removeAll();
 
-  for ( var i = 0; i < objects.length; i ++ ) {
+  for (var i = 0; i < objects.length; i++) {
     var object = objects[i];
     var target = targets[i];
 
-    new TWEEN.Tween( object.position )
-      .to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
-      .easing( TWEEN.Easing.Exponential.InOut )
+    new TWEEN.Tween(object.position)
+      .to({x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration)
+      .easing(TWEEN.Easing.Exponential.InOut)
       .start();
 
     new TWEEN.Tween(object.rotation)
-      .to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
-      .easing( TWEEN.Easing.Exponential.InOut )
+      .to({x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration)
+      .easing(TWEEN.Easing.Exponential.InOut)
       .start();
 
   }
 
-  new TWEEN.Tween( this )
-    .to( {}, duration * 2 )
-    .onUpdate( render )
+  new TWEEN.Tween(this)
+    .to({}, duration * 2)
+    .onUpdate(render)
     .start();
+}
 
+function helix(n, collection, targetArr, spacing, offset, xRad, zRad, step){
+  var vector = new THREE.Vector3();
+  for (var i = 0; i < collection.length; i++) {
+    var object = new THREE.Object3D();
+    var phi = i * spacing + (i % n)/n * (Math.PI * 2);
+
+    object.position.x = xRad * Math.sin(phi);
+    object.position.y = -(i * step) + offset;
+    object.position.z = zRad * Math.cos(phi);
+
+    vector.x = object.position.x * 2;
+    vector.y = object.position.y;
+    vector.z = object.position.z * 2;
+
+    object.lookAt(vector);
+    targets[targetArr].push(object);
+  }
 }
 
 function onWindowResize() {
@@ -270,7 +221,7 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 
-  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setSize(window.innerWidth, window.innerHeight);
 
   render();
 
@@ -285,7 +236,7 @@ function animate() {
 }
 
 function render() {
-  renderer.render( scene, camera );
+  renderer.render(scene, camera);
 }
 
 $('#sign').on('click', function(){
@@ -297,5 +248,4 @@ $('#sign').on('click', function(){
   controls = new THREE.OrbitControls(camera, null, options[view]);
   controls.damping = 0.2;
   controls.addEventListener( 'change', render );
-
-})
+});
