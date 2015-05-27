@@ -56,12 +56,17 @@ module.exports = function(passport) {
   router.get('/queryFacebook', function(req, res){
     facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'?fields=photos', function(data){
 <<<<<<< HEAD
+<<<<<<< HEAD
       utils.handleFacebookData(req, res, data, function(user){
         console.log(user)
 =======
       console.log(data)
       utils.handleFacebookData(req, res, data, function(user){
 >>>>>>> adding api route
+=======
+      utils.handleFacebookData(req, res, data, function(user){
+        console.log(user)
+>>>>>>> you can now make api requests using /queryFacebook
         res.JSON(user)
       })
     })
