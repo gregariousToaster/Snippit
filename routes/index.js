@@ -39,7 +39,7 @@ module.exports = function(passport) {
   router.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/#/signin' }),
     function(req, res) {
-      res.redirect('/#/app');
+      res.redirect('/#/app');
   });
 
   router.get('/logout', function(req, res){

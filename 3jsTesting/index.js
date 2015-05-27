@@ -149,12 +149,14 @@ function init() {
 
     new TWEEN.Tween(camera.rotation)
       .to({_x: -0, _y: 0, _z: -0}, 2000)
+      .easing(TWEEN.Easing.Circular.Out)
       .start();
 
       //tween the value of the orbit controls center
       //since they have taken over the lookAt function
     new TWEEN.Tween(controls.center)
       .to({x: 0, y: 0, z: 0}, 2000)
+      .easing(TWEEN.Easing.Circular.Out)
       .start();
   }
 
