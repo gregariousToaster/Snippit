@@ -2,7 +2,6 @@
 
 angular.module('snippit', ['snippit.main',
   'snippit.auth',
-  'snippit.services',
   'ui.router'
   ])
   .run(['$rootScope', '$location', '$http', function($rootScope, $location, $http) {

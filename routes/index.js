@@ -1,6 +1,5 @@
 var express = require('express');
-var utils = require('../server/utils.js')
-var jwt = require('jwt-simple');
+var utils = require('../server/utils.js');
 
 // module.exports = router;
 

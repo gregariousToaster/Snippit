@@ -10,11 +10,9 @@ var passport = require('passport');
 
 //=== Database
 var mongoose    = require('mongoose');
-
-
+mongoose.connect('mongodb://localhost/GregariousToaster');
 
 var session = require('express-session');
-
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -25,7 +23,6 @@ var api = require('./server/APIrequests.js');
 //===
 var app = express();
 
-mongoose.connect('mongodb://localhost/GregariousToaster');
 
 require('./server/config/passport.js')(passport); // pass passport for configuration
 
