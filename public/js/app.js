@@ -10,7 +10,7 @@ angular.module('snippit', ['snippit.main',
         if (!resp['auth']) {
           $location.path('/signin');
         }
-      })
+      });
     });
   }])
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
