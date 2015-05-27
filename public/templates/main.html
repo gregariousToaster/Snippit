@@ -1,1 +1,12 @@
-<div ui-view></div>
+<div ui-view>
+  <div class="header">
+    <div class="logo">
+      <h2>Snippit</h2>
+    </div>
+    <div class="right">
+        <a href="">Profile</a>
+        <a href="">Signout</a>
+    </div>
+  </div>
+  <div ui-view="nest" class="nest"></div>
+</div>

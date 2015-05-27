@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('snippit', ['snippit.main',
+  'snippit.three',
   'snippit.auth',
   'ui.router'
   ])
@@ -21,14 +22,18 @@ angular.module('snippit', ['snippit.main',
         controller: 'MainController',
         authenticate: true
       })
+      .state('app.three', {
+        url: '/three',
+        views: {
+          'nest': {
+            templateUrl: 'templates/three.html',
+            controller: 'ThreeController'
+          }
+        }
+      })
       .state('signin', {
         url: '/signin',
         templateUrl: 'templates/signin.html',
-        controller: 'AuthController',
-      })
-      .state('signup', {
-        url: '/signup',
-        templateUrl: 'templates/signup.html',
         controller: 'AuthController',
       });
     $urlRouterProvider.otherwise('/app');
@@ -38,7 +43,7 @@ angular.module('snippit', ['snippit.main',
 'use strict';
 
 angular.module('snippit.auth', ['snippit'])
-  .controller('AuthController', ['$scope', '$window', function($scope, $window) {
+  .controller('AuthController', ['$scope', '$window', function($scope, $window, threeFactory) {
 
   }]);
 
@@ -46,5 +51,12 @@ angular.module('snippit.auth', ['snippit'])
 
 angular.module('snippit.main', ['snippit'])
   .controller('MainController', ['$scope', function($scope) {
+
+  }]);
+
+'use strict';
+
+angular.module('snippit.three', ['snippit'])
+  .controller('ThreeController', ['$scope', function($scope) {
 
   }]);

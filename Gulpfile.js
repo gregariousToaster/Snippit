@@ -49,5 +49,5 @@ gulp.task('start', function () {
 });
 
 gulp.task('default', ['clean'], function() {
-  gulp.start('lint', 'scripts', 'styles', 'start');
+  gulp.start('scripts', 'styles', 'start'); // took 'lint' out, should go before script
 });
