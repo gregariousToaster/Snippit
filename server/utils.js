@@ -48,22 +48,32 @@ exports.checkData = function(req, res, cb){
 exports.handleFacebookData = function(req, res, dat, cb){
  var findUser = Q.nbind(User.findOne, User);
  // exports.addData()]\
+<<<<<<< HEAD
  console.log("Handling")
+=======
+
+>>>>>>> adding api route
  findUser({id: req.user.id})
    .then(function(user){
      if(!user) {
       console.log("ERROR, USER NOT FOUND, UTILS LINE:53")
      }else{
+<<<<<<< HEAD
       console.log("user found IN HANDLE FACEBOOK")
       dat = JSON.parse(dat);
 
+=======
+>>>>>>> adding api route
       _.each(dat.photos.data, function(post){
         user.data.picture.push(post.source);
         user.data.caption.push(post.name);
       });
 
       user.save(function(err, result){
+<<<<<<< HEAD
         console.log("saving")
+=======
+>>>>>>> adding api route
         if(err) {
           console.log(err, "facebookData error")
         }else{
@@ -72,7 +82,11 @@ exports.handleFacebookData = function(req, res, dat, cb){
       });
 
       cb(JSON.stringify(user.data))
+<<<<<<< HEAD
       }
+=======
+     }
+>>>>>>> adding api route
    })
 
 }
