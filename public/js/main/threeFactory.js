@@ -1,14 +1,22 @@
-angular.module('snippit.threeFactory', ['snippit'])
-  .factory('threeFactory', ['$scope', '$window', function($scope, $window){
+// angular.module('snippit.threeFactory', ['snippit'])
+//   .factory('threeFactory', ['$scope', '$window', function($scope, $window){
+//     var camera, scene, renderer;
+//     var controls;
 
-    var on = function(){
-      
-    }
+//     var view = 'table';
+//     var objects = [];
+//     var targets = { table: [], sphere: [], helix: [],doubleHelix: [],tripleHelix: [], grid: [] };
 
 
-    return {
-      //return all of the functions
-      on: on
-    }
+//     var init = function(){
+//       camera
 
-  }]);
+//     }
+
+
+//     return {
+//       //return all of the functions
+//       init: init
+//     }
+
+//   }]);
