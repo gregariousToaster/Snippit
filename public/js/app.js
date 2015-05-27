@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('snippit', ['snippit.main',
+  'snippit.three',
   'snippit.auth',
   'ui.router'
   ])
@@ -21,14 +22,18 @@ angular.module('snippit', ['snippit.main',
         controller: 'MainController',
         authenticate: true
       })
+      .state('app.three', {
+        url: '/three',
+        views: {
+          'nest': {
+            templateUrl: 'templates/three.html',
+            controller: 'ThreeController'
+          }
+        }
+      })
       .state('signin', {
         url: '/signin',
         templateUrl: 'templates/signin.html',
-        controller: 'AuthController',
-      })
-      .state('signup', {
-        url: '/signup',
-        templateUrl: 'templates/signup.html',
         controller: 'AuthController',
       });
     $urlRouterProvider.otherwise('/app');
