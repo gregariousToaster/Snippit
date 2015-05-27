@@ -5,17 +5,28 @@ html, body {
 body {
   background-color: #fff;
   margin: 0;
-  font-family: Helvetica, sans-serif;;
+  font-family: 'Roboto', sans-serif;
   overflow: hidden;
 }
 
-a {
-  color: #9e9e9e;
+#logo{
+  position: absolute;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  z-index: 15;
+  color: #fff;
+  font-size: 100px;
+  font-family: 'Roboto Slab', sans-serif;
 }
 
 #sign{
+  color: #fff;
   font-size: 40px;
-  border: solid 2px white;
+  border: solid 2px #fff;
+  padding: 10px 0;
+  border-radius: 10px;
   z-index: 10;
   position: absolute;
   top: 50%;
@@ -23,6 +34,10 @@ a {
   color: white;
   left: 40%;
   text-align: center;
+}
+#sign:hover{
+  cursor: pointer;
+  background-color: rgba(150,150,150,.4);
 }
 
 .blur {
@@ -63,10 +78,35 @@ a {
 
 #menu {
   position: absolute;
-  bottom: 20px;
+  bottom: -2px;
   width: 100%;
   text-align: center;
 }
+
+#menu button {
+  border: solid 2px white;
+  background-color:  
+}
+
+button {
+  color: white;
+  border-radius: 5px 5px 0 0;
+  background: transparent;
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 150, .2);
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 150, .8);
+}
+
+button:active {
+  color: #000000;
+  background-color: #9e9e9e;
+}
+
+
 
 .element {
   width: 120px;
@@ -79,36 +119,11 @@ a {
 }
 
 .element:hover {
-  border: solid red 2px;
+  border: solid #515151 4px;
 }
 
 .element img{
   min-height: 160px;
   min-width: 120px;
   height: 100%;
-}
-
-.back{
-  background: black;
-  position: relative;
-  top: -100px;
-  z-index: -1;
-}
-
-button {
-  color: #9e9e9e;
-  border-radius: 5px;
-  background: transparent;
-  border: 0px;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #9e9e9e;
-}
-
-button:active {
-  color: #000000;
-  background-color: #9e9e9e;
 }

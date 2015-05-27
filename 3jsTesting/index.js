@@ -4,6 +4,44 @@ var controls;
 var view = 'table';
 var objects = [];
 var targets = { table: [], sphere: [], helix: [],doubleHelix: [],tripleHelix: [], grid: [] };
+var options = {
+  table: {
+    minPolar: (Math.PI/4),
+    maxPolar: (Math.PI/4 * 3),
+    minAzimuth: -1,
+    maxAzimuth: 1
+  },
+  sphere: {
+    minPolar: 0,
+    maxPolar: Math.PI,
+    minAzimuth: -Infinity,
+    maxAzimuth: Infinity
+  },
+  helix: {
+    minPolar: (Math.PI/4),
+    maxPolar: (Math.PI/4 * 3),
+    minAzimuth: -1,
+    maxAzimuth: 1
+  },
+  doubleHelix: {
+    minPolar: (Math.PI/4),
+    maxPolar: (Math.PI/4 * 3),
+    minAzimuth: -1,
+    maxAzimuth: 1
+  },
+  tripleHelix: {
+    minPolar: (Math.PI/4),
+    maxPolar: (Math.PI/4 * 3),
+    minAzimuth: -1,
+    maxAzimuth: 1
+  },
+  grid: {
+    minPolar: (Math.PI/4),
+    maxPolar: (Math.PI/4 * 3),
+    minAzimuth: -1,
+    maxAzimuth: 1
+  }
+};
 
 init();
 animate();
@@ -26,19 +64,14 @@ function init() {
     image.src = pics[i].source;
     el.appendChild( image );
 
-    var back = document.createElement( 'div' );
-    back.className = 'back';
-    el.appendChild( back );
-
     var object = new THREE.CSS3DObject(el);
-    console.log(object);
     object.position.x = Math.random() * 4000 - 2000;
     object.position.y = Math.random() * 4000 - 2000;
     object.position.z = Math.random() * 4000 - 2000;
     scene.add( object );
 
     var cardClick = function(){
-      console.log(this);
+      console.log(objects[this]);
     }
 
     var bound = cardClick.bind(i);
@@ -63,8 +96,8 @@ function init() {
 
   for ( var i = 0, l = objects.length; i < l; i ++ ) {
 
-    var phi = Math.acos( -1 + ( 2 * i ) / l );
-    var theta = Math.sqrt( l * Math.PI ) * phi;
+    var phi = Math.acos(-1 + ( 2 * i) / l);
+    var theta = Math.sqrt(l * Math.PI) * phi;
 
     var sphereObject = new THREE.Object3D();
 
@@ -108,7 +141,7 @@ function init() {
 
   for ( var i = 0, l = objects.length; i < l; i ++ ) {
     var doubleHelixObject = new THREE.Object3D();
-    if(i%2===0){
+    if(i % 2 === 0){
       var phi = i * 0.175;
     }else{
       var phi = i * 0.175 + Math.PI;
@@ -170,13 +203,10 @@ function init() {
 
   //Set up the camera controls, overwrite some of the native controls like lookAt()
 
-  controls = new THREE.OrbitControls( camera );
-  controls.damping = 0.2;
-  controls.addEventListener( 'change', render );
+  
 
 //on button click, move the camera into position
   var buttonClick = function(event){
-    debugger;
     view = this.id;
     transform(targets[view], 2000);
     
@@ -197,7 +227,7 @@ function init() {
 
 //add event listeners to each of the buttons on the front page
   var buttons = document.getElementsByTagName('button');
-  for (var i = 1; i < 7; i++) {
+  for (var i = 0; i < 6; i++) {
     buttons[i].addEventListener('click', buttonClick, false);
   };
   transform( targets.table, 2000 );
@@ -213,7 +243,6 @@ function transform( targets, duration ) {
   TWEEN.removeAll();
 
   for ( var i = 0; i < objects.length; i ++ ) {
-    console.log(targets);
     var object = objects[i];
     var target = targets[i];
 
@@ -250,7 +279,9 @@ function onWindowResize() {
 function animate() {
   requestAnimationFrame(animate);
   TWEEN.update();
-  controls.update();
+  if(controls){
+    controls.update();
+  }
 }
 
 function render() {
@@ -262,5 +293,9 @@ $('#sign').on('click', function(){
   $('.hidden').fadeIn();
   $('.overlay').fadeOut();
   $('#sign').fadeOut();
+  $('#logo').fadeOut();
+  controls = new THREE.OrbitControls(camera, null, options[view]);
+  controls.damping = 0.2;
+  controls.addEventListener( 'change', render );
 
 })
