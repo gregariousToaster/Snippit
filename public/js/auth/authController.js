@@ -3,7 +3,4 @@
 angular.module('snippit.auth', ['snippit', 'snippit.services'])
   .controller('AuthController', ['$scope', '$window', 'Auth', function($scope, $window, Auth) {
 
-    $scope.facebook = function() {
-      Auth.signin();
-    };
   }]);

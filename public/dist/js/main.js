@@ -5,12 +5,13 @@ angular.module('snippit', ['snippit.main',
   'snippit.services',
   'ui.router'
   ])
-  .run(['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth) {
+  .run(['$rootScope', '$location', '$http', function($rootScope, $location, $http) {
     $rootScope.$on('$stateChangeStart', function(e, toState, fromState) {
-      console.log('e ', e, 'toState ', toState, 'fromState ', fromState);
-      if (toState.authenticate && !Auth.isAuth()) {
-        $location.path('/signin');
-      }
+      $http.get('/auth/isAuthenticated').success(function(resp) {
+        if (!resp['auth']) {
+          $location.path('/signin');
+        }
+      })
     });
   }])
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -40,9 +41,6 @@ angular.module('snippit', ['snippit.main',
 angular.module('snippit.auth', ['snippit', 'snippit.services'])
   .controller('AuthController', ['$scope', '$window', 'Auth', function($scope, $window, Auth) {
 
-    $scope.facebook = function() {
-      Auth.signin();
-    };
   }]);
 
 'use strict';

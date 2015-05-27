@@ -11,18 +11,12 @@ module.exports = function(passport) {
 
   var router = express.Router();
 
-  router.get('/',ensureAuthenticated, function(req, res){
-    console.log("authenticated")
-    res.redirect('/');
+  // router.get('/',ensureAuthenticated, function(req, res){
+  //   console.log("authenticated")
+  //   res.redirect('/');
 
-  });
+  // });
 
-
-  router.get('/testinghere', ensureAuthenticated, function(req, res){
-    console.log("SUCCESSFULL AUTH");
-    console.log("TESTING AUTH FUNCTION", req.isAuthenticated())
-    res.redirect('/');
-  });
 /// GET /auth/facebook
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Facebook authentication will involve
@@ -47,8 +41,7 @@ module.exports = function(passport) {
   router.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/#/signin' }),
     function(req, res) {
-      console.log("RETUNRED")
-      res.redirect('/testinghere');
+      res.redirect('/#/app');
   });
 
   router.get('/logout', function(req, res){
@@ -58,7 +51,7 @@ module.exports = function(passport) {
 
   router.get('/auth/isAuthenticated', function(req, res){
     var authorized = {};
-    authorized[auth] = req.isAuthenticated()
+    authorized['auth'] = req.isAuthenticated()
     res.json(authorized);
   });
     // etc.
@@ -67,11 +60,11 @@ module.exports = function(passport) {
 };
 
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    console.log(req.isAuthenticated(), "AM I TRUE OR FALSE")
-    return next();
-  }
-  console.log("NOT AUTHENTICATED")
-  res.redirect('/#/signin')
-}
+// function ensureAuthenticated(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     console.log(req.isAuthenticated(), "AM I TRUE OR FALSE")
+//     return next();
+//   }
+//   console.log("NOT AUTHENTICATED")
+//   res.redirect('/#/signin')
+// }

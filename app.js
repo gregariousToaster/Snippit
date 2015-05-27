@@ -25,26 +25,12 @@ var api = require('./server/APIrequests.js');
 //===
 var app = express();
 
-app.use(function(req, res, next) {
-res.header('Access-Control-Allow-Credentials', true);
-res.header('Access-Control-Allow-Origin', req.headers.origin);
-res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-if ('OPTIONS' == req.method) {
-     res.send(200);
- } else {
-     next();
- }
-});
-
 mongoose.connect('mongodb://localhost/GregariousToaster');
 
 require('./server/config/passport.js')(passport); // pass passport for configuration
 
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -67,7 +53,6 @@ app.use('/', routes(passport));
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  console.log(req)
   next(err);
 });
 
