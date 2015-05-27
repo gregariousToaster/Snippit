@@ -148,7 +148,8 @@ function init() {
       .start();
 
     new TWEEN.Tween(camera.rotation)
-      .to({_x: -0, _y: 0, _z: -0}, 2000)
+      .to( {_x: -0, _y: 0, _z: -0}, 2000)
+      .easing(TWEEN.Easing.Circular.Out)
       .start();
 
       //tween the value of the orbit controls center
