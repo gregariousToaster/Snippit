@@ -61,17 +61,16 @@ module.exports = function(passport) {
 
   router.get('/getFacebookWall', function(req, res){
     console.log(res.json, "gefacebookwall router")
-    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'?fields=photos', function(data){
+    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data){
       utils.FBWallPhotos(req, res, data, function(user){
         res.json(user)
       })
-    }, true)
+    }, false)
   });
 
   router.get('/getFacebookAlbums', function(req, res){
     facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/albums', function(data){
       utils.handleAlbums(req, res, data, function(albums){
-        console.log(albums)
         res.json(albums)
       })
     }, false)
