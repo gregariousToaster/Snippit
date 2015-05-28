@@ -137,6 +137,25 @@ angular.module('snippit.auth', ['snippit'])
 
 'use strict';
 
+angular.module('snippit.main', ['snippit', 'snippit.services'])
+  .controller('MainController', ['Facebook', '$scope', function(Facebook, $scope) {
+
+    $scope.pictures = null;
+
+    $scope.getWallData = function() {
+      Facebook.getWallData().then(function(resp) {
+        console.log(resp);
+      });
+    }
+
+    $scope.getAlbumData = function() {
+      console.log('ALBUMS', $scope.pictures.albums);
+    }
+
+  }]);
+
+'use strict';
+
 angular.module('snippit.services', ['snippit'])
   .factory('ThreeFactory', function() {
 
@@ -155,7 +174,7 @@ angular.module('snippit.services', ['snippit'])
       object.position.z = Math.random() * 4000 - 2000;
       scene.add(object);
 
-      if(click){ 
+      if(click){
         var bound = click.bind(i);
         el.addEventListener('click', bound);
       }
@@ -222,37 +241,23 @@ angular.module('snippit.services', ['snippit'])
       helix: helix,
       grid: grid
     };
-  });
+  })
+  .factory('Facebook', ['$http', function($http) {
 
-'use strict';
-
-angular.module('snippit.main', ['snippit'])
-  .controller('MainController', ['$scope', '$http', function($scope, $http) {
-    $scope.searchData = '';
-
-    $scope.picturesAndCaptions = null;
-
-    $scope.getWallData = function() {
-      console.log('/*/*/*REQUESTING WALL DATA*/*/*/');
-      $http.get('/getFacebookWall').success(function(resp) {
-        $scope.picturesAndCaptions = JSON.parse(resp);
-      });
+    var getWallData = function() {
+      return $http.get('/getFacebookWall');
     };
 
-    $scope.check = function() {
-      console.dir('wall data', $scope.picturesAndCaptions);
-      console.log('album data', $scope.albums);
+    var getAlbumData = function() {
+      return $http.get('/getFacebookAlbums');
     }
 
-    $scope.getAlbumData = function() {
-      console.log('/*/*/*REQUESTING ALBUM DATA*/*/*/');
-      $http.get('/getFacebookAlbums').success(function(resp) {
-        $scope.picturesAndCaptions.albums = JSON.parse(resp);
-        console.log('PAC', $scope.picturesAndCaptions);
-      });
-    }
-
-  }]);
+    return {
+      getWallData: getWallData,
+      getAlbumData: getAlbumData
+    };
+  }])
+;
 
 'use strict';
 

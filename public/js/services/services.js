@@ -89,15 +89,11 @@ angular.module('snippit.services', ['snippit'])
   .factory('Facebook', ['$http', function($http) {
 
     var getWallData = function() {
-      $http.get('/getFacebookWall').success(function(resp) {
-        return resp;
-      });
+      return $http.get('/getFacebookWall');
     };
 
     var getAlbumData = function() {
-      $http.get('/getFacebookAlbums').success(function(resp) {
-        return resp;
-      });
+      return $http.get('/getFacebookAlbums');
     }
 
     return {
