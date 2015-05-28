@@ -8,18 +8,15 @@ var _ = require('underscore');
 
 
 exports.checkData = function(req, res, cb){
-  var userObj = req.user
   var findUser = Q.nbind(User.findOne, User);
 
   // exports.addData()]\
-  debugger;
-
-  findUser({id: userObj.id})
+  findUser({id: req.user.id})
     .then(function(user){
       if(!user) {
         var newUser = new User({
-          id: userObj.id,
-          name: userObj.displayName
+          id: req.user.id,
+          name: req.user.name
         });
 
         newUser.save(function(err, result){
@@ -39,44 +36,104 @@ exports.checkData = function(req, res, cb){
 }
 
 
+exports.grabData = function(req, res, cb){
+  var findUser = Q.nbind(User.findOne, User);
+
+  findUser({id: req.user.id})
+    .then(function(user){
+      if(!user){
+        console.log("Error, User Not Found in Utils Grab Data")
+      }else{
+        console.log("Compiling data to send to user")
+        cb(JSON.stringify(user.data))
+      }
+    })
+}
+
+exports.handleAlbums = function(req, res, data, cb){
+  var albums = {}
+
+  _.each(JSON.parse(data).data, function(album){
+    albums[album.name] = {name: album.name, id: album.id} 
+  });
+  cb(JSON.stringify(albums))
+}
+
+exports.getAlbumPhotos = function(req, res, album, data, cb){
+  var findUser = Q.nbind(User.findOne, User);
+  // exports.addData()]\
+  findUser({id: req.user.id})
+    .then(function(user){
+      if(!user) {
+        console.log("ERROR, USER NOT FOUND, UTILS getAlbumPhotos")
+      }else{
+        console.log("user found IN getAlbumPhotos")
+        console.log(user.data)
+        if(!user.data.albums[album.name]){
+          user.data.albums[album.name] = {pictures: []};
+        }
+        user.markModified('data');
+
+        console.log(user.data.albums)
+        // console.log(user.data[album.name] = 5)
+        // console.log(user.data, "am I set up?")
+        var temp ={};
+        temp[album.name] = [];
+        _.each(JSON.parse(data).data, function(photo){
+          // user.data[album.name].push(photo.source)
+          temp[album.name].push(photo.source)
+
+        });
+        console.log(user.data)
+        console.log("===================================")
+
+       user.save(function(err, result){
+         console.log("saving")
+         if(err) {
+           console.log(err, "getalbumphotos error")
+         }else{
+           // console.log("albums populated", result)
+         }
+          // cb(JSON.stringify(user.data[album.name]))
+          cb(JSON.stringify(temp))
+       });
+
+       }
+    })
+}
 
 
 
 
-
-
-exports.handleFacebookData = function(req, res, dat, cb){
+exports.FBWallPhotos = function(req, res, data, cb){
  var findUser = Q.nbind(User.findOne, User);
  // exports.addData()]\
- console.log("Handling")
  findUser({id: req.user.id})
    .then(function(user){
      if(!user) {
-      console.log("ERROR, USER NOT FOUND, UTILS LINE:53")
+      console.log("ERROR, USER NOT FOUND, UTILS FBWallPhotos")
      }else{
       console.log("user found IN HANDLE FACEBOOK")
-      dat = JSON.parse(dat);
-
-      _.each(dat.photos.data, function(post){
-        user.data.picture.push(post.source);
-        user.data.caption.push(post.name);
+      var dat = JSON.parse(data);
+      console.log(dat.data.length, 'this is the length')
+      _.each(dat.data, function(post){
+        post.name = post.name || '';
+        user.data.wallPhotos.picture.push(post.source);
+        user.data.wallPhotos.caption.push(post.name);
       });
 
+
       user.save(function(err, result){
-        console.log("saving")
         if(err) {
           console.log(err, "facebookData error")
         }else{
-          console.log("updated", result)
+          console.log("facebook Wall data added to DB")
         }
+        cb(JSON.stringify(user.data))
       });
-
-      cb(JSON.stringify(user.data))
-      }
-   })
-
+    }
+  })
 }
-
 //get albums   album_id_number/photos
 // 854583941784/photos
 

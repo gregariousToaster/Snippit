@@ -9,10 +9,13 @@ var UserSchema = new mongoose.Schema({
   email: String,
   FBtoken: String,
   data: {
-    picture: [],
-    source: [],
-    caption: []
-  }  
+    wallPhotos: {
+      picture: [],
+      caption: []
+    },
+    albums: [mongoose.Schema.Types.Mixed]
+  },
+  snips: {}  
 });
 
 
