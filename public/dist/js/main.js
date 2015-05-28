@@ -179,7 +179,7 @@ angular.module('snippit.three', ['snippit'])
       document.getElementById('container').appendChild(renderer.domElement);
       // $document.find('container').append(angular.element(renderer.domElement));
 
-      window.controls = new THREE.OrbitControls(camera);
+      window.controls = new THREE.OrbitControls(camera, renderer.domElement);
       window.controls.damping = 0.2;
       window.controls.addEventListener('change', $scope.render);
     };
