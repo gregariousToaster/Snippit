@@ -1,5 +1,4 @@
-var camera, scene, renderer;
-var controls;
+var camera, scene, renderer, controls;
 
 var view = 'table';
 var objects = [];
@@ -10,27 +9,30 @@ animate();
 
 function init() {
 
-  camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 10000);
+  camera = new THREE.PerspectiveCamera(30, window.innerWidth / (window.innerHeight - 200), 1, 10000);
   camera.position.z = 800;
   scene = new THREE.Scene();
 
-  // init objects
-  createScene(data.photos.data, scene);
+  var len = data.photos.data.concat(data.photos.data).concat(data.photos.data).concat(data.photos.data).length
 
+  var vector = new THREE.Vector3();
   // create shapes
-  table(5, objects, 'table');
-  sphere(objects, 'sphere', 800);
-  helix(1, objects, 'helix', 0.175, 450, 900, 900, 8);
-  helix(2, objects, 'doubleHelix', 0.175, 450, 500, 500, 50);
-  helix(3, objects, 'tripleHelix', 0.1, 450, 500, 500, 50);
-  cube(5, objects, 'grid');
+  for (var i = 0; i < len; i++) {
+    createScene(i, data.photos.data.concat(data.photos.data).concat(data.photos.data).concat(data.photos.data), scene);
+    table(5, i, 'table');
+    sphere(i, vector, 'sphere', 800, len);
+    helix(1, i, vector, 'helix', 0.175, 450, 900, 900, 8);
+    helix(2, i, vector, 'doubleHelix', 0.175, 450, 500, 500, 50);
+    helix(3, i, vector, 'tripleHelix', 0.1, 450, 500, 500, 50);
+    cube(5, i, 'grid');
+  };
 
   renderer = new THREE.CSS3DRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight - 200);
   renderer.domElement.style.position = 'absolute';
-  document.getElementById('container').appendChild(renderer.domElement);
+      console.log('BLING', document.getElementById('container'));
 
-  //Set up the camera controls, overwrite some of the native controls like lookAt()
+  document.getElementById('container').appendChild(renderer.domElement);
 
   var buttons = document.getElementsByTagName('button');
   for (var i = 0; i < buttons.length; i++) {
@@ -44,6 +46,11 @@ function init() {
   controls.damping = 0.2;
   controls.addEventListener( 'change', render );
 };
+
+
+
+
+
 
 function transform(targets, duration) {
 
@@ -88,82 +95,68 @@ function buttonClick(event){
     .start();
 };
 
-function createScene(collection, scene){
-  for (var i = 0; i < collection.length; i++) {
-    var el = document.createElement('div');
-    el.className = 'element';
+function createScene(i, collection, scene){
+  var el = document.createElement('div');
+  el.className = 'element';
 
-    var image = document.createElement('img');
-    image.src = collection[i].source;
-    el.appendChild(image);
+  var image = document.createElement('img');
+  image.src = collection[i].source;
+  el.appendChild(image);
 
-    var object = new THREE.CSS3DObject(el);
-    object.position.x = Math.random() * 4000 - 2000;
-    object.position.y = Math.random() * 4000 - 2000;
-    object.position.z = Math.random() * 4000 - 2000;
-    scene.add(object);
+  var object = new THREE.CSS3DObject(el);
+  object.position.x = Math.random() * 4000 - 2000;
+  object.position.y = Math.random() * 4000 - 2000;
+  object.position.z = Math.random() * 4000 - 2000;
+  scene.add(object);
 
-    var bound = cardClick.bind(i);
+  var bound = cardClick.bind(i);
 
-    el.addEventListener('click', bound);
+  el.addEventListener('click', bound);
 
-    objects.push(object);
-  }
+  objects.push(object);
 };
 
-function table(n, collection, targetArr){
-  for (var i = 0; i < collection.length; i++) {
-    var object = new THREE.Object3D();
-    object.position.x = ((i % n) * 140) - 280;
-    object.position.y = -((Math.floor(i / n) + 1) * 180) + 540;
-    targets[targetArr].push(object);
-  }
+function table(n, i, targetArr){
+  var object = new THREE.Object3D();
+  object.position.x = ((i % n) * 140) - 280;
+  object.position.y = -((Math.floor(i / n) + 1) * 180) + 540;
+  targets[targetArr].push(object);
 };
 
-function sphere(collection, targetArr, r){
-  var vector = new THREE.Vector3();
+function sphere(i, vector, targetArr, r, len){
+  var phi = Math.acos(-1 + (2 * i) / len);
+  var theta = Math.sqrt(len * Math.PI) * phi;
 
-  for (var i = 0, l = collection.length; i < l; i++) {
+  var object = new THREE.Object3D();
 
-    var phi = Math.acos(-1 + (2 * i) / l);
-    var theta = Math.sqrt(l * Math.PI) * phi;
+  object.position.x = r * Math.cos(theta) * Math.sin(phi);
+  object.position.y = r * Math.sin(theta) * Math.sin(phi);
+  object.position.z = r * Math.cos(phi);
 
-    var object = new THREE.Object3D();
+  vector.copy(object.position).multiplyScalar(2);
 
-    object.position.x = r * Math.cos(theta) * Math.sin(phi);
-    object.position.y = r * Math.sin(theta) * Math.sin(phi);
-    object.position.z = r * Math.cos(phi);
+  object.lookAt(vector);
 
-    vector.copy(object.position).multiplyScalar(2);
-
-    object.lookAt(vector);
-
-    targets[targetArr].push(object);
-  } 
+  targets[targetArr].push(object);
 };
 
-function helix(n, collection, targetArr, spacing, offset, xRad, zRad, step){
-  var vector = new THREE.Vector3();
-  for (var i = 0; i < collection.length; i++) {
-    var object = new THREE.Object3D();
-    var phi = i * spacing + (i % n)/n * (Math.PI * 2);
+function helix(n, i, vector, targetArr, spacing, offset, xRad, zRad, step){
+  var object = new THREE.Object3D();
+  var phi = i * spacing + (i % n)/n * (Math.PI * 2);
 
-    object.position.x = xRad * Math.sin(phi);
-    object.position.y = -(i * step) + offset;
-    object.position.z = zRad * Math.cos(phi);
+  object.position.x = xRad * Math.sin(phi);
+  object.position.y = -(i * step) + offset;
+  object.position.z = zRad * Math.cos(phi);
 
-    vector.x = object.position.x * 2;
-    vector.y = object.position.y;
-    vector.z = object.position.z * 2;
+  vector.x = object.position.x * 2;
+  vector.y = object.position.y;
+  vector.z = object.position.z * 2;
 
-    object.lookAt(vector);
-    targets[targetArr].push(object);
-  }
+  object.lookAt(vector);
+  targets[targetArr].push(object);
 };
 
-function cube(n, collection, targetArr){
-  for (var i = 0; i < collection.length; i++) {
-
+function cube(n, i, targetArr){
   var object = new THREE.Object3D();
 
   object.position.x = ((i % n) * 400) - 800;
@@ -171,7 +164,6 @@ function cube(n, collection, targetArr){
   object.position.z = (Math.floor(i / (n * n))) * 1000 - 2000;
 
   targets[targetArr].push(object);
-  }
 };
 
 function cardClick(){

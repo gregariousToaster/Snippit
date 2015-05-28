@@ -1,11 +1,7 @@
 <div ui-view>
   <div id="menu">
-    <button class="viewSelect" id="table">TABLE</button>
-    <button class="viewSelect" id="sphere">SPHERE</button>
-    <button class="viewSelect" id="helix">HELIX</button>
-    <button class="viewSelect" id="doubleHelix">DOUBLE HELIX</button>
-    <button class="viewSelect" id="tripleHelix">TRIPLE HELIX</button>
-    <button class="viewSelect" id="grid">GRID</button>
+    <button class="viewSelect" ng-repeat="(key, value) in targets"  ng-click="transform(targets[key], 2000)">{{key | uppercase}}</button>
   </div>
-  <input class="search" placeholder="search">
+  <div id="container"></div>
+
 </div>
