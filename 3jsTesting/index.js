@@ -18,7 +18,7 @@ function init() {
   var vector = new THREE.Vector3();
   // create shapes
   for (var i = 0; i < len; i++) {
-    createScene(i, data.photos.data.concat(data.photos.data).concat(data.photos.data).concat(data.photos.data), scene);
+    createScene(i, data.photos.data.concat(data.photos.data).concat(data.photos.data).concat(data.photos.data), scene, cardClick);
     table(5, i, 'table');
     sphere(i, vector, 'sphere', 800, len);
     helix(1, i, vector, 'helix', 0.175, 450, 900, 900, 8);
@@ -95,7 +95,7 @@ function buttonClick(event){
     .start();
 };
 
-function createScene(i, collection, scene){
+function createScene(i, collection, scene, click){
   var el = document.createElement('div');
   el.className = 'element';
 
@@ -109,8 +109,7 @@ function createScene(i, collection, scene){
   object.position.z = Math.random() * 4000 - 2000;
   scene.add(object);
 
-  var bound = cardClick.bind(i);
-
+  var bound = click.bind(i);
   el.addEventListener('click', bound);
 
   objects.push(object);

@@ -19,10 +19,10 @@ angular.module('snippit.three', ['snippit'])
 
       var vector = new THREE.Vector3();
 
-      var len = data.photos.data.concat(data.photos.data).concat(data.photos.data).concat(data.photos.data).length
+      var len = data.length
 
       for (var i = 0; i < len; i++) {
-        ThreeFactory.createScene(i, data.photos.data.concat(data.photos.data).concat(data.photos.data).concat(data.photos.data), scene, $scope.objects);
+        ThreeFactory.createScene(i, data, scene, $scope.objects, $scope.log);
         ThreeFactory.table(5, i, $scope.targets.table);
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
         ThreeFactory.helix(1, i, vector, $scope.targets.helix, 0.175, 450, 900, 900, 8);
@@ -38,9 +38,7 @@ angular.module('snippit.three', ['snippit'])
 
       $scope.transform($scope.targets.table, 2000);
 
-      console.log('HEIGHT', document.getElementsByClassName('header')[0].offsetHeight);
       document.getElementById('container').appendChild(renderer.domElement);
-      // $document.find('container').append(angular.element(renderer.domElement));
 
       window.addEventListener('resize', onWindowResize, false);
 
@@ -48,6 +46,10 @@ angular.module('snippit.three', ['snippit'])
       controls.damping = 0.2;
       controls.addEventListener('change', $scope.render);
     };
+
+    $scope.log = function(){
+      console.log(this);
+    }
 
     $scope.clicked = function(targets){
       $scope.transform(targets, 2000);
@@ -64,8 +66,6 @@ angular.module('snippit.three', ['snippit'])
         .to({x: 0, y: 0, z: 0}, 2000)
         .start();
     }
-
-
 
     $scope.transform = function(targets, duration) {
 
@@ -93,7 +93,6 @@ angular.module('snippit.three', ['snippit'])
         .start();
     };
 
-
     var onWindowResize = function() {
 
       camera.aspect = window.innerWidth / viewHeight();
@@ -101,9 +100,8 @@ angular.module('snippit.three', ['snippit'])
 
       renderer.setSize(window.innerWidth, viewHeight());
 
-      render();
+      $scope.render();
     };
-
 
     var animate = function() {
       requestAnimationFrame(animate);
