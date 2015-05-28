@@ -4,7 +4,7 @@ angular.module('snippit.services', ['snippit'])
   .factory('ThreeFactory', function() {
 
 
-    var createScene = function(i, collection, scene, objects){
+    var createScene = function(i, collection, scene, objects, click){
       var el = document.createElement('div');
       el.className = 'element';
 
@@ -17,6 +17,11 @@ angular.module('snippit.services', ['snippit'])
       object.position.y = Math.random() * 4000 - 2000;
       object.position.z = Math.random() * 4000 - 2000;
       scene.add(object);
+
+      if(click){ 
+        var bound = click.bind(i);
+        el.addEventListener('click', bound);
+      }
 
       objects.push(object);
     };
