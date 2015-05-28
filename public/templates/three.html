@@ -1,7 +1,5 @@
-<div ui-view>
+<div ui-view id="container">
   <div id="menu">
     <button class="viewSelect" ng-repeat="(key, value) in targets"  ng-click="transform(targets[key], 2000)">{{key | uppercase}}</button>
   </div>
-  <div id="container"></div>
-
 </div>

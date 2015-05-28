@@ -3,13 +3,15 @@
 angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', function($scope, ThreeFactory, $window, $document) {
     
-    var scene, renderer, camera;
+    var scene, renderer, camera, controls;
+
+    var viewHeight = $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
 
     $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 
     var init = function(){
-      camera = new THREE.PerspectiveCamera(30, $window.innerWidth / ($window.innerHeight - 200), 1, 10000);
+      camera = new THREE.PerspectiveCamera(30, $window.innerWidth / viewHeight, 1, 10000);
       camera.position.z = 800;
       scene = new THREE.Scene();
 
@@ -26,21 +28,21 @@ angular.module('snippit.three', ['snippit'])
         ThreeFactory.helix(3, i, vector, $scope.targets.tripleHelix, 0.1, 450, 500, 500, 50);
         ThreeFactory.grid(5, i, $scope.targets.grid);
       };
-      console.log('TARGETS', $scope.targets);
 
       renderer = new THREE.CSS3DRenderer();
-      renderer.setSize($window.innerWidth, $window.innerHeight - 200);
+      renderer.setSize($window.innerWidth, viewHeight);
       renderer.domElement.style.position = 'absolute';
+      renderer.domElement.classList.add('render');
 
       $scope.transform($scope.targets.table, 2000);
 
-
+      console.log('HEIGHT', document.getElementsByClassName('header')[0].offsetHeight);
       document.getElementById('container').appendChild(renderer.domElement);
       // $document.find('container').append(angular.element(renderer.domElement));
 
-      window.controls = new THREE.OrbitControls(camera, renderer.domElement);
-      window.controls.damping = 0.2;
-      window.controls.addEventListener('change', $scope.render);
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.damping = 0.2;
+      controls.addEventListener('change', $scope.render);
     };
 
     $scope.transform = function(targets, duration) {
@@ -72,7 +74,7 @@ angular.module('snippit.three', ['snippit'])
     var animate = function() {
       requestAnimationFrame(animate);
       TWEEN.update();
-      window.controls.update();
+      controls.update();
     };
 
     angular.element(document).ready(function () {
