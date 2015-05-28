@@ -44,7 +44,8 @@ gulp.task('start', function () {
   nodemon({
     script: 'bin/www',
     ext: 'js html',
-    env: { 'NODE_ENV': 'development' }
+    env: { 'NODE_ENV': 'development' },
+    tasks: ['lint', 'scripts', 'styles']
   });
 });
 
