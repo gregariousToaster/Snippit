@@ -53,14 +53,42 @@ module.exports = function(passport) {
     res.json(authorized);
   });
 
-  router.get('/queryFacebook', function(req, res){
-    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'?fields=photos', function(data){
-      utils.handleFacebookData(req, res, data, function(user){
-        console.log(user)
-        res.JSON(user)
-      })
+  router.get('/getData', function(req, res){
+    utils.grabData(req, res, function(user){
+      res.json(user)
     })
   });
+
+  router.get('/getFacebookWall', function(req, res){
+    console.log(res.json, "gefacebookwall router")
+    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'?fields=photos', function(data){
+      utils.FBWallPhotos(req, res, data, function(user){
+        res.json(user)
+      })
+    }, true)
+  });
+
+  router.get('/getFacebookAlbums', function(req, res){
+    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/albums', function(data){
+      utils.handleAlbums(req, res, data, function(albums){
+        console.log(albums)
+        res.json(albums)
+      })
+    }, false)
+  });
+
+  router.get('/getFacebookAlbumPhotos', function(req, res){
+    //get album id from POST request
+    var album = {id: 823282784554, name: "Burning Man Photos"};
+    facebook.GET(req.user.FBtoken,'/v2.3/'+album.id+'/photos', function(data){
+      utils.getAlbumPhotos(req, res, album, data, function(user){
+        console.log(JSON.parse(user))
+        res.json(user)
+      })
+    }, false)
+  });
+
+
 
 
     return router;
