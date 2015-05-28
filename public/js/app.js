@@ -4,6 +4,7 @@ angular.module('snippit', ['snippit.main',
   'snippit.services',
   'snippit.three',
   'snippit.auth',
+  'snippit.search',
   'ui.router'
   ])
   .run(['$rootScope', '$location', '$http', function($rootScope, $location, $http) {
@@ -36,6 +37,11 @@ angular.module('snippit', ['snippit.main',
         url: '/signin',
         templateUrl: 'templates/signin.html',
         controller: 'AuthController',
+      })
+      .state('search', {
+        url: '/search',
+        templateUrl: 'templates/search.html',
+        controller: 'SearchController',
       });
     $urlRouterProvider.otherwise('/app/three');
   }]);

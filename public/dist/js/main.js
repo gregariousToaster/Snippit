@@ -4,6 +4,7 @@ angular.module('snippit', ['snippit.main',
   'snippit.services',
   'snippit.three',
   'snippit.auth',
+  'snippit.search',
   'ui.router'
   ])
   .run(['$rootScope', '$location', '$http', function($rootScope, $location, $http) {
@@ -36,6 +37,11 @@ angular.module('snippit', ['snippit.main',
         url: '/signin',
         templateUrl: 'templates/signin.html',
         controller: 'AuthController',
+      })
+      .state('search', {
+        url: '/search',
+        templateUrl: 'templates/search.html',
+        controller: 'SearchController',
       });
     $urlRouterProvider.otherwise('/app/three');
   }]);
@@ -137,21 +143,13 @@ angular.module('snippit.auth', ['snippit'])
 
 'use strict';
 
+angular.module('snippit.search', ['snippit'])
+  .controller('SearchController', function() {})
+
+'use strict';
+
 angular.module('snippit.main', ['snippit', 'snippit.services'])
   .controller('MainController', ['Facebook', '$scope', function(Facebook, $scope) {
-
-    $scope.pictures = null;
-
-    $scope.getWallData = function() {
-      Facebook.getWallData().then(function(resp) {
-        console.log(resp);
-      });
-    }
-
-    $scope.getAlbumData = function() {
-      console.log('ALBUMS', $scope.pictures.albums);
-    }
-
   }]);
 
 'use strict';
