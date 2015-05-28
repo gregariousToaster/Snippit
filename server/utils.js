@@ -11,7 +11,6 @@ exports.checkData = function(req, res, cb){
   var findUser = Q.nbind(User.findOne, User);
 
   // exports.addData()]\
-
   findUser({id: req.user.id})
     .then(function(user){
       if(!user) {
@@ -70,17 +69,20 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
       }else{
         console.log("user found IN getAlbumPhotos")
         console.log(user.data)
-        if(!user.data[album.name]){
-          // user.data[album.name] = [];
+        if(!user.data.albums[album.name]){
+          user.data.albums[album.name] = {pictures: []};
         }
+        user.markModified('data');
 
-        user.set('Name', 'test')
-        console.log(user)
+        console.log(user.data.albums)
         // console.log(user.data[album.name] = 5)
-        console.log(user.data, "am I set up?")
-
+        // console.log(user.data, "am I set up?")
+        var temp ={};
+        temp[album.name] = [];
         _.each(JSON.parse(data).data, function(photo){
-          user.data[album.name].push(photo.source)
+          // user.data[album.name].push(photo.source)
+          temp[album.name].push(photo.source)
+
         });
         console.log(user.data)
         console.log("===================================")
@@ -92,7 +94,8 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
          }else{
            // console.log("albums populated", result)
          }
-          cb(JSON.stringify(user.data[album.name]))
+          // cb(JSON.stringify(user.data[album.name]))
+          cb(JSON.stringify(temp))
        });
 
        }
@@ -112,8 +115,8 @@ exports.FBWallPhotos = function(req, res, data, cb){
      }else{
       console.log("user found IN HANDLE FACEBOOK")
       var dat = JSON.parse(data);
-
-      _.each(dat.photos.data, function(post){
+      console.log(dat.data.length, 'this is the length')
+      _.each(dat.data, function(post){
         post.name = post.name || '';
         user.data.wallPhotos.picture.push(post.source);
         user.data.wallPhotos.caption.push(post.name);

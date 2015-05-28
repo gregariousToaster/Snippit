@@ -13,7 +13,9 @@ var UserSchema = new mongoose.Schema({
       picture: [],
       caption: []
     },
-  }  
+    albums: [mongoose.Schema.Types.Mixed]
+  },
+  snips: {}  
 });
 
 
