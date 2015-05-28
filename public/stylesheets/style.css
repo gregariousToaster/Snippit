@@ -19,19 +19,19 @@ h2{
   position: absolute;
   top: 0;
   left: 0;
+  z-index: -1;
 }
 .viewSelect{
+  width: 16.666%;
   border: none;
-  background: #f3f3f3;
-  border-radius: 0 0 5px 5px;
+  background: rgba( 243, 243, 243, .5);
   padding: 5px 10px;
-  box-shadow: 0 0 4px #888;
 }
 .viewSelect:focus{
   outline: none;
 }
 .viewSelect:hover{
-  background-color: red;
+  background-color: #888;
 }
 .blur{
   position: absolute;
@@ -50,6 +50,11 @@ h2{
   width: 100%;
   top: 3.75em;
   z-index: -1;
+}
+.menu{
+  box-shadow: 0 0 4px #888;
+  position: absolute;
+  z-index: 10;
 }
 .header{
   position: absolute;
@@ -110,6 +115,7 @@ h2{
 }
 
 .element {
+  box-sizing: content-box;
   width: 120px;
   overflow: hidden;
   height: 160px;
