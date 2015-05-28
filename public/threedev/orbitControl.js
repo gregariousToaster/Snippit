@@ -268,7 +268,6 @@ THREE.OrbitControls = function(object, domElement) {
 	};
 
 	this.update = function () {
-
 		var position = this.object.position;
 
 		offset.copy( position ).sub( this.target );
@@ -524,7 +523,7 @@ THREE.OrbitControls = function(object, domElement) {
 	}
 
 	function onKeyDown( event ) {
-
+		console.log('SCOPE', scope)
 		if ( scope.enabled === false || scope.noKeys === true || scope.noPan === true ) return;
 
 		switch ( event.keyCode ) {

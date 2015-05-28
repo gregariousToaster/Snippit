@@ -3,14 +3,14 @@
 angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', function($scope, ThreeFactory, $window, $document) {
     
-    var scene, renderer;
+    var scene, renderer, camera;
 
     $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 
     var init = function(){
-      window.camera = new THREE.PerspectiveCamera(30, $window.innerWidth / ($window.innerHeight - 200), 1, 10000);
-      window.camera.position.z = 800;
+      camera = new THREE.PerspectiveCamera(30, $window.innerWidth / ($window.innerHeight - 200), 1, 10000);
+      camera.position.z = 800;
       scene = new THREE.Scene();
 
       var vector = new THREE.Vector3();
@@ -38,7 +38,7 @@ angular.module('snippit.three', ['snippit'])
       document.getElementById('container').appendChild(renderer.domElement);
       // $document.find('container').append(angular.element(renderer.domElement));
 
-      window.controls = new THREE.OrbitControls(window.camera);
+      window.controls = new THREE.OrbitControls(camera);
       window.controls.damping = 0.2;
       window.controls.addEventListener('change', $scope.render);
     };
@@ -81,7 +81,7 @@ angular.module('snippit.three', ['snippit'])
     });
 
     $scope.render = function(){
-      renderer.render(scene, window.camera);
+      renderer.render(scene, camera);
     };
   }]);
 
