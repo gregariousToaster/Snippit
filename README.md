@@ -1,5 +1,10 @@
 # gregariousToaster
 
+#Snippit
+Photos of your friends from your last concert are scattered all over Facebook, Twitter and Instagram. Get them all in one place. Track your photos with your friends, based off of events, and see how those moments come together. 
+
+#Team
+
 Eric
   Manager - Backbone
   Techs - Three.js, Firebase
