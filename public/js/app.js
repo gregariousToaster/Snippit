@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('snippit', ['snippit.main',
+  'snippit.services',
   'snippit.three',
   'snippit.auth',
   'ui.router'
@@ -36,6 +37,6 @@ angular.module('snippit', ['snippit.main',
         templateUrl: 'templates/signin.html',
         controller: 'AuthController',
       });
-    $urlRouterProvider.otherwise('/app');
+    $urlRouterProvider.otherwise('/app/three');
   }]);
 

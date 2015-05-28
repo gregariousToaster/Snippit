@@ -59,8 +59,9 @@ THREE.OrbitControls = function(object, domElement) {
 
 	// How far you can orbit vertically, upper and lower limits.
 	// Range is 0 to Math.PI radians.
-	this.minPolarAngle = Math.PI/8; // radians
-	this.maxPolarAngle = Math.PI/4 * 3.5; // radians
+	this.minPolarAngle = 0; // radians
+	this.maxPolarAngle = Math.PI; // radians
+
 
 	// How far you can orbit horizontally, upper and lower limits.
 	// If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
@@ -267,7 +268,6 @@ THREE.OrbitControls = function(object, domElement) {
 	};
 
 	this.update = function () {
-
 		var position = this.object.position;
 
 		offset.copy( position ).sub( this.target );
@@ -523,7 +523,6 @@ THREE.OrbitControls = function(object, domElement) {
 	}
 
 	function onKeyDown( event ) {
-
 		if ( scope.enabled === false || scope.noKeys === true || scope.noPan === true ) return;
 
 		switch ( event.keyCode ) {

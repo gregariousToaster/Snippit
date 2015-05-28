@@ -14,6 +14,12 @@ h2{
   margin: 0 0;
   display: inline;
 }
+.render{
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 .viewSelect{
   border: none;
   background: #f3f3f3;
@@ -23,6 +29,9 @@ h2{
 }
 .viewSelect:focus{
   outline: none;
+}
+.viewSelect:hover{
+  background-color: red;
 }
 .blur{
   position: absolute;
@@ -98,4 +107,24 @@ h2{
   margin: 0.3em;
   font-size: 8em;
   font-family: 'Roboto Slab', sans-serif;
+}
+
+.element {
+  width: 120px;
+  overflow: hidden;
+  height: 160px;
+  border-radius: 4px;
+  text-align: center;
+  cursor: default;
+  box-shadow: 0 0 25px #888;
+}
+
+.element:hover {
+  border: solid #515151 4px;
+}
+
+.element img{
+  min-height: 160px;
+  min-width: 120px;
+  height: 100%;
 }
