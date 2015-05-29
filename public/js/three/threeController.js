@@ -59,18 +59,11 @@ angular.module('snippit.three', ['snippit'])
     };
 
     $scope.hit = function(){
-      console.log("OWRKOING")
       Modal.open({
-         content: '<strong>Default modal!</strong>
-                   <br />Testing the modal.
-                   <br /><
-                   br />Loreum ipsum dolorem the quick brown 
-                   fox jumped over the lazy dog.
-                   <br /><br />Yes its true.',
-         draggable: true,
-         openCallback: function () {
-           alert('This is an example of the use of openCallback');
-         }
+         content: "<div class='imageResize'><img src='"+picData[this].source+"' /></div>",
+         draggable: false,
+         width: '50%',
+         height: '75%',
        });
 
     }
