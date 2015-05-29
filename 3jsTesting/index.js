@@ -9,8 +9,11 @@ init();
 animate();
 
 function init() {
+  var els = document.getElementsByClassName('element');
+  $('#container').empty();
+  console.log('element', els);
 
-  camera = new THREE.PerspectiveCamera(30, window.innerWidth / (window.innerHeight - 200), 1, 10000);
+  camera = new THREE.PerspectiveCamera(30, window.innerWidth / (window.innerHeight), 1, 10000);
   camera.position.z = 800;
   scene = new THREE.Scene();
 
@@ -29,9 +32,8 @@ function init() {
   };
 
   renderer = new THREE.CSS3DRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight - 200);
+  renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.domElement.style.position = 'absolute';
-      console.log('BLING', document.getElementById('container'));
 
   document.getElementById('container').appendChild(renderer.domElement);
 
