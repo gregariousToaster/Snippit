@@ -28,7 +28,7 @@ angular.module('snippit', ['snippit.main',
       .state('app.three', {
         url: '/three',
         views: {
-          'nest': {
+          'content': {
             templateUrl: 'templates/three.html',
             controller: 'ThreeController'
           }
