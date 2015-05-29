@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
-var Q = require('q')
+var Q = require('q');
+var Schema = mongoose.Schema;
 
 
-var UserSchema = new mongoose.Schema({
+var UserSchema = new Schema({
   id: Number,
   name:  String,
   username: String,
@@ -11,9 +12,9 @@ var UserSchema = new mongoose.Schema({
   data: {
     wallPhotos: {
       picture: [],
+      thumbnail: [],
       caption: []
-    },
-    albums: [mongoose.Schema.Types.Mixed]
+    }
   },
   snips: {}  
 });

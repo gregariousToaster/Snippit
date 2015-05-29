@@ -60,46 +60,53 @@ exports.handleAlbums = function(req, res, data, cb){
 }
 
 exports.getAlbumPhotos = function(req, res, album, data, cb){
-  var findUser = Q.nbind(User.findOne, User);
+  // var findUser = Q.nbind(User.findOne, User);
   // exports.addData()]\
-  findUser({id: req.user.id})
-    .then(function(user){
-      if(!user) {
-        console.log("ERROR, USER NOT FOUND, UTILS getAlbumPhotos")
-      }else{
-        console.log("user found IN getAlbumPhotos")
-        console.log(user.data)
-        if(!user.data.albums[album.name]){
-          user.data.albums[album.name] = {pictures: []};
-        }
-        user.markModified('data');
+  // findUser({id: req.user.id})
+  //   .then(function(user){
+  //     if(!user) {
+  //       console.log("ERROR, USER NOT FOUND, UTILS getAlbumPhotos")
+  //     }else{
+  //       console.log("user found IN getAlbumPhotos")
+  //       console.log(user.data)
+  //       // if(!user.data.albums[album.name]){
+  //       // }
+  //       user.markModified('data.albums');
+  //       user.save(function(err, result){
+  //         if(err) console.log(err, 'error');
+  //         console.log(result)
+  //       })
+        // console.log(user.data.albums.test.pictures)
+        // console.log(user.data.albums.test)
+        // console.log(user.data.albums)
+        // console.log(user.data)
 
-        console.log(user.data.albums)
+
         // console.log(user.data[album.name] = 5)
         // console.log(user.data, "am I set up?")
-        var temp ={};
-        temp[album.name] = [];
+        // var temp ={};
+        // temp[album.name] = [];
         _.each(JSON.parse(data).data, function(photo){
-          // user.data[album.name].push(photo.source)
+        //   // user.data[album.name].push(photo.source)
           temp[album.name].push(photo.source)
 
         });
-        console.log(user.data)
-        console.log("===================================")
+        // console.log(user.data)
+       //  console.log("===================================")
 
-       user.save(function(err, result){
-         console.log("saving")
-         if(err) {
-           console.log(err, "getalbumphotos error")
-         }else{
-           // console.log("albums populated", result)
-         }
+       // user.save(function(err, result){
+       //   console.log("saving")
+       //   if(err) {
+       //     console.log(err, "getalbumphotos error")
+       //   }else{
+       //     // console.log("albums populated", result)
+       //   }
           // cb(JSON.stringify(user.data[album.name]))
           cb(JSON.stringify(temp))
-       });
+       // });
 
-       }
-    })
+       // }
+    // })
 }
 
 
@@ -118,8 +125,12 @@ exports.FBWallPhotos = function(req, res, data, cb){
       console.log(dat.data.length, 'this is the length')
       _.each(dat.data, function(post){
         post.name = post.name || '';
+        user.data.wallPhotos.picture = [];
+        user.data.wallPhotos.thumbnail = [];
+        user.data.wallPhotos.caption = [];
         user.data.wallPhotos.picture.push(post.source);
         user.data.wallPhotos.caption.push(post.name);
+        user.data.wallPhotos.thumbnail.push(post.picture)
       });
 
 
