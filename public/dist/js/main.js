@@ -143,11 +143,6 @@ angular.module('snippit.auth', ['snippit'])
 
 'use strict';
 
-angular.module('snippit.search', ['snippit'])
-  .controller('SearchController', function() {})
-
-'use strict';
-
 angular.module('snippit.main', ['snippit', 'snippit.services'])
   .controller('MainController', ['Facebook', '$scope', function(Facebook, $scope) {
   }]);
@@ -256,6 +251,11 @@ angular.module('snippit.services', ['snippit'])
     };
   }])
 ;
+
+'use strict';
+
+angular.module('snippit.search', ['snippit'])
+  .controller('SearchController', function() {})
 
 'use strict';
 
