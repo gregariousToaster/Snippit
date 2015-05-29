@@ -123,11 +123,11 @@ exports.FBWallPhotos = function(req, res, data, cb){
       console.log("user found IN HANDLE FACEBOOK")
       var dat = JSON.parse(data);
       console.log(dat.data.length, 'this is the length')
+      user.data.wallPhotos.picture = [];
+      user.data.wallPhotos.thumbnail = [];
+      user.data.wallPhotos.caption = [];
       _.each(dat.data, function(post){
         post.name = post.name || '';
-        user.data.wallPhotos.picture = [];
-        user.data.wallPhotos.thumbnail = [];
-        user.data.wallPhotos.caption = [];
         user.data.wallPhotos.picture.push(post.source);
         user.data.wallPhotos.caption.push(post.name);
         user.data.wallPhotos.thumbnail.push(post.picture)
