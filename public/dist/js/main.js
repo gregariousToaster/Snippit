@@ -31,14 +31,15 @@ angular.module('snippit', ['snippit.main',
           'content': {
             templateUrl: 'templates/three.html',
             controller: 'ThreeController'
-          },
-          'profile': {
+          }
+        }
+      })
+      .state('app.profile', {
+        url: '/profile',
+        views: {
+          'nest': {
             templateUrl: 'templates/profile.html',
             controller: 'ProfileController'
-          },
-          'search': {
-            templateUrl: 'templates/search.html',
-            controller: 'SearchController'
           }
         }
       })
@@ -180,6 +181,19 @@ angular.module('snippit.search', ['snippit'])
 
 'use strict';
 
+angular.module('snippit.search', ['snippit'])
+  .controller('SearchController', ['$scope', function($scope) {
+    $scope.albums = ['person1', 'person2', 'person3', 'person4', 'person5']
+
+    $scope.query = "";
+
+    $scope.returnThis = function() {
+      console.log('querrrryyyy', $scope.query);
+    }
+}])
+
+'use strict';
+
 angular.module('snippit.services', ['snippit'])
   .factory('ThreeFactory', function() {
 
@@ -285,19 +299,6 @@ angular.module('snippit.services', ['snippit'])
     };
   }])
 ;
-
-'use strict';
-
-angular.module('snippit.search', ['snippit'])
-  .controller('SearchController', ['$scope', function($scope) {
-    $scope.albums = ['person1', 'person2', 'person3', 'person4', 'person5']
-
-    $scope.query = "";
-
-    $scope.returnThis = function() {
-      console.log('querrrryyyy', $scope.query);
-    }
-}])
 
 'use strict';
 
