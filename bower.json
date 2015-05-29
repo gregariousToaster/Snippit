@@ -3,6 +3,6 @@
   "version": "0.5.0",
   "dependencies": {
     "angular-ui-router": "0.2.13",
-    "angular-material": "~0.9.6"
+    "allmighty-autocomplete": "*"
   }
 }

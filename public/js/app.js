@@ -5,6 +5,7 @@ angular.module('snippit', ['snippit.main',
   'snippit.three',
   'snippit.auth',
   'snippit.search',
+  'autocomplete',
   'ui.router'
   ])
   .run(['$rootScope', '$location', '$http', function($rootScope, $location, $http) {

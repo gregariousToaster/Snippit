@@ -1,6 +1,6 @@
 <div>
-  <form>
-    <input type="text">
-    <input type="submit" value="Submit">
+  <form ng-submit="returnThis()">
+    <autocomplete ng-model="query" data="albums"></autocomplete>
+    <input type="submit">
   </form>
 </div>
