@@ -9,7 +9,7 @@ angular.module('snippit.services', ['snippit'])
       el.className = 'element';
 
       var image = document.createElement('img');
-      image.src = collection[i].source;
+      image.src = collection[i].images[5].source;
       el.appendChild(image);
 
       var object = new THREE.CSS3DObject(el);
