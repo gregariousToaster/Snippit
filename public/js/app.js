@@ -31,14 +31,15 @@ angular.module('snippit', ['snippit.main',
           'content': {
             templateUrl: 'templates/three.html',
             controller: 'ThreeController'
-          },
-          'profile': {
+          }
+        }
+      })
+      .state('app.profile', {
+        url: '/profile',
+        views: {
+          'nest': {
             templateUrl: 'templates/profile.html',
             controller: 'ProfileController'
-          },
-          'search': {
-            templateUrl: 'templates/search.html',
-            controller: 'SearchController'
           }
         }
       })
