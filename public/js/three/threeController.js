@@ -33,7 +33,7 @@ angular.module('snippit.three', ['snippit'])
       var len = picData.length
 
       for (var i = 0; i < len; i++) {
-        ThreeFactory.createScene(i, picData, scene, $scope.objects, $scope.log);
+        ThreeFactory.createScene(i, data, scene, $scope.objects, $scope.hit);
         ThreeFactory.table(5, i, $scope.targets.table);
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
         ThreeFactory.helix(1, i, vector, $scope.targets.helix, 0.175, 450, 900, 900, 8);
@@ -58,8 +58,21 @@ angular.module('snippit.three', ['snippit'])
       controls.addEventListener('change', $scope.render);
     };
 
-    $scope.log = function(){
-      console.log(this);
+    $scope.hit = function(){
+      console.log("OWRKOING")
+      Modal.open({
+         content: '<strong>Default modal!</strong>
+                   <br />Testing the modal.
+                   <br /><
+                   br />Loreum ipsum dolorem the quick brown 
+                   fox jumped over the lazy dog.
+                   <br /><br />Yes its true.',
+         draggable: true,
+         openCallback: function () {
+           alert('This is an example of the use of openCallback');
+         }
+       });
+
     }
 
     $scope.clicked = function(targets){
