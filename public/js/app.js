@@ -42,7 +42,7 @@ angular.module('snippit', ['snippit.main',
       .state('app.profile', {
         url: '/profile',
         views: {
-          'nest': {
+          'content': {
             templateUrl: 'templates/profile.html',
             controller: 'ProfileController'
           }
