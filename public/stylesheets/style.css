@@ -139,3 +139,19 @@ h2{
   min-width: 120px;
   height: 100%;
 }
+
+.search {
+  margin-top: 100px;
+  width: 350px;
+  height: 50px;
+  font-size: 12px;
+}
+
+.profile {
+  margin-left: 10px;
+}
+
+.snip {
+  margin-top: 5px;
+  margin-left: 3px;
+}

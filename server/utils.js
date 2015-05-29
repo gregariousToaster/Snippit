@@ -1,3 +1,5 @@
+'use strict';
+
 // var data = require('./dummydata');
 var fs = require('fs');
 var Q = require('q');
@@ -21,19 +23,19 @@ exports.checkData = function(req, res, cb){
 
         newUser.save(function(err, result){
           if(err){
-            console.log(err, 'error!')
+            console.log(err, 'error!');
           }else{
-            console.log(result, 'success!!')
+            console.log(result, 'success!!');
           }
         });
-        cb(user)
+        cb(user);
       }else{
-        console.log("user found", user)
+        console.log("user found", user);
 
-        cb(user)
+        cb(user);
       }
-    })
-}
+    });
+};
 
 
 exports.grabData = function(req, res, cb){
@@ -42,22 +44,22 @@ exports.grabData = function(req, res, cb){
   findUser({id: req.user.id})
     .then(function(user){
       if(!user){
-        console.log("Error, User Not Found in Utils Grab Data")
+        console.log("Error, User Not Found in Utils Grab Data");
       }else{
-        console.log("Compiling data to send to user")
-        cb(JSON.stringify(user.data))
+        console.log("Compiling data to send to user");
+        cb(JSON.stringify(user.data));
       }
-    })
-}
+    });
+};
 
 exports.handleAlbums = function(req, res, data, cb){
-  var albums = {}
+  var albums = {};
 
   _.each(JSON.parse(data).data, function(album){
-    albums[album.name] = {name: album.name, id: album.id} 
+    albums[album.name] = {name: album.name, id: album.id};
   });
-  cb(JSON.stringify(albums))
-}
+  cb(JSON.stringify(albums));
+};
 
 exports.getAlbumPhotos = function(req, res, album, data, cb){
   // var findUser = Q.nbind(User.findOne, User);
@@ -76,19 +78,19 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
   //         if(err) console.log(err, 'error');
   //         console.log(result)
   //       })
-        // console.log(user.data.albums.test.pictures)
-        // console.log(user.data.albums.test)
-        // console.log(user.data.albums)
-        // console.log(user.data)
+  //       console.log(user.data.albums.test.pictures)
+  //       console.log(user.data.albums.test)
+  //       console.log(user.data.albums)
+  //       console.log(user.data)
 
 
-        // console.log(user.data[album.name] = 5)
-        // console.log(user.data, "am I set up?")
-        // var temp ={};
-        // temp[album.name] = [];
+  //       console.log(user.data[album.name] = 5)
+  //       console.log(user.data, "am I set up?")
+        var temp ={};
+        temp[album.name] = [];
         _.each(JSON.parse(data).data, function(photo){
         //   // user.data[album.name].push(photo.source)
-          temp[album.name].push(photo.source)
+          temp[album.name].push(photo.source);
 
         });
         // console.log(user.data)
@@ -102,12 +104,12 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
        //     // console.log("albums populated", result)
        //   }
           // cb(JSON.stringify(user.data[album.name]))
-          cb(JSON.stringify(temp))
+          cb(JSON.stringify(temp));
        // });
 
        // }
     // })
-}
+};
 
 
 
@@ -118,42 +120,39 @@ exports.FBWallPhotos = function(req, res, data, cb){
  findUser({id: req.user.id})
    .then(function(user){
      if(!user) {
-      console.log("ERROR, USER NOT FOUND, UTILS FBWallPhotos")
+      console.log("ERROR, USER NOT FOUND, UTILS FBWallPhotos");
      }else{
-      console.log("user found IN HANDLE FACEBOOK")
+      console.log("user found IN HANDLE FACEBOOK");
       var dat = JSON.parse(data);
       user.data.wallPhotos.picture = [];
       user.data.wallPhotos.thumbnail = [];
       user.data.wallPhotos.caption = [];
-      console.log(dat.data.length, 'this is the length')
-      user.data.wallPhotos.picture = [];
-      user.data.wallPhotos.thumbnail = [];
-      user.data.wallPhotos.caption = [];
+      console.log(dat.data.length, 'this is the length');
       _.each(dat.data, function(post){
         post.name = post.name || '';
         user.data.wallPhotos.picture.push(post.source);
         user.data.wallPhotos.caption.push(post.name);
-        user.data.wallPhotos.thumbnail.push(post.picture)
+        user.data.wallPhotos.thumbnail.push(post.picture);
       });
 
 
       user.save(function(err, result){
         if(err) {
-          console.log(err, "facebookData error")
+          console.log(err, "facebookData error");
         }else{
-          console.log("facebook Wall data added to DB")
+          console.log("facebook Wall data added to DB");
         }
-        cb(JSON.stringify(user.data))
+        cb(JSON.stringify(user.data));
       });
     }
-  })
-}
+  });
+};
 //get albums   album_id_number/photos
 // 854583941784/photos
 
 
 //JSON.parse(data).photos.data[0].source   << photo
-//JSON.parse(data).photos.data[0].picture  <<thumbnail 
+//JSON.parse(data).photos.data[0].picture  <<thumbnail
 
 
 
@@ -217,7 +216,7 @@ exports.handleFacebookData = function(){
       return console.log(err, "error on intialize");
     }else{
       debugger;
-      
+
     }
   });
 }

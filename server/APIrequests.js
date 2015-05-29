@@ -6,7 +6,7 @@
 // exports.facebook = function(){
 
 //   facebook.api('/questh', function(err, data) {
-//     console.log(data); 
+//     console.log(data);
 //   });
 // }
 
@@ -28,7 +28,7 @@ exports.GET = function(accessToken, apiPath, callback, ampersand) {
       // well.. you know...
       method: 'GET'
   };
-  console.log(options.path)
+  console.log(options.path);
 // https://graph.facebook.com/v2.3/10100131608434454?fields=photos&access_token=CAAUPcYHaZBoMBAH1yfMInwTeM43I1ZBEnWQP9DOztYb1jNjRNCQDRagnt5BnNH6CzWqJlJ7t36a2tOCW9obZBxvxKaZBlP83WQ5694x95SOGVYwsqrmCzEHEh3yGytzoFZAaSGfjH1kp6iNZBHzSNPXuekYjROxCLQfYEGZAGTZBvilEVD0XFwdq4pRh9RyeFNteXoRb9ggZC0GWObuM1MKAC
 // https://graph.facebook.com/v2.3/854583941784?/photos?access_token=CAAUPcYHaZBoMBAFvpTrB6KbIXfEWYZAz6qdZCFRaxVN7X9GlXGZCb9ZCUUu5PxmNxZARSUuJ9M1qUpMD0gboibrUAhwSvkZANK3wdIjDf4Ee48cFIv0fhrCsmzGkVRZAtMnEWMW0MMZCIZBr9s6dDghou6LQybUfhC8G4O8EOPiZBQLZBYnmHrzibhBzptfU2KhrYEQH9rdnPXjqKMIrBZCxzoGvd
   // create a buffer to hold the data received
@@ -52,7 +52,7 @@ exports.GET = function(accessToken, apiPath, callback, ampersand) {
           callback(buffer);
       });
   });
-  
+
   // just in case of an error, prompting a message
   request.on('error', function(e){
       console.log('error from facebook.get(): '

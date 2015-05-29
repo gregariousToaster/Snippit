@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var utils = require('../server/utils.js');
 var facebook = require('../server/APIrequests.js');
@@ -49,42 +51,41 @@ module.exports = function(passport) {
 
   router.get('/auth/isAuthenticated', function(req, res){
     var authorized = {};
-    authorized['auth'] = req.isAuthenticated()
+    authorized['auth'] = req.isAuthenticated();
     res.json(authorized);
   });
 
   router.get('/getData', function(req, res){
     utils.grabData(req, res, function(user){
-      res.json(user)
-    })
+      res.json(user);
+    });
   });
 
   router.get('/getFacebookWall', function(req, res){
-    console.log(res.json, "gefacebookwall router")
-    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data){
+    console.log(res.json, "gefacebookwall router");
+    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data) {
       utils.FBWallPhotos(req, res, data, function(user){
-        res.json(user)
-      })
-    }, false)
+        res.json(user);
+      });
+    }, false);
   });
 
   router.get('/getFacebookAlbums', function(req, res){
-    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/albums', function(data){
+    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/albums', function(data) {
       utils.handleAlbums(req, res, data, function(albums){
-        res.json(albums)
-      })
-    }, false)
+        res.json(albums);
+      });
+    }, false);
   });
 
-  router.get('/getFacebookAlbumPhotos', function(req, res){
-    //get album id from POST request
-    var album = {id: 823282784554, name: "Burning Man Photos"};
+  router.post('/getFacebookAlbumPhotos', function(req, res){
+    var album = {id: req.body.id, name: req.body.name};
     facebook.GET(req.user.FBtoken,'/v2.3/'+album.id+'/photos', function(data){
       utils.getAlbumPhotos(req, res, album, data, function(user){
-        console.log(JSON.parse(user))
-        res.json(user)
-      })
-    }, false)
+        console.log(JSON.parse(user));
+        res.json(user);
+      });
+    }, false);
   });
 
 

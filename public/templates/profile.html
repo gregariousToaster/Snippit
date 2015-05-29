@@ -1,0 +1,8 @@
+<div class="profile">
+  <h1>Hello, First Last</h1>
+  <div><img height="200px" width="200px" style="border: 1px solid black; margin-left: 10px; margin-top: -15px; margin-bottom: 15px" src="/images/photo.png" /></div>
+  <div>Your albums: </div>
+  <ul>
+  <li class="snip" ng-repeat="snip in snippits" ng-click="snipClick(snip.name, snip.id)"> {{ snip.name }} </li>
+  </ul>
+</div>

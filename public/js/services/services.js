@@ -97,11 +97,17 @@ angular.module('snippit.services', ['snippit'])
 
     var getAlbumData = function() {
       return $http.get('/getFacebookAlbums');
-    }
+    };
+
+    var getAlbumPhotos = function(name, id) {
+      var obj = {name: name, id: id};
+      return $http.post('/getFacebookAlbumPhotos', obj);
+    };
 
     return {
       getWallData: getWallData,
-      getAlbumData: getAlbumData
+      getAlbumData: getAlbumData,
+      getAlbumPhotos: getAlbumPhotos
     };
   }])
 ;
