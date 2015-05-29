@@ -126,6 +126,9 @@ exports.FBWallPhotos = function(req, res, data, cb){
       user.data.wallPhotos.thumbnail = [];
       user.data.wallPhotos.caption = [];
       console.log(dat.data.length, 'this is the length')
+      user.data.wallPhotos.picture = [];
+      user.data.wallPhotos.thumbnail = [];
+      user.data.wallPhotos.caption = [];
       _.each(dat.data, function(post){
         post.name = post.name || '';
         user.data.wallPhotos.picture.push(post.source);

@@ -150,21 +150,8 @@ angular.module('snippit.auth', ['snippit'])
 
 angular.module('snippit.main', ['snippit', 'snippit.services'])
   .controller('MainController', ['Facebook', '$scope', '$window', function(Facebook, $scope, $window) {
-      document.getElementById('content').setAttribute('height', $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight));
+      // document.getElementById('content').setAttribute('height', $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight));
   }]);
-
-'use strict';
-
-angular.module('snippit.search', ['snippit'])
-  .controller('SearchController', ['$scope', function($scope) {
-    $scope.albums = ['person1', 'person2', 'person3', 'person4', 'person5'];
-
-    $scope.query = "";
-
-    $scope.returnThis = function() {
-      console.log('querrrryyyy', $scope.query);
-    }
-}])
 
 'use strict';
 
@@ -276,6 +263,19 @@ angular.module('snippit.services', ['snippit'])
 
 'use strict';
 
+angular.module('snippit.search', ['snippit'])
+  .controller('SearchController', ['$scope', function($scope) {
+    $scope.albums = ['person1', 'person2', 'person3', 'person4', 'person5'];
+
+    $scope.query = "";
+
+    $scope.returnThis = function() {
+      console.log('querrrryyyy', $scope.query);
+    }
+}])
+
+'use strict';
+
 angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', function($scope, ThreeFactory, $window, $document, Facebook) {
     
@@ -311,7 +311,7 @@ angular.module('snippit.three', ['snippit'])
       var len = picData.length
 
       for (var i = 0; i < len; i++) {
-        ThreeFactory.createScene(i, picData, scene, $scope.objects, $scope.log);
+        ThreeFactory.createScene(i, picData, scene, $scope.objects, $scope.hit);
         ThreeFactory.table(5, i, $scope.targets.table);
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
         ThreeFactory.helix(1, i, vector, $scope.targets.helix, 0.175, 450, 900, 900, 8);
@@ -337,8 +337,14 @@ angular.module('snippit.three', ['snippit'])
       controls.addEventListener('change', $scope.render);
     };
 
-    $scope.log = function(){
-      console.log(this);
+    $scope.hit = function(){
+      Modal.open({
+         content: "<div class='imageResize'><img src='"+picData[this]+"' /></div>",
+         draggable: false,
+         width: '50%',
+         height: '75%',
+       });
+
     }
 
     $scope.clicked = function(targets){
