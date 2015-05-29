@@ -17,12 +17,17 @@ angular.module('snippit.auth', ['snippit'])
 
       var len = data.length
 
+      var picData = []; 
+      for (var i = 0; i < data.length; i++) {
+        picData.push(data[i].images[5].source);
+      }
+
       for (var i = 0; i < len; i++) {
-        ThreeFactory.createScene(i, data, scene, $scope.objects);
+        ThreeFactory.createScene(i, picData, scene, $scope.objects);
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
       };
 
-      console.log($scope.objects[0].element.innerHTML);
+      console.log($scope.objects[0].element);
 
 
       renderer = new THREE.CSS3DRenderer();

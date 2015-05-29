@@ -9,27 +9,23 @@ angular.module('snippit.three', ['snippit'])
       return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
     }
 
-    $scope.objects = []; // this is a scope object, so we could change it dynamically and it should update, 2-way binding, #amirite? 
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 
-    $scope.changeDynamcally = function(){
-      var len = $scope.objects.length
-      for (var i = 0; i < len; i++) {
-        console.log('THIS ONE', $scope.objects[i]);
-      };
-    }
-
     var init = function(){
+    $scope.objects = []; // this is a scope object, so we could change it dynamically and it should update, 2-way binding, #amirite? 
+    $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
       console.log('INITIATED');
       if(!picData){
-        picData = data;
+        picData = []; 
+        for (var i = 0; i < data.length; i++) {
+          picData.push(data[i].images[5].source);
+        }
       }
 
       if(renderer){
         document.getElementById('container').removeChild(renderer.domElement);
       }
 
-      
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / viewHeight(), 1, 10000);
       camera.position.z = 2500;
       scene = new THREE.Scene();
@@ -48,8 +44,6 @@ angular.module('snippit.three', ['snippit'])
         ThreeFactory.grid(5, i, $scope.targets.grid);
       };
 
-      console.log($scope.objects[0]);
-
       renderer = new THREE.CSS3DRenderer();
       renderer.setSize($window.innerWidth, viewHeight());
       renderer.domElement.style.position = 'absolute';
@@ -57,6 +51,7 @@ angular.module('snippit.three', ['snippit'])
 
       $scope.transform($scope.targets.table, 2000);
 
+      document.getElementById('content').setAttribute('height', viewHeight());
       document.getElementById('container').appendChild(renderer.domElement);
 
       window.addEventListener('resize', onWindowResize, false);
@@ -141,7 +136,7 @@ angular.module('snippit.three', ['snippit'])
       console.log('SENT REQ');
       Facebook.getWallData()
         .then(function(resp){
-          picData = JSON.parse(resp.data);
+          picData = JSON.parse(resp.data).wallPhotos.picture;
           console.log(picData);
           init();
         });
