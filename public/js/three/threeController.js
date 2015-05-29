@@ -9,12 +9,15 @@ angular.module('snippit.three', ['snippit'])
       return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
     }
 
-    $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 
     var init = function(){
+
+      $scope.objects = [];
+      $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
+      
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / viewHeight(), 1, 10000);
-      camera.position.z = 800;
+      camera.position.z = 2500;
       scene = new THREE.Scene();
 
       var vector = new THREE.Vector3();
@@ -117,5 +120,10 @@ angular.module('snippit.three', ['snippit'])
     $scope.render = function(){
       renderer.render(scene, camera);
     };
+
+    $scope.getPics = function(){
+
+    }
+
   }]);
 
