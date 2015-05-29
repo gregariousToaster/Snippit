@@ -18,7 +18,7 @@ angular.module('snippit.services', ['snippit'])
       object.position.z = Math.random() * 4000 - 2000;
       scene.add(object);
 
-      if(click){ 
+      if(click){
         var bound = click.bind(i);
         el.addEventListener('click', bound);
       }
@@ -85,4 +85,20 @@ angular.module('snippit.services', ['snippit'])
       helix: helix,
       grid: grid
     };
-  });
+  })
+  .factory('Facebook', ['$http', function($http) {
+
+    var getWallData = function() {
+      return $http.get('/getFacebookWall');
+    };
+
+    var getAlbumData = function() {
+      return $http.get('/getFacebookAlbums');
+    }
+
+    return {
+      getWallData: getWallData,
+      getAlbumData: getAlbumData
+    };
+  }])
+;
