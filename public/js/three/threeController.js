@@ -1,28 +1,39 @@
 'use strict';
 
 angular.module('snippit.three', ['snippit'])
-  .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', function($scope, ThreeFactory, $window, $document) {
+  .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', function($scope, ThreeFactory, $window, $document, Facebook) {
     
-    var scene, renderer, camera, controls;
+    var scene, renderer, camera, controls, picData;
 
     var viewHeight = function(){
       return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
     }
 
-    $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 
     var init = function(){
+      console.log('INITIATED');
+      if(!picData){
+        picData = data;
+      }
+
+      if(renderer){
+        document.getElementById('container').removeChild(renderer.domElement);
+      }
+
+      $scope.objects = [];
+      $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
+      
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / viewHeight(), 1, 10000);
-      camera.position.z = 800;
+      camera.position.z = 2500;
       scene = new THREE.Scene();
 
       var vector = new THREE.Vector3();
 
-      var len = data.length
+      var len = picData.length
 
       for (var i = 0; i < len; i++) {
-        ThreeFactory.createScene(i, data, scene, $scope.objects, $scope.log);
+        ThreeFactory.createScene(i, picData, scene, $scope.objects, $scope.log);
         ThreeFactory.table(5, i, $scope.targets.table);
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
         ThreeFactory.helix(1, i, vector, $scope.targets.helix, 0.175, 450, 900, 900, 8);
@@ -117,5 +128,16 @@ angular.module('snippit.three', ['snippit'])
     $scope.render = function(){
       renderer.render(scene, camera);
     };
+
+    $scope.getPics = function(){
+      console.log('SENT REQ');
+      Facebook.getWallData()
+        .then(function(resp){
+          picData = JSON.parse(resp.data);
+          console.log(picData);
+          init();
+        });
+    };
+
   }]);
 
