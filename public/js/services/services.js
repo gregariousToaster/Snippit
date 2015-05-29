@@ -10,8 +10,8 @@ angular.module('snippit.services', ['snippit'])
       el.setAttribute('ng-show', 'picData[-1]');
 
       var image = document.createElement('img');
-      // el.innerHTML = '<img ng-src="{{images[' + i + ']}}" ng-show="images[' + i + ']">';
-      image.src = collection[i]; // we could possibly change this to a reference in the scope and change the source dynamically for changes from sets of images
+      image.className = 'picImg';
+      image.src = collection[i];
       el.appendChild(image);
 
 
