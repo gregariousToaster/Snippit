@@ -72,6 +72,9 @@ angular.module('snippit.auth', ['snippit'])
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
       };
 
+      console.log($scope.objects[0].element.innerHTML);
+
+
       renderer = new THREE.CSS3DRenderer();
       renderer.setSize($window.innerWidth, $window.innerHeight);
       renderer.domElement.style.position = 'absolute';
@@ -163,12 +166,13 @@ angular.module('snippit.services', ['snippit'])
   .factory('ThreeFactory', function() {
 
 
-    var createScene = function(i, collection, scene, objects, click){
+    var createScene = function(i, collection, scene, objects, click, sentScope){
       var el = document.createElement('div');
       el.className = 'element';
 
       var image = document.createElement('img');
-      image.src = collection[i].images[5].source;
+      // image.ng-src = sentScope.images[i]
+      image.src = collection[i].images[5].source; // we could possibly change this to a reference in the scope and change the source dynamically for changes from sets of images
       el.appendChild(image);
 
       var object = new THREE.CSS3DObject(el);
@@ -273,7 +277,15 @@ angular.module('snippit.three', ['snippit'])
       return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
     }
 
+    $scope.objects = []; // this is a scope object, so we could change it dynamically and it should update, 2-way binding, #amirite? 
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
+
+    $scope.changeDynamcally = function(){
+      var len = $scope.objects.length
+      for (var i = 0; i < len; i++) {
+        console.log('THIS ONE', $scope.objects[i]);
+      };
+    }
 
     var init = function(){
       console.log('INITIATED');
@@ -285,8 +297,6 @@ angular.module('snippit.three', ['snippit'])
         document.getElementById('container').removeChild(renderer.domElement);
       }
 
-      $scope.objects = [];
-      $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
       
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / viewHeight(), 1, 10000);
       camera.position.z = 2500;
@@ -305,6 +315,8 @@ angular.module('snippit.three', ['snippit'])
         ThreeFactory.helix(3, i, vector, $scope.targets.tripleHelix, 0.1, 450, 500, 500, 50);
         ThreeFactory.grid(5, i, $scope.targets.grid);
       };
+
+      console.log($scope.objects[0]);
 
       renderer = new THREE.CSS3DRenderer();
       renderer.setSize($window.innerWidth, viewHeight());

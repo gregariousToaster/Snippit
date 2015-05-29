@@ -4,12 +4,13 @@ angular.module('snippit.services', ['snippit'])
   .factory('ThreeFactory', function() {
 
 
-    var createScene = function(i, collection, scene, objects, click){
+    var createScene = function(i, collection, scene, objects, click, sentScope){
       var el = document.createElement('div');
       el.className = 'element';
 
       var image = document.createElement('img');
-      image.src = collection[i].images[5].source;
+      // image.ng-src = sentScope.images[i]
+      image.src = collection[i].images[5].source; // we could possibly change this to a reference in the scope and change the source dynamically for changes from sets of images
       el.appendChild(image);
 
       var object = new THREE.CSS3DObject(el);

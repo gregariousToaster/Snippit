@@ -9,7 +9,15 @@ angular.module('snippit.three', ['snippit'])
       return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
     }
 
+    $scope.objects = []; // this is a scope object, so we could change it dynamically and it should update, 2-way binding, #amirite? 
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
+
+    $scope.changeDynamcally = function(){
+      var len = $scope.objects.length
+      for (var i = 0; i < len; i++) {
+        console.log('THIS ONE', $scope.objects[i]);
+      };
+    }
 
     var init = function(){
       console.log('INITIATED');
@@ -21,8 +29,6 @@ angular.module('snippit.three', ['snippit'])
         document.getElementById('container').removeChild(renderer.domElement);
       }
 
-      $scope.objects = [];
-      $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
       
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / viewHeight(), 1, 10000);
       camera.position.z = 2500;
@@ -41,6 +47,8 @@ angular.module('snippit.three', ['snippit'])
         ThreeFactory.helix(3, i, vector, $scope.targets.tripleHelix, 0.1, 450, 500, 500, 50);
         ThreeFactory.grid(5, i, $scope.targets.grid);
       };
+
+      console.log($scope.objects[0]);
 
       renderer = new THREE.CSS3DRenderer();
       renderer.setSize($window.innerWidth, viewHeight());
