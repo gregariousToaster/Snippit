@@ -1,8 +1,8 @@
 //==passport and Oauth
 var FacebookStrategy = require('passport-facebook');
 var configAuth = require('./auth.js');
-var utils = require('../utils.js')
-var Q = require('q')//===
+var utils = require('../utils.js');
+var Q = require('q'); //===
 var User = require('./userModel.js');
 
 
@@ -50,23 +50,23 @@ module.exports = function(passport) {
 
           newUser.save(function(err, result){
             if(err){
-              console.log(err, 'error!')
+              console.log(err, 'error!');
             }else{
-             console.log(result, 'success!!')
+             console.log(result, 'success!!');
              return done(null, result);
             }
           });
         }else{
-          console.log("user found")
-          user.FBtoken = accessToken
+          console.log("user found");
+          user.FBtoken = accessToken;
           user.save(function(err, result){
             if(err){
               console.log(err, 'error on get new token passport line: 63');
             }else{
-              console.log(result.FBtoken, 'successful retoken')
+              console.log(result.FBtoken, 'successful retoken');
               return done(null, user);
             }
-          })
+          });
         }
       });
       // asynchronous verification, for effect...
@@ -77,6 +77,6 @@ module.exports = function(passport) {
         // and return that user instead.
         // return done(null, profile);
 
-  }))
-}
+  }));
+};
 

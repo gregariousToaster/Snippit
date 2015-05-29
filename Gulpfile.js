@@ -45,10 +45,14 @@ gulp.task('start', function () {
     script: 'bin/www',
     ext: 'js html',
     env: { 'NODE_ENV': 'development' },
-    tasks: ['lint', 'scripts', 'styles']
+    tasks: ['default-nodemon']
   });
 });
 
 gulp.task('default', ['clean'], function() {
   gulp.start('scripts', 'styles', 'start'); // took 'lint' out, should go before script
+});
+
+gulp.task('default-nodemon', ['clean'], function() {
+  gulp.start('scripts', 'styles');
 });

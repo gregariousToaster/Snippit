@@ -5,6 +5,7 @@ angular.module('snippit', ['snippit.main',
   'snippit.three',
   'snippit.auth',
   'snippit.search',
+  'snippit.profile',
   'autocomplete',
   'ui.router'
   ])
@@ -23,7 +24,7 @@ angular.module('snippit', ['snippit.main',
         url: '/app',
         templateUrl: 'templates/main.html',
         controller: 'MainController',
-        authenticate: true
+        authenticate: true,
       })
       .state('app.three', {
         url: '/three',
@@ -31,6 +32,19 @@ angular.module('snippit', ['snippit.main',
           'content': {
             templateUrl: 'templates/three.html',
             controller: 'ThreeController'
+          },
+          'search': {
+            templateUrl: 'templates/search.html',
+            controller: 'SearchController'
+          }
+        }
+      })
+      .state('app.profile', {
+        url: '/profile',
+        views: {
+          'content': {
+            templateUrl: 'templates/profile.html',
+            controller: 'ProfileController'
           }
         }
       })
@@ -38,11 +52,6 @@ angular.module('snippit', ['snippit.main',
         url: '/signin',
         templateUrl: 'templates/signin.html',
         controller: 'AuthController',
-      })
-      .state('search', {
-        url: '/search',
-        templateUrl: 'templates/search.html',
-        controller: 'SearchController',
       });
     $urlRouterProvider.otherwise('/app/three');
   }]);
