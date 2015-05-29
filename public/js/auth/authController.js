@@ -7,6 +7,7 @@ angular.module('snippit.auth', ['snippit'])
 
     $scope.objects = [];
     $scope.targets = {sphere: []};
+    var t = 0;
 
     var init = function(){
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / $window.innerHeight, 1, 10000);
@@ -81,8 +82,19 @@ angular.module('snippit.auth', ['snippit'])
 
 
     var animate = function() {
+      console.log(animate);
       requestAnimationFrame(animate);
       TWEEN.update();
+      t+=0.001;
+      // console.log("camera position x", camera.position.x);
+      // console.log("camera position z", camera.position.z);
+      camera.position.x= 3000*Math.sin(t);
+      camera.position.z=3000*Math.cos(t);
+      // camera.position.y=3000*Math.cos(t*3)
+
+      camera.up = new THREE.Vector3(0,1,0);
+      camera.lookAt(new THREE.Vector3(0,0,0));
+      $scope.render();
     };
 
     angular.element(document).ready(function () {

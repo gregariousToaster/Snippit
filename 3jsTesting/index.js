@@ -190,9 +190,7 @@ function animate() {
   t+=0.001;
   camera.position.x= 3000*Math.sin(t);
   camera.position.z=3000*Math.cos(t);
-  //include these if there are no orbitcontrols
-  // camera.up = new THREE.Vector3(0,0,1);
-  // camera.lookAt(new THREE.Vector3(0,0,0));
+
   
 };
 

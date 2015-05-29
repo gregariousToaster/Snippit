@@ -57,6 +57,7 @@ angular.module('snippit.auth', ['snippit'])
 
     $scope.objects = [];
     $scope.targets = {sphere: []};
+    var t = 0;
 
     var init = function(){
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / $window.innerHeight, 1, 10000);
@@ -131,8 +132,19 @@ angular.module('snippit.auth', ['snippit'])
 
 
     var animate = function() {
+      console.log(animate);
       requestAnimationFrame(animate);
       TWEEN.update();
+      t+=0.01;
+      // console.log("camera position x", camera.position.x);
+      // console.log("camera position z", camera.position.z);
+      camera.position.x= 3000*Math.sin(t);
+      camera.position.z=3000*Math.cos(t);
+      camera.position.y=3000*Math.cos(t*3)
+
+      camera.up = new THREE.Vector3(0,1,0);
+      camera.lookAt(new THREE.Vector3(0,0,0));
+      $scope.render();
     };
 
     angular.element(document).ready(function () {
@@ -152,6 +164,19 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
   .controller('MainController', ['Facebook', '$scope', '$window', function(Facebook, $scope, $window) {
       // document.getElementById('content').setAttribute('height', $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight));
   }]);
+
+'use strict';
+
+angular.module('snippit.search', ['snippit'])
+  .controller('SearchController', ['$scope', function($scope) {
+    $scope.albums = ['person1', 'person2', 'person3', 'person4', 'person5'];
+
+    $scope.query = "";
+
+    $scope.returnThis = function() {
+      console.log('querrrryyyy', $scope.query);
+    }
+}])
 
 'use strict';
 
@@ -260,19 +285,6 @@ angular.module('snippit.services', ['snippit'])
     };
   }])
 ;
-
-'use strict';
-
-angular.module('snippit.search', ['snippit'])
-  .controller('SearchController', ['$scope', function($scope) {
-    $scope.albums = ['person1', 'person2', 'person3', 'person4', 'person5'];
-
-    $scope.query = "";
-
-    $scope.returnThis = function() {
-      console.log('querrrryyyy', $scope.query);
-    }
-}])
 
 'use strict';
 
