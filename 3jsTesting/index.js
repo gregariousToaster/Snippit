@@ -3,6 +3,7 @@ var camera, scene, renderer, controls;
 var view = 'table';
 var objects = [];
 var targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
+var t =0;
 
 init();
 animate();
@@ -185,6 +186,12 @@ function animate() {
   if(controls){
     controls.update();
   }
+  // z = r cos(t)    x = r sin(t)
+  t+=0.001;
+  camera.position.x= 3000*Math.sin(t);
+  camera.position.z=3000*Math.cos(t);
+
+  
 };
 
 function render() {
