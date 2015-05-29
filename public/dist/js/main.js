@@ -68,7 +68,7 @@ angular.module('snippit.auth', ['snippit'])
 
       var len = data.length
 
-      var picData = []; 
+      var picData = [];
       for (var i = 0; i < data.length; i++) {
         picData.push(data[i].images[5].source);
       }
@@ -290,7 +290,7 @@ angular.module('snippit.services', ['snippit'])
 
 angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', function($scope, ThreeFactory, $window, $document, Facebook) {
-    
+
     var scene, renderer, camera, controls, picData;
 
     var viewHeight = function(){
@@ -300,11 +300,11 @@ angular.module('snippit.three', ['snippit'])
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 
     var init = function(){
-    $scope.objects = []; // this is a scope object, so we could change it dynamically and it should update, 2-way binding, #amirite? 
+    $scope.objects = []; // this is a scope object, so we could change it dynamically and it should update, 2-way binding, #amirite?
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
       console.log('INITIATED');
       if(!picData){
-        picData = []; 
+        picData = [];
         for (var i = 0; i < data.length; i++) {
           picData.push(data[i].images[5].source);
         }
@@ -437,4 +437,3 @@ angular.module('snippit.three', ['snippit'])
     };
 
   }]);
-
