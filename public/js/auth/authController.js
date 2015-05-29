@@ -83,10 +83,6 @@ angular.module('snippit.auth', ['snippit'])
     });
 
     $scope.render = function(){
-      // var timer = Date.now() * 0.0002;
-      // camera.position.x = Math.cos( timer ) * 3000;
-      // camera.position.z = Math.sin( timer ) * 3000;
-      // camera.lookAt(scene.position);
       renderer.render(scene, camera);
     };
 
