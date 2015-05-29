@@ -35,7 +35,7 @@ angular.module('snippit.three', ['snippit'])
       var len = picData.length
 
       for (var i = 0; i < len; i++) {
-        ThreeFactory.createScene(i, data, scene, $scope.objects, $scope.hit);
+        ThreeFactory.createScene(i, picData, scene, $scope.objects, $scope.hit);
         ThreeFactory.table(5, i, $scope.targets.table);
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
         ThreeFactory.helix(1, i, vector, $scope.targets.helix, 0.175, 450, 900, 900, 8);
@@ -63,7 +63,7 @@ angular.module('snippit.three', ['snippit'])
 
     $scope.hit = function(){
       Modal.open({
-         content: "<div class='imageResize'><img src='"+picData[this].source+"' /></div>",
+         content: "<div class='imageResize'><img src='"+picData[this]+"' /></div>",
          draggable: false,
          width: '50%',
          height: '75%',
