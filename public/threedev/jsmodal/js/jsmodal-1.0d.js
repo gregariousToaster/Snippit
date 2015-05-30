@@ -57,6 +57,7 @@ var Modal = (function () {
             centerModal = function () {
                 method.center({});
             };
+            centerModal();
 
             if (parameters.content && !parameters.ajaxContent) {
                 modalContent.innerHTML = parameters.content;
@@ -70,7 +71,7 @@ var Modal = (function () {
             }
 
             modalContainer.style.width = settings.width;
-            modalContainer.style.height = settings.height;
+            // modalContainer.style.height = settings.height;
 
             method.center({});
 
@@ -231,21 +232,22 @@ var Modal = (function () {
             var documentHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
 
                 modalWidth = Math.max(modalContainer.clientWidth, modalContainer.offsetWidth),
-                modalHeight = Math.max(modalContainer.clientHeight, modalContainer.offsetHeight),
+                // modalHeight = Math.max(modalContainer.clientHeight, modalContainer.offsetHeight),
 
                 browserWidth = 0,
-                browserHeight = 0,
+                // browserHeight = 0,
 
                 amountScrolledX = 0,
                 amountScrolledY = 0;
 
             if (typeof (window.innerWidth) === 'number') {
                 browserWidth = window.innerWidth;
-                browserHeight = window.innerHeight;
+                // browserHeight = window.innerHeight;
             } else if (document.documentElement && document.documentElement.clientWidth) {
                 browserWidth = document.documentElement.clientWidth;
-                browserHeight = document.documentElement.clientHeight;
+                // browserHeight = document.documentElement.clientHeight;
             }
+            // console.log(browserHeight, browserWidth)
 
             if (typeof (window.pageYOffset) === 'number') {
                 amountScrolledY = window.pageYOffset;
@@ -259,12 +261,12 @@ var Modal = (function () {
             }
 
             if (!parameters.horizontalOnly) {
-                modalContainer.style.top = amountScrolledY + (browserHeight / 2) - (modalHeight / 2) + 'px';
+                // modalContainer.style.top = amountScrolledY + (browserHeight / 2) - (modalHeight / 2) + 'px';
             }
 
             modalContainer.style.left = amountScrolledX + (browserWidth / 2) - (modalWidth / 2) + 'px';
 
-            modalOverlay.style.height = documentHeight + 'px';
+            // modalOverlay.style.height = documentHeight + 'px';
             modalOverlay.style.width = '100%';
         };
 
