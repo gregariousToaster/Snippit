@@ -84,8 +84,9 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
   //       console.log(user.data)
 
 
-  //       console.log(user.data[album.name] = 5)
-  //       console.log(user.data, "am I set up?")
+
+        // console.log(user.data[album.name] = 5)
+        // console.log(user.data, "am I set up?")
         var temp ={};
         temp[album.name] = [];
         _.each(JSON.parse(data).data, function(photo){
