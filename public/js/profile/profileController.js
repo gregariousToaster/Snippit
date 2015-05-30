@@ -13,10 +13,10 @@ angular.module('snippit.profile', ['snippit'])
     $scope.parse = null;
 
     // This function is invoked every time an album name is clicked on the
-    // profile page. It passes the Facebook getAlbumPhotos method the name
-    // and ID of the clicked album, which returns a promise. Upon success,
-    // we are given a response, which are the photos for that specific Facebook
-    // album. We then parse the data and push it to $scope.albumPhotos.
+    // profile page. It passes the Facebook service's getAlbumPhotos method
+    // the name and ID of the clicked album, which returns a promise. Upon
+    // success, we are given a response, which are the photos for that specific
+    // Facebook album. We then parse the data and push it to $scope.albumPhotos.
     $scope.albumClick = function(name, id) {
       $scope.albumPhotos = [];
       Facebook.getAlbumPhotos(name, id).success(function(resp) {
@@ -28,7 +28,7 @@ angular.module('snippit.profile', ['snippit'])
       });
     };
 
-    // This function is invoked on initialize of this controller. It fetches
+    // This function is invoked on initialization of this controller. It fetches
     // the album names for the logged in Facebook user, which allows them to
     // select an album to fetch photos from.
     $scope.init = function() {
