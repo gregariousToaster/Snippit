@@ -9,10 +9,10 @@ body {
 }
 .facebook {
   background: rgba( 255, 255, 255, .2);
-  color: #666;
+  color: #fff;
   border-radius: 5px;
   text-decoration: none;
-  border: 2px solid #666;
+  border: 2px solid #fff;
   padding: 15px;
 }
 .getPics{
