@@ -15,16 +15,15 @@ mongoose.connect('mongodb://localhost/GregariousToaster');
 var session = require('express-session');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 
-//==api requests
+//api requests
 var utils = require('./server/utils.js');
 var api = require('./server/APIrequests.js');
-//===
+
 var app = express();
 
-
-require('./server/config/passport.js')(passport); // pass passport for configuration
+// pass passport for configuration
+require('./server/config/passport.js')(passport);
 
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -32,7 +31,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-//===
 
 //passport Oauth
 app.use(session({ secret: 'keyboard cat' }));
@@ -40,11 +38,9 @@ app.use(session({ secret: 'keyboard cat' }));
 // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
-//===
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes(passport));
-// app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -70,9 +66,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   console.log('ERROR', err.message,'  ', err);
 });
-
-
-// utils.handleFacebookData();
-
 
 module.exports = app;
