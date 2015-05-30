@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('snippit.profile', ['snippit'])
-  .controller('ProfileController', ['$scope', 'Facebook', '$window', function($scope, Facebook, $window) {
+  .controller('ProfileController', ['$scope', 'Facebook', function($scope, Facebook) {
 
     // Album names
     $scope.albumNames = [];
@@ -9,12 +9,8 @@ angular.module('snippit.profile', ['snippit'])
     // Album photos
     $scope.albumPhotos = [];
 
-    var viewHeight = function(){
-      var height = window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
-      
-      angular.element(document.getElementsByClassName('albumView')[0])
-      .attr('height', height);
-    }();
+    // Snip photos
+    $scope.snipPhotos = [];
 
     // Parsed data
     $scope.parse = null;
@@ -30,6 +26,7 @@ angular.module('snippit.profile', ['snippit'])
         var parse = JSON.parse(resp);
         console.log(parse);
         for (var key in parse) {
+          console.log('KEY: ', parse[key]); // If we could get an image ID we could probably add and remove to a snip item with more ease
           for (var i = parse[key].length - 1; i >= 0; i--) {
             $scope.albumPhotos.push({
               src: parse[key][i],
@@ -41,8 +38,20 @@ angular.module('snippit.profile', ['snippit'])
       });
     };
 
-    $scope.checkToggle = function(pic){
-      pic.checked = !pic.checked;
+    $scope.checkOn = function(pic) {
+      console.log('PICTURE', pic);
+      $scope.snipPhotos.push(pic);
+      pic.checked = true;
+    };
+    $scope.checkOff = function(pic) {
+      console.log('PICTURE', pic);
+      for (var i = 0; i < $scope.snipPhotos.length; i++) {
+        if ($scope.snipPhotos[i].src === pic.src) {
+          $scope.snipPhotos.splice(i, 1);
+          break;
+        };
+      };
+      pic.checked = false;
     };
 
     // This function is invoked on initialization of this controller. It fetches

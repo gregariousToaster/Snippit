@@ -15,13 +15,15 @@ angular.module('snippit', ['snippit.main',
   // redirects them to the 'signin' state if they're not authenticated. This
   // happens on any state change.
   .run(['$rootScope', '$location', '$http', function($rootScope, $location, $http) {
-    $rootScope.$on('$stateChangeStart', function() {
-      $http.get('/auth/isAuthenticated').success(function(resp) {
-        console.log('checking auth...');
-        if (!resp.auth) {
-          $location.path('/signin');
-        }
-      });
+    $rootScope.$on('$stateChangeStart', function(e, toState) {
+      if (toState && toState.authenticate) {
+        $http.get('/auth/isAuthenticated').success(function(resp) {
+          console.log('checking auth...');
+          if (!resp.auth) {
+            $location.path('/signin');
+          }
+        });
+      }
     });
   }])
   // Configures the various states for the application.
@@ -31,7 +33,7 @@ angular.module('snippit', ['snippit.main',
         url: '/app',
         templateUrl: 'templates/main.html',
         controller: 'MainController',
-        authenticate: true,
+        authenticate: true
       })
       .state('app.three', {
         url: '/three',
@@ -44,7 +46,8 @@ angular.module('snippit', ['snippit.main',
             templateUrl: 'templates/search.html',
             controller: 'SearchController'
           }
-        }
+        },
+        authenticate: true
       })
       .state('app.profile', {
         url: '/profile',
@@ -53,7 +56,8 @@ angular.module('snippit', ['snippit.main',
             templateUrl: 'templates/profile.html',
             controller: 'ProfileController'
           }
-        }
+        },
+        authenticate: true
       })
       .state('signin', {
         url: '/signin',

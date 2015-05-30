@@ -6,10 +6,13 @@
     <button class="snip" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)"> {{ album.name }} </button>
   </div>
 </div>
-<div class="albumView">
-
-  <div ng-repeat="pic in albumPhotos" class="picture">
-    <img ng-src="{{pic.src}}" ng-class="{highlighted: pic.checked}" ng-click="checkToggle(pic)">
+<div id="snipView" class="grid" ng-show="snipPhotos.length > 0">
+  <div ng-repeat="pic in snipPhotos" class="picture">
+    <img ng-src="{{pic.src}}" ng-click="checkOff(pic)">
   </div>
-
+</div>
+<div id="albumView" class="grid">
+  <div ng-repeat="pic in albumPhotos" class="picture" ng-show="!pic.checked">
+    <img ng-src="{{pic.src}}" ng-click="checkOn(pic)">
+  </div>
 </div>

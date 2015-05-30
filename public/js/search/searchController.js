@@ -13,5 +13,4 @@ angular.module('snippit.search', ['snippit'])
     $scope.requestAlbumData = function() {
       console.log('querrrryyyy', $scope.query);
     };
-
-}]);
+  }]);

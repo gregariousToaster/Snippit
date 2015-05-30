@@ -170,21 +170,32 @@ h2{
 .profilePic img{
   width: 100%;
 }
-.albumView{
+#albumView{
   width: 80%;
   float: right;
   padding: 5px;
 }
+#snipView{
+  background-color: #aaa;
+  width: 80%;
+  float: right;
+  padding: 5px;
+}
+.grid{
+  -webkit-column-count: 5;
+  -webkit-column-gap: 0px;
+  -moz-column-count: 5;
+  -moz-column-gap: 0px;
+  column-count: 5;
+  column-gap: 0px;
+}
 .picture{
   float: left;
-  width: 20%;
+  width: 100%;
   padding: 5px;
 }
 .picture img{
   width: 100%;
   border-radius: 5px;
   box-shadow: 0 0 5px #888;
-}
-.highlighted{
-  border: 2px solid red;
 }
