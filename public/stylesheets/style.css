@@ -150,6 +150,7 @@ h2{
 
 .profile {
   width: 20%;
+  float: left;
   background: #e6e6e6;
   text-align: center;
 }
@@ -167,5 +168,15 @@ h2{
   outline: none;
 }
 .profilePic img{
+  width: 100%;
+}
+.albumView{
+  width: 80%;
+  float: right;
+}
+.picture{
+  width: 20%;
+}
+.picture img{
   width: 100%;
 }
