@@ -6,8 +6,8 @@ angular.module('snippit.services', ['snippit'])
     // This is a helper function that creates a CSS3D object
     // to be added to  a THREE.js. It takes an iteration count,
     // a collection of image sources, a THREE.js scene,
-    // an array to save the object in, and a function to be called on each click. 
-    var createObject = function(i, collection, scene, objects, click){
+    // an array to save the object in, and a function to be called on each click.
+    var createObject = function(i, collection, scene, objects, click) {
       var el = document.createElement('div');
       el.className = 'element';
       el.setAttribute('ng-show', 'picData[-1]');
@@ -24,7 +24,7 @@ angular.module('snippit.services', ['snippit'])
       object.position.z = Math.random() * 4000 - 2000;
       scene.add(object);
 
-      if(click){
+      if (click) {
         var bound = click.bind(i);
         el.addEventListener('click', bound);
       }
@@ -34,7 +34,7 @@ angular.module('snippit.services', ['snippit'])
 
     // This is a helper function to create the position necessary for the table shape.
     // It takes a number denoting the columns, an iterator, and a target array to push the object positions into.
-    var table = function(n, i, target){
+    var table = function(n, i, target) {
       var object = new THREE.Object3D();
       object.position.x = ((i % n) * 140) - 280;
       object.position.y = -((Math.floor(i / n) + 1) * 180) + 540;
@@ -44,7 +44,7 @@ angular.module('snippit.services', ['snippit'])
     // This is a helper function to create the position necessary for the sphere shape.
     // It takes an iterator, a vector to lookat, a target array to push the object positions into,
     // a radius, and the number of nodes to be in the sphere.
-    var sphere = function(i, vector, target, r, n){
+    var sphere = function(i, vector, target, r, n) {
       var phi = Math.acos(-1 + (2 * i) / n);
       var theta = Math.sqrt(n * Math.PI) * phi;
 
@@ -65,9 +65,9 @@ angular.module('snippit.services', ['snippit'])
     // It takes a number denoting the strings, an iterator, a vector to lookat,
     // a target array to push the object positions into, a spacing variable, the offset,
     // an X radius, a Z radius,and the step height.
-    var helix = function(n, i, vector, target, spacing, offset, xRad, zRad, step){
+    var helix = function(n, i, vector, target, spacing, offset, xRad, zRad, step) {
       var object = new THREE.Object3D();
-      var phi = i * spacing + (i % n)/n * (Math.PI * 2);
+      var phi = i * spacing + (i % n) / n * (Math.PI * 2);
 
       object.position.x = xRad * Math.sin(phi);
       object.position.y = -(i * step) + offset;
@@ -84,7 +84,7 @@ angular.module('snippit.services', ['snippit'])
     // This is a helper function to create the position necessary for the grid shapes.
     // It takes a number denoting the columns and rows, an iterator,
     // and a target array to push the object positions into.
-    var grid = function(n, i, target){
+    var grid = function(n, i, target) {
       var object = new THREE.Object3D();
 
       object.position.x = ((i % n) * 400) - 800;
