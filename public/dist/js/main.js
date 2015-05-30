@@ -184,6 +184,8 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
 angular.module('snippit.profile', ['snippit'])
   .controller('ProfileController', ['$scope', 'Facebook', function($scope, Facebook) {
 
+    $scope.snipTab = false;
+
     // Album names
     $scope.albumNames = [];
 
@@ -195,6 +197,14 @@ angular.module('snippit.profile', ['snippit'])
 
     // Parsed data
     $scope.parse = null;
+
+    $scope.showAlbums = function(){
+      $scope.snipTab = false;
+    }
+
+    $scope.showSnips = function(){
+      $scope.snipTab = true;
+    }
 
     // This function is invoked every time an album name is clicked on the
     // profile page. It passes the Facebook service's getAlbumPhotos method
