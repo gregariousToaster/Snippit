@@ -33,7 +33,7 @@ h2{
   z-index: -1;
 }
 #signin div div .element{
-  -webkit-filter: blur(10px);
+  -webkit-filter: blur(7px);
 }
 .viewSelect{
   width: 16.666%;
