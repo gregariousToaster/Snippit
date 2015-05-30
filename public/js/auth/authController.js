@@ -19,15 +19,15 @@ angular.module('snippit.auth', ['snippit'])
       var len = 60
 
       var picData = []; 
-      for (var i = 0; i < data.length; i++) {
+      for (var i = 0; i < len; i++) {
         picData.push(data[i].images[6].source);
       }
 
       for (var i = 0; i < len; i++) {
         ThreeFactory.createScene(i, picData, scene, $scope.objects);
         // var helix = function(n, i, vector, target, spacing, offset, xRad, zRad, step)
-        ThreeFactory.helix(2, i, vector, $scope.targets.sphere, 0.175, 900, 500, 500, 50)
-        // ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
+        // ThreeFactory.helix(2, i, vector, $scope.targets.sphere, 0.175, 900, 500, 500, 50)
+        ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
       };
 
       console.log($scope.objects[0].element);
