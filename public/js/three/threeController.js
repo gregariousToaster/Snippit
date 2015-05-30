@@ -56,7 +56,8 @@ angular.module('snippit.three', ['snippit'])
          content: "<div class='imageResize'><img src='"+data[this].source+"' /></div>",
          draggable: false,
          width: 'auto',
-         hideClose: true
+         context: this
+         // hideClose: true
        });
     }
 

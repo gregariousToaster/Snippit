@@ -25,6 +25,7 @@ var Modal = (function () {
             modalHeader = document.createElement('div'),
             modalContent = document.createElement('div'),
             modalClose = document.createElement('div'),
+            modalBack = document.createElement('div'),
 
             centerModal,
 
@@ -53,6 +54,7 @@ var Modal = (function () {
             settings.closeCallback = parameters.closeCallback || defaultSettings.closeCallback;
             settings.openCallback = parameters.openCallback || defaultSettings.openCallback;
             settings.hideOverlay = parameters.hideOverlay || defaultSettings.hideOverlay;
+            settings.context = parameters.context
 
             centerModal = function () {
                 method.center({});
@@ -85,23 +87,46 @@ var Modal = (function () {
 
             document.onkeypress = function (e) {
                 if (e.keyCode === 27 && settings.lock !== true) {
-                    method.close();
+                  method.close();
+                // }else if (e.keyCode === 39){
+                //   settings.context -= 1;
+                //   document.querySelector('.imageResize').innerHTML = "<img src='"+data[settings.context].source+"' />";
+                //   e.stopPropagation()
+                // }else if(e.keyCode === 37) {
+                //   settings.context += 1;
+                //   document.querySelector('.imageResize').innerHTML = "<img src='"+data[settings.context].source+"' />";
+                //   e.stopPropagation()
+                //     //left
                 }
             };
 
-            modalClose.onclick = function () {
+
+            // var bool = false
+            modalClose.onclick = function (e) {
+                // bool = true
+
                 if (!settings.hideClose) {
-                    method.close();
+                    settings.context += 1;
+                    document.querySelector('.imageResize').innerHTML = "<img src='"+data[settings.context].source+"' />";
+                    e.stopPropagation()
                 } else {
                     return false;
                 }
             };
-            modalOverlay.onclick = function () {
-                if (!settings.lock) {
+
+            modalBack.onclick = function(e){
+                settings.context -= 1;
+                document.querySelector('.imageResize').innerHTML = "<img src='"+data[settings.context].source+"' />";
+                e.stopPropagation()
+            }
+
+            modalOverlay.onclick = function (e) {
+                console.log("but too real")
+                // if (!bool) {
                     method.close();
-                } else {
-                    return false;
-                }
+                // } else {
+                    // return false;
+                // }
             };
 
             if (window.addEventListener) {
@@ -211,6 +236,9 @@ var Modal = (function () {
             modalHeader.style.cursor = 'default';
             modalClose.setAttribute('style', '');
             modalClose.style.cssText = '';
+            modalBack.setAttribute('style', '');
+            modalBack.style.cssText = '';
+
 
             if (closeModalEvent) {
                 window.clearTimeout(closeModalEvent);
@@ -275,10 +303,14 @@ var Modal = (function () {
         modalContainer.setAttribute('id', 'modal-container');
         modalHeader.setAttribute('id', 'modal-header');
         modalContent.setAttribute('id', 'modal-content');
-        modalClose.setAttribute('id', 'modal-close');
-        modalHeader.appendChild(modalClose);
+        modalClose.setAttribute('id', 'modal-next');
+
+        modalBack.setAttribute('id', 'modal-back');
+
         modalContainer.appendChild(modalHeader);
         modalContainer.appendChild(modalContent);
+        modalOverlay.appendChild(modalClose);
+        modalOverlay.appendChild(modalBack);
 
         modalOverlay.style.visibility = 'hidden';
         modalContainer.style.visibility = 'hidden';

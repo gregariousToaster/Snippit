@@ -37,7 +37,7 @@
   clear: both;
 }
 
-#modal-close {
+#modal-next {
   background: #fff url('../images/jsmodal/modal-close.png') no-repeat center center;
   cursor: pointer;
   display: block;
@@ -49,6 +49,21 @@
   float: right;
   height: 20px;
   width: 20px;
+}
+
+#modal-back{
+  background: #fff url('../images/jsmodal/modal-close-reverse.png') no-repeat center center;
+  cursor: pointer;
+  display: block;
+  filter: alpha(opacity=60);
+  -moz-opacity: 0.6;
+  -webkit-opacity: 0.6;
+  -ms-filter: alpha(opacity=60);
+  opacity: 0.6;
+  float: left;
+  height: 20px;
+  width: 20px;
+
 }
 #modal-close:hover {
   filter: alpha(opacity=100);
