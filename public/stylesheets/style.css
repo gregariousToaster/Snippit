@@ -180,6 +180,25 @@ h2{
   float: right;
   padding: 5px;
 }
+.add {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  font-size: 1.5em;
+  background: #e6e6e6;
+  text-align: center;
+  cursor: pointer;
+}
+.add:hover{
+  background: #ccc;
+}
+.add:focus{
+  outline: none;
+}
 .grid{
   -webkit-column-count: 5;
   -webkit-column-gap: 0px;
