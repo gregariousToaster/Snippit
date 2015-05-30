@@ -63,12 +63,11 @@ angular.module('snippit.three', ['snippit'])
 
     $scope.hit = function(){
       Modal.open({
-         content: "<div class='imageResize'><img src='"+picData[this]+"' /></div>",
+         content: "<div class='imageResize'><img src='"+data[this].source+"' /></div>",
          draggable: false,
-         width: '50%',
-         height: '75%',
+         width: 'auto',
+         hideClose: true
        });
-
     }
 
     $scope.clicked = function(targets){
