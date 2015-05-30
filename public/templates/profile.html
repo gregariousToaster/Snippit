@@ -1,8 +1,14 @@
 <div class="profile">
   <div class="profilePic"><img src="/images/photo.png" /></div>
   <h1>Hello, First Last</h1>
-  <div>Your albums</div>
-  <div class="albums">
+  <div class="tabs">
+    <div ng-click="showAlbums()">Albums</div>
+    <div ng-click="showSnips()">Snips</div>
+  </div>
+  <div class="snips" ng-show="snipTab">
+    <button class="snip" ng-repeat="snip in snipNames" ng-click="snipClick(snip.name, snip.id)"> {{ snip.name }} </button>
+  </div>
+  <div class="albums" ng-show="!snipTab">
     <button class="snip" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)"> {{ album.name }} </button>
   </div>
 </div>
