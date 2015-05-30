@@ -84,7 +84,7 @@ angular.module('snippit.auth', ['snippit'])
       timer += 0.001;
       camera.position.x = 3000 * Math.sin(timer);
       camera.position.z = 3000 * Math.cos(timer);
-      camera.position.y = 3000 * Math.cos(timer * 3);
+      // camera.position.y = 3000 * Math.cos(timer * 3);
 
       camera.up = new THREE.Vector3(0, 1, 0);
       camera.lookAt(new THREE.Vector3(0, 0, 0));
