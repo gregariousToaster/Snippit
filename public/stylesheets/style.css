@@ -173,10 +173,18 @@ h2{
 .albumView{
   width: 80%;
   float: right;
+  padding: 5px;
 }
 .picture{
+  float: left;
   width: 20%;
+  padding: 5px;
 }
 .picture img{
   width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #888;
+}
+.highlighted{
+  border: 2px solid red;
 }
