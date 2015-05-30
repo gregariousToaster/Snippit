@@ -24,9 +24,7 @@ angular.module('snippit.auth', ['snippit'])
       }
 
       for (var i = 0; i < len; i++) {
-        ThreeFactory.createScene(i, picData, scene, $scope.objects);
-        // var helix = function(n, i, vector, target, spacing, offset, xRad, zRad, step)
-        // ThreeFactory.helix(2, i, vector, $scope.targets.sphere, 0.175, 900, 500, 500, 50)
+        ThreeFactory.createObject(i, picData, scene, $scope.objects);
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
       };
 
