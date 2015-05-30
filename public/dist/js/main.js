@@ -1,3 +1,366 @@
+'use strict';
+
+angular.module('snippit', ['snippit.main',
+  'snippit.services',
+  'snippit.three',
+  'snippit.auth',
+  'snippit.search',
+  'snippit.profile',
+  'autocomplete',
+  'ui.router'
+  ])
+  // This run block checks whether the user is authenticated or not by making
+  // a get request to the '/auth/isAuthenticated' route and upon a successful
+  // request, checks the response to see if the user is authenticated and
+  // redirects them to the 'signin' state if they're not authenticated. This
+  // happens on any state change.
+  .run(['$rootScope', '$location', '$http', function($rootScope, $location, $http) {
+    $rootScope.$on('$stateChangeStart', function() {
+      $http.get('/auth/isAuthenticated').success(function(resp) {
+        console.log('checking auth...');
+        if (!resp.auth) {
+          $location.path('/signin');
+        }
+      });
+    });
+  }])
+  // Configures the various states for the application.
+  .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+      .state('app', {
+        url: '/app',
+        templateUrl: 'templates/main.html',
+        controller: 'MainController',
+        authenticate: true,
+      })
+      .state('app.three', {
+        url: '/three',
+        views: {
+          'content': {
+            templateUrl: 'templates/three.html',
+            controller: 'ThreeController'
+          },
+          'search': {
+            templateUrl: 'templates/search.html',
+            controller: 'SearchController'
+          }
+        }
+      })
+      .state('app.profile', {
+        url: '/profile',
+        views: {
+          'content': {
+            templateUrl: 'templates/profile.html',
+            controller: 'ProfileController'
+          }
+        }
+      })
+      .state('signin', {
+        url: '/signin',
+        templateUrl: 'templates/signin.html',
+        controller: 'AuthController',
+      });
+    // If a requested state is invalid, it will redirect to the three state
+    $urlRouterProvider.otherwise('/app/three');
+  }]);
+
+
+'use strict';
+
+angular.module('snippit.auth', ['snippit'])
+  .controller('AuthController', ['$scope', '$window', 'ThreeFactory', function($scope, $window, ThreeFactory) {
+
+    var scene, renderer, camera;
+
+    $scope.objects = [];
+    $scope.targets = {sphere: []};
+    var t = 0;
+
+    var init = function(){
+      camera = new THREE.PerspectiveCamera(30, $window.innerWidth / $window.innerHeight, 1, 10000);
+      camera.position.z = 3000;
+      scene = new THREE.Scene();
+
+      var vector = new THREE.Vector3();
+
+      var len = 60
+
+      var picData = []; 
+      for (var i = 0; i < len; i++) {
+        picData.push(data[i].images[6].source);
+      }
+
+      for (var i = 0; i < len; i++) {
+        ThreeFactory.createScene(i, picData, scene, $scope.objects);
+        // var helix = function(n, i, vector, target, spacing, offset, xRad, zRad, step)
+        // ThreeFactory.helix(2, i, vector, $scope.targets.sphere, 0.175, 900, 500, 500, 50)
+        ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
+      };
+
+      console.log($scope.objects[0].element);
+
+
+      renderer = new THREE.CSS3DRenderer();
+      renderer.setSize($window.innerWidth, $window.innerHeight);
+      renderer.domElement.style.position = 'absolute';
+      renderer.domElement.classList.add('render');
+
+      $scope.transform($scope.targets.sphere, 2000);
+
+      document.getElementById('signin').appendChild(renderer.domElement);
+
+      window.addEventListener('resize', onWindowResize, false);
+    };
+
+    $scope.transform = function(targets, duration) {
+
+      TWEEN.removeAll();
+
+      for (var i = 0; i < $scope.objects.length; i++) {
+        var object = $scope.objects[i];
+        var target = targets[i];
+
+        new TWEEN.Tween(object.position)
+          .to({x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration * 10 + duration +3000)
+          .easing(TWEEN.Easing.Exponential.InOut)
+          .start();
+
+        new TWEEN.Tween(object.rotation)
+          .to({x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration * 10 + duration + 3000)
+          .easing(TWEEN.Easing.Exponential.InOut)
+          .start();
+      }
+
+
+      new TWEEN.Tween(this)
+        .to({}, duration * 5)
+        .onUpdate($scope.render)
+        .start();
+    };
+
+
+    var onWindowResize = function() {
+
+      camera.aspect = window.innerWidth / $window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(window.innerWidth, $window.innerHeight);
+
+      $scope.render();
+    };
+
+
+    var animate = function() {
+      console.log(animate);
+      requestAnimationFrame(animate);
+      TWEEN.update();
+      t+=0.001;
+      // console.log("camera position x", camera.position.x);
+      // console.log("camera position z", camera.position.z);
+      camera.position.x= 3000*Math.sin(t);
+      camera.position.z=3000*Math.cos(t);
+      // camera.position.y=3000*Math.cos(t*3)
+
+      camera.up = new THREE.Vector3(0,1,0);
+      camera.lookAt(new THREE.Vector3(0,0,0));
+      $scope.render();
+    };
+
+    angular.element(document).ready(function () {
+      init();
+      animate();
+    });
+
+    $scope.render = function(){
+      renderer.render(scene, camera);
+    };
+
+  }]);
+
+'use strict';
+
+angular.module('snippit.main', ['snippit', 'snippit.services'])
+  .controller('MainController', ['Facebook', '$scope', '$window', function(Facebook, $scope, $window) {
+  }]);
+
+'use strict';
+
+angular.module('snippit.profile', ['snippit'])
+  .controller('ProfileController', ['$scope', 'Facebook', function($scope, Facebook) {
+
+    // Album names
+    $scope.albumNames = [];
+
+    // Album photos
+    $scope.albumPhotos = [];
+
+    // Parsed data
+    $scope.parse = null;
+
+    // This function is invoked every time an album name is clicked on the
+    // profile page. It passes the Facebook service's getAlbumPhotos method
+    // the name and ID of the clicked album, which returns a promise. Upon
+    // success, we are given a response, which are the photos for that specific
+    // Facebook album. We then parse the data and push it to $scope.albumPhotos.
+    $scope.albumClick = function(name, id) {
+      $scope.albumPhotos = [];
+      Facebook.getAlbumPhotos(name, id).success(function(resp) {
+        $scope.parse = JSON.parse(resp);
+        for (var key in $scope.parse) {
+          $scope.albumPhotos.push($scope.parse[key]);
+        }
+        console.log('$scope.albumPhotos: ', $scope.albumPhotos);
+      });
+    };
+
+    // This function is invoked on initialization of this controller. It fetches
+    // the album names for the logged in Facebook user, which allows them to
+    // select an album to fetch photos from.
+    $scope.init = function() {
+      Facebook.getAlbumData().success(function(resp) {
+        $scope.parse = JSON.parse(resp);
+        for (var key in $scope.parse) {
+          $scope.albumNames.push($scope.parse[key]);
+        }
+      });
+    };
+
+    $scope.init();
+
+  }]);
+
+'use strict';
+
+angular.module('snippit.search', ['snippit'])
+  .controller('SearchController', ['$scope', function($scope) {
+
+    // Album names, used for search auto complete
+    $scope.albums = ['person1', 'person2', 'person3', 'person4', 'person5'];
+
+    // Query string that is the selected album
+    $scope.query = '';
+
+    // This function fetches the photos from the selected album upon submit
+    $scope.requestAlbumData = function() {
+      console.log('querrrryyyy', $scope.query);
+    };
+
+}]);
+
+'use strict';
+
+angular.module('snippit.services', ['snippit'])
+  .factory('ThreeFactory', function() {
+
+
+    var createScene = function(i, collection, scene, objects, click){
+      var el = document.createElement('div');
+      el.className = 'element';
+      el.setAttribute('ng-show', 'picData[-1]');
+
+      var image = document.createElement('img');
+      image.className = 'picImg';
+      image.src = collection[i];
+      el.appendChild(image);
+
+
+      var object = new THREE.CSS3DObject(el);
+      object.position.x = Math.random() * 4000 - 2000;
+      object.position.y = Math.random() * 4000 - 2000;
+      object.position.z = Math.random() * 4000 - 2000;
+      scene.add(object);
+
+      if(click){
+        var bound = click.bind(i);
+        el.addEventListener('click', bound);
+      }
+
+      objects.push(object);
+    };
+
+    var table = function(n, i, target){
+      var object = new THREE.Object3D();
+      object.position.x = ((i % n) * 140) - 280;
+      object.position.y = -((Math.floor(i / n) + 1) * 180) + 540;
+      target.push(object);
+    };
+
+
+    var sphere = function(i, vector, target, r, len){
+      var phi = Math.acos(-1 + (2 * i) / len);
+      var theta = Math.sqrt(len * Math.PI) * phi;
+
+      var object = new THREE.Object3D();
+
+      object.position.x = r * Math.cos(theta) * Math.sin(phi);
+      object.position.y = r * Math.sin(theta) * Math.sin(phi);
+      object.position.z = r * Math.cos(phi);
+
+      vector.copy(object.position).multiplyScalar(2);
+
+      object.lookAt(vector);
+
+      target.push(object);
+    };
+
+
+    var helix = function(n, i, vector, target, spacing, offset, xRad, zRad, step){
+      var object = new THREE.Object3D();
+      var phi = i * spacing + (i % n)/n * (Math.PI * 2);
+
+      object.position.x = xRad * Math.sin(phi);
+      object.position.y = -(i * step) + offset;
+      object.position.z = zRad * Math.cos(phi);
+
+      vector.x = object.position.x * 2;
+      vector.y = object.position.y;
+      vector.z = object.position.z * 2;
+
+      object.lookAt(vector);
+      target.push(object);
+    };
+
+    var grid = function(n, i, target){
+      var object = new THREE.Object3D();
+
+      object.position.x = ((i % n) * 400) - 800;
+      object.position.y = (-(Math.floor(i / n) % n) * 400) + 800;
+      object.position.z = (Math.floor(i / (n * n))) * 1000 - 2000;
+
+      target.push(object);
+    };
+
+    return {
+      createScene: createScene,
+      table: table,
+      sphere: sphere,
+      helix: helix,
+      grid: grid
+    };
+  })
+  .factory('Facebook', ['$http', function($http) {
+
+    var getWallData = function() {
+      return $http.get('/getFacebookWall');
+    };
+
+    var getAlbumData = function() {
+      return $http.get('/getFacebookAlbums');
+    };
+
+    var getAlbumPhotos = function(name, id) {
+      var obj = {name: name, id: id};
+      return $http.post('/getFacebookAlbumPhotos', obj);
+    };
+
+    return {
+      getWallData: getWallData,
+      getAlbumData: getAlbumData,
+      getAlbumPhotos: getAlbumPhotos
+    };
+  }])
+;
+
 
 'use strict';
 

@@ -33,7 +33,8 @@ h2{
   z-index: -1;
 }
 #signin div div .element{
-  -webkit-filter: blur(10px);
+/*  -webkit-filter: blur(7px);
+  -webkit-transform:translate3d(0,0,0);*/
 }
 .viewSelect{
   width: 16.666%;
@@ -111,7 +112,7 @@ h2{
   right: 0;
 }
 .center{
-  background: rgba(50, 50, 50, .4);
+  background: rgba(225, 225, 225, .8);
   position: absolute;
   height: 100%;
   width: 100%;

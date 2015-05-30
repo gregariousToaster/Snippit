@@ -16,15 +16,17 @@ angular.module('snippit.auth', ['snippit'])
 
       var vector = new THREE.Vector3();
 
-      var len = data.length
+      var len = 60
 
       var picData = []; 
-      for (var i = 0; i < data.length; i++) {
-        picData.push(data[i].images[5].source);
+      for (var i = 0; i < len; i++) {
+        picData.push(data[i].images[6].source);
       }
 
       for (var i = 0; i < len; i++) {
         ThreeFactory.createScene(i, picData, scene, $scope.objects);
+        // var helix = function(n, i, vector, target, spacing, offset, xRad, zRad, step)
+        // ThreeFactory.helix(2, i, vector, $scope.targets.sphere, 0.175, 900, 500, 500, 50)
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
       };
 
@@ -52,19 +54,19 @@ angular.module('snippit.auth', ['snippit'])
         var target = targets[i];
 
         new TWEEN.Tween(object.position)
-          .to({x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration)
+          .to({x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration * 10 + duration +3000)
           .easing(TWEEN.Easing.Exponential.InOut)
           .start();
 
         new TWEEN.Tween(object.rotation)
-          .to({x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration)
+          .to({x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration * 10 + duration + 3000)
           .easing(TWEEN.Easing.Exponential.InOut)
           .start();
       }
 
 
       new TWEEN.Tween(this)
-        .to({}, duration * 2)
+        .to({}, duration * 5)
         .onUpdate($scope.render)
         .start();
     };
