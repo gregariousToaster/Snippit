@@ -9,6 +9,9 @@ angular.module('snippit.profile', ['snippit'])
     // Album photos
     $scope.albumPhotos = [];
 
+    // Snip photos
+    $scope.snipPhotos = [];
+
     // Parsed data
     $scope.parse = null;
 
@@ -35,9 +38,20 @@ angular.module('snippit.profile', ['snippit'])
       });
     };
 
-    $scope.checkToggle = function(pic) {
+    $scope.checkOn = function(pic) {
       console.log('PICTURE', pic);
-      pic.checked = !pic.checked;
+      $scope.snipPhotos.push(pic);
+      pic.checked = true;
+    };
+    $scope.checkOff = function(pic) {
+      console.log('PICTURE', pic);
+      for (var i = 0; i < $scope.snipPhotos.length; i++) {
+        if ($scope.snipPhotos[i].src === pic.src) {
+          $scope.snipPhotos.splice(i, 1);
+          break;
+        };
+      };
+      pic.checked = false;
     };
 
     // This function is invoked on initialization of this controller. It fetches
