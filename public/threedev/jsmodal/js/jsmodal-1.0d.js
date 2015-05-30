@@ -107,7 +107,7 @@ var Modal = (function () {
 
                 if (!settings.hideClose) {
                     settings.context += 1;
-                    document.querySelector('.imageResize').innerHTML = "<img src='"+data[settings.context].source+"' />";
+                    document.querySelector('.imageResize').innerHTML = "<img src='"+picData.picture[settings.context]+"' />";
                     e.stopPropagation()
                 } else {
                     return false;
@@ -116,7 +116,7 @@ var Modal = (function () {
 
             modalBack.onclick = function(e){
                 settings.context -= 1;
-                document.querySelector('.imageResize').innerHTML = "<img src='"+data[settings.context].source+"' />";
+                document.querySelector('.imageResize').innerHTML = "<img src='"+picData.picture[settings.context]+"' />";
                 e.stopPropagation()
             }
 
