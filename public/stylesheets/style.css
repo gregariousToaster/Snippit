@@ -149,10 +149,23 @@ h2{
 }
 
 .profile {
-  margin-left: 10px;
+  width: 20%;
+  background: #e6e6e6;
+  text-align: center;
 }
 
+.albums {
+  width: 100%;
+}
 .snip {
-  margin-top: 5px;
-  margin-left: 3px;
+  display: block;
+  border: none;
+  padding: 10px;
+  width: 100%;
+}
+.snip:focus{
+  outline: none;
+}
+.profilePic img{
+  width: 100%;
 }

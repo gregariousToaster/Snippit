@@ -95,7 +95,7 @@ angular.module('snippit.services', ['snippit'])
     };
 
     return {
-      createScene: createScene,
+      createObject: createObject,
       table: table,
       sphere: sphere,
       helix: helix,
