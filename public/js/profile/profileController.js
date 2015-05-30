@@ -14,6 +14,9 @@ angular.module('snippit.profile', ['snippit'])
     // Snip photos
     $scope.snipPhotos = [];
 
+    // Snips
+    $scope.snips = {};
+
     // Parsed data
     $scope.parse = null;
 
