@@ -2,11 +2,16 @@
 
 angular.module('snippit.search', ['snippit'])
   .controller('SearchController', ['$scope', function($scope) {
+
+    // Album names, used for search auto complete
     $scope.albums = ['person1', 'person2', 'person3', 'person4', 'person5'];
 
-    $scope.query = "";
+    // Query string that is the selected album
+    $scope.query = '';
 
-    $scope.returnThis = function() {
+    // This function fetches the photos from the selected album upon submit
+    $scope.requestAlbumData = function() {
       console.log('querrrryyyy', $scope.query);
-    }
-}])
+    };
+
+}]);
