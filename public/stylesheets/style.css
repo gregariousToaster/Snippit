@@ -198,6 +198,7 @@ h2{
   border-radius: 5px;
   box-shadow: 0 0 5px #888;
 }
+
 .tabs div{
   width: 50%;
   float: right;
@@ -205,3 +206,15 @@ h2{
 .tabs:first{
   float: left;
 };
+
+.snip:hover {
+  background-color: white;
+}
+
+.snip:active {
+  background-color: gray;
+}
+
+.albumHeader {
+  margin-bottom: 10px;
+}
