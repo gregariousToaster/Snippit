@@ -11,6 +11,10 @@ angular.module('snippit.profile', ['snippit'])
     // Album photos
     $scope.albumPhotos = [];
 
+    $scope.snipName;
+
+    $scope.newSnip = true;
+
     // Snip photos
     $scope.snipPhotos = [];
 
@@ -20,11 +24,22 @@ angular.module('snippit.profile', ['snippit'])
     // Parsed data
     $scope.parse = null;
 
-    $scope.showAlbums = function(){
+    $scope.snipAdd = function() {
+      $scope.snips[$scope.snipName] = $scope.snipPhotos;
+      $scope.snipPhotos = [];
+    }
+
+    $scope.snipClose = function() {
+      $scope.snips[$scope.snipName] = $scope.snipPhotos;
+      $scope.snipPhotos = [];
+      $scope.newSnip = true;
+    }
+
+    $scope.showAlbums = function() {
       $scope.snipTab = false;
     }
 
-    $scope.showSnips = function(){
+    $scope.showSnips = function() {
       $scope.snipTab = true;
     }
 
@@ -50,6 +65,12 @@ angular.module('snippit.profile', ['snippit'])
         console.log('$scope.albumPhotos: ', $scope.albumPhotos);
       });
     };
+
+    $scope.snipClick = function(name) {
+      $scope.snipPhotos = $scope.snips[name];
+      $scope.newSnip = false;
+
+    }
 
     $scope.checkOn = function(pic) {
       console.log('PICTURE', pic);
