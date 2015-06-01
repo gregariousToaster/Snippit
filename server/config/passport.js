@@ -41,12 +41,6 @@ module.exports = function(passport) {
       //   console.log(data)
       // })
 
-      //testing for user id save
-      // console.log("passport",profile.id);
-      // console.log("typeof profile ID",typeof profile.id);
-      // var madeUpId = '10204226975902488';
-      // console.log('madeUpIdKYLE', madeUpId);
-
       findUser({id: profile.id}).then(function(user){
         if(!user) {
           var newUser = new User({
