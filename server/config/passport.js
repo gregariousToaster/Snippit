@@ -44,7 +44,6 @@ module.exports = function(passport) {
             name: profile.displayName,
             FBtoken: accessToken
           });
-
           
           newUser.save(function(err, result){
             if(err){
