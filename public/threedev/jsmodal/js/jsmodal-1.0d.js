@@ -24,7 +24,7 @@ var Modal = (function () {
             modalContainer = document.createElement('div'),
             modalHeader = document.createElement('div'),
             modalContent = document.createElement('div'),
-            modalClose = document.createElement('div'),
+            modalNext = document.createElement('div'),
             modalBack = document.createElement('div'),
 
             centerModal,
@@ -78,7 +78,7 @@ var Modal = (function () {
             method.center({});
 
             if (settings.lock || settings.hideClose) {
-                modalClose.style.visibility = 'hidden';
+                modalNext.style.visibility = 'hidden';
             }
             if (!settings.hideOverlay) {
                 modalOverlay.style.visibility = 'visible';
@@ -102,22 +102,21 @@ var Modal = (function () {
 
 
             // var bool = false
-            modalClose.onclick = function (e) {
+            modalNext.onclick = function (e) {
                 // bool = true
-
                 if (!settings.hideClose) {
-                    settings.context += 1;
-                    document.querySelector('.imageResize').innerHTML = "<img src='"+picData.picture[settings.context]+"' />";
                     e.stopPropagation()
+                    settings.context += 1;
+                    document.querySelector('.imageResize').innerHTML = "<img src='"+data.pictures[settings.context]+"' />";
                 } else {
                     return false;
                 }
             };
 
             modalBack.onclick = function(e){
-                settings.context -= 1;
-                document.querySelector('.imageResize').innerHTML = "<img src='"+picData.picture[settings.context]+"' />";
                 e.stopPropagation()
+                settings.context -= 1;
+                document.querySelector('.imageResize').innerHTML = "<img src='"+data.pictures[settings.context]+"' />";
             }
 
             modalOverlay.onclick = function (e) {
@@ -234,8 +233,8 @@ var Modal = (function () {
             modalContainer.style.cssText = '';
             modalContainer.style.visibility = 'hidden';
             modalHeader.style.cursor = 'default';
-            modalClose.setAttribute('style', '');
-            modalClose.style.cssText = '';
+            modalNext.setAttribute('style', '');
+            modalNext.style.cssText = '';
             modalBack.setAttribute('style', '');
             modalBack.style.cssText = '';
 
@@ -303,13 +302,18 @@ var Modal = (function () {
         modalContainer.setAttribute('id', 'modal-container');
         modalHeader.setAttribute('id', 'modal-header');
         modalContent.setAttribute('id', 'modal-content');
-        modalClose.setAttribute('id', 'modal-next');
+        modalNext.setAttribute('id', 'modal-next');
+        modalNext.setAttribute('class', 'directional');
+        modalNext.innerHTML = '>';
+
 
         modalBack.setAttribute('id', 'modal-back');
+        modalBack.setAttribute('class', 'directional');
+        modalBack.innerHTML = '<';
 
         modalContainer.appendChild(modalHeader);
         modalContainer.appendChild(modalContent);
-        modalOverlay.appendChild(modalClose);
+        modalOverlay.appendChild(modalNext);
         modalOverlay.appendChild(modalBack);
 
         modalOverlay.style.visibility = 'hidden';
