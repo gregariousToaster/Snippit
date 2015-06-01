@@ -54,10 +54,11 @@ exports.grabData = function(req, res, cb){
 
 exports.handleAlbums = function(req, res, data, cb){
   var albums = {};
-
+  console.log("data in handleAlbums",data);
   _.each(JSON.parse(data).data, function(album){
     albums[album.name] = {name: album.name, id: album.id};
   });
+  console.log("albums sent in utils", albums);
   cb(JSON.stringify(albums));
 };
 

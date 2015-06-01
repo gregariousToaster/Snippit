@@ -73,6 +73,7 @@ module.exports = function(passport) {
   router.get('/getFacebookAlbums', function(req, res){
     facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/albums', function(data) {
       utils.handleAlbums(req, res, data, function(albums){
+        console.log("albums sent in index", albums);
         res.json(albums);
       });
     }, false);
@@ -80,7 +81,7 @@ module.exports = function(passport) {
 
   router.post('/getFacebookAlbumPhotos', function(req, res){
     var album = {id: req.body.id, name: req.body.name};
-    facebook.GET(req.user.FBtoken,'/v2.3/'+album.id+'/photos', function(data){
+    facebook.GET(req.user.FBtoken,'/v2.3/' + album.id + '/photos', function(data){
       utils.getAlbumPhotos(req, res, album, data, function(user){
         console.log(JSON.parse(user));
         res.json(user);
