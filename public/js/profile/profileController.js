@@ -98,8 +98,8 @@ angular.module('snippit.profile', ['snippit'])
           $scope.albumNames.push($scope.parse[key]);
         }
       });
-    };
+    }();
 
-    $scope.init();
+    // $scope.init();
 
   }]);
