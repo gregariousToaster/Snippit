@@ -40,6 +40,13 @@ module.exports = function(passport) {
       // facebook.GET(accessToken, '/v2.3/'+profile.id+'?fields=photos', function(data){
       //   console.log(data)
       // })
+
+      //testing for user id save
+      // console.log("passport",profile.id);
+      // console.log("typeof profile ID",typeof profile.id);
+      // var madeUpId = '10204226975902488';
+      // console.log('madeUpIdKYLE', madeUpId);
+
       findUser({id: profile.id}).then(function(user){
         if(!user) {
           var newUser = new User({
@@ -47,6 +54,7 @@ module.exports = function(passport) {
             name: profile.displayName,
             FBtoken: accessToken
           });
+      console.log("passport",profile.id);
 
           newUser.save(function(err, result){
             if(err){
@@ -57,6 +65,8 @@ module.exports = function(passport) {
             }
           });
         }else{
+      console.log("passport",profile.id);
+
           console.log("user found");
           user.FBtoken = accessToken;
           user.save(function(err, result){
