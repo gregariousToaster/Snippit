@@ -70,14 +70,14 @@ h2{
   z-index: 10;
 }
 .header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 3em;
   width: 100%;
   font-size: 1em;
   padding: 30px;
-  box-shadow: 0 0 5px #888;
+  box-shadow: 0 0 5px;
   background-color: #282878;
 }
 .logo {
@@ -170,38 +170,27 @@ h2{
 .profilePic img {
   width: 100%;
 }
-#albumView {
-  width: 80%;
-  float: right;
-  padding: 5px;
-}
-#snipView {
-  background-color: #aaa;
-  width: 80%;
-  float: right;
-  padding: 5px;
-}
 .add {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   border: none;
   height: 2em;
-  width: 2em;
-  border-radius: 50%;
-  font-size: 1.5em;
+  width: 15%;
+  border-radius: 0 4px 4px 0;
+  margin-left: -4px;
   background: #e6e6e6;
   text-align: center;
-  cursor: pointer;
+}
+.save {
+  border-radius: 4px;
+  border: none;
+  background: #e6e6e6;
+  text-align: center;
+  width: 100%;
 }
 .add:hover {
   background: #ccc;
 }
-.add:focus {
-  outline: none;
-}
 .grid {
-  -webkit-column-count: 5;
+  -webkit-column-count: 2;
   -webkit-column-gap: 0px;
   -moz-column-count: 5;
   -moz-column-gap: 0px;
@@ -216,7 +205,7 @@ h2{
 .picture img {
   width: 100%;
   border-radius: 5px;
-  box-shadow: 0 0 5px #888;
+  box-shadow: 0 0 5px;
 }
 .tabs div {
   width: 50%;
@@ -240,11 +229,30 @@ h2{
 .albumHeader {
   margin-bottom: 10px;
 }
-.snipName {
-  position: absolute;
-  right: 80px;
-  top: 20px;
-  padding: 5px 10px;
-  border-radius: 5px;
+.snip-name {
+  padding: 4.5px 10px;
+  border-radius: 4px 0 0 4px;
+  margin: 0;
+  width: 85%;
   border: none;
+}
+.flex-grid {
+  display: flex;
+}
+.input {
+  padding: 5px;
+}
+#albumView {
+  flex: 3;
+  width: 80%;
+  float: right;
+  padding: 5px;
+}
+#snipView {
+  flex: 1;
+  background-color: #29438F;
+  box-shadow: 0 0 3px;
+  width: 80%;
+  float: right;
+  padding: 5px;
 }

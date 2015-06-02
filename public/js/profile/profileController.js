@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('snippit.profile', ['snippit'])
-  .controller('ProfileController', ['$scope', 'Facebook', function($scope, Facebook) {
+  .controller('ProfileController', ['$scope', 'Facebook', '$window', function($scope, Facebook, $window) {
 
     $scope.snipTab = false;
 
@@ -23,6 +23,10 @@ angular.module('snippit.profile', ['snippit'])
 
     // Parsed data
     $scope.parse = null;
+
+    var sceneHeight = function(){
+      return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
+    }
 
     $scope.snipAdd = function() {
       $scope.snips[$scope.snipName] = $scope.snipPhotos;
@@ -97,6 +101,7 @@ angular.module('snippit.profile', ['snippit'])
         for (var key in $scope.parse) {
           $scope.albumNames.push($scope.parse[key]);
         }
+        document.getElementById('content').setAttribute('height', sceneHeight());
       });
     }();
 
