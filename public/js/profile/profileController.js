@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('snippit.profile', ['snippit'])
-  .controller('ProfileController', ['$scope', 'Facebook', function($scope, Facebook) {
+  .controller('ProfileController', ['$scope', 'Facebook', '$window', function($scope, Facebook, $window) {
 
     $scope.snipTab = false;
 
@@ -11,17 +11,39 @@ angular.module('snippit.profile', ['snippit'])
     // Album photos
     $scope.albumPhotos = [];
 
+    $scope.snipName;
+
+    $scope.newSnip = true;
+
     // Snip photos
     $scope.snipPhotos = [];
+
+    // Snips
+    $scope.snips = {};
 
     // Parsed data
     $scope.parse = null;
 
-    $scope.showAlbums = function(){
+    var sceneHeight = function(){
+      return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
+    }
+
+    $scope.snipAdd = function() {
+      $scope.snips[$scope.snipName] = $scope.snipPhotos;
+      $scope.snipPhotos = [];
+    }
+
+    $scope.snipClose = function() {
+      $scope.snips[$scope.snipName] = $scope.snipPhotos;
+      $scope.snipPhotos = [];
+      $scope.newSnip = true;
+    }
+
+    $scope.showAlbums = function() {
       $scope.snipTab = false;
     }
 
-    $scope.showSnips = function(){
+    $scope.showSnips = function() {
       $scope.snipTab = true;
     }
 
@@ -48,6 +70,12 @@ angular.module('snippit.profile', ['snippit'])
       });
     };
 
+    $scope.snipClick = function(name) {
+      $scope.snipPhotos = $scope.snips[name];
+      $scope.newSnip = false;
+
+    }
+
     $scope.checkOn = function(pic) {
       console.log('PICTURE', pic);
       $scope.snipPhotos.push(pic);
@@ -73,9 +101,10 @@ angular.module('snippit.profile', ['snippit'])
         for (var key in $scope.parse) {
           $scope.albumNames.push($scope.parse[key]);
         }
+        document.getElementById('content').setAttribute('height', sceneHeight());
       });
-    };
+    }();
 
-    $scope.init();
+    // $scope.init();
 
   }]);

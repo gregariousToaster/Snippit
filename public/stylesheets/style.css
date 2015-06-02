@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+*:focus {
+  outline: none;
+}
 body {
   width: 100%;
   height: 100%;
@@ -15,66 +18,62 @@ body {
   border: 2px solid #fff;
   padding: 15px;
 }
-.getPics{
+.getPics {
   position: absolute;
 }
-.facebook:hover{
+.facebook:hover {
   background: rgba( 255, 255, 255, .6);
 }
 h2{
   margin: 0 0;
   display: inline;
 }
-.render{
+.render {
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
 }
-#signin div div .element{
-/*  -webkit-filter: blur(7px);
-  -webkit-transform:translate3d(0,0,0);*/
-}
-.viewSelect{
+.viewSelect {
   width: 16.666%;
   border: none;
   background: rgba(243, 243, 243, .5);
   padding: 5px 10px;
 }
-.viewSelect:focus{
+.viewSelect:focus {
   outline: none;
 }
-.viewSelect:hover{
+.viewSelect:hover {
   background-color: #888;
 }
-.blur{
+.blur {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
-.content{
+.content {
   position: absolute;
   width: 100%;
   top: 3.75em;
   z-index: -1;
 }
-.menu{
+.menu {
   box-shadow: 0 0 4px #888;
   position: absolute;
   z-index: 10;
 }
-.header{
-  position: absolute;
+.header {
+  position: fixed;
   top: 0;
   left: 0;
   height: 3em;
   width: 100%;
   font-size: 1em;
   padding: 30px;
-  box-shadow: 0 0 5px #888;
+  box-shadow: 0 0 5px;
   background-color: #282878;
 }
 .logo {
@@ -85,23 +84,23 @@ h2{
   top: .25em;
   color: #fff;
 }
-.right{
+.right {
   position: absolute;
   padding: 1.25em;
   top: 0;
   right: 1em;
 }
-.right ul li{
+.right ul li {
   display: inline;
 }
-.right a{
+.right a {
   font-weight: 300;
   padding: 1em 0;
   margin: 0 1em;
   text-decoration: none;
   color: #fff;
 }
-.right a:hover{
+.right a:hover {
   border-bottom: 5px solid #fff;
 }
 .full-screen {
@@ -111,14 +110,14 @@ h2{
   left: 0;
   right: 0;
 }
-.center{
+.center {
   background: rgba(225, 225, 225, .8);
   position: absolute;
   height: 100%;
   width: 100%;
   text-align: center;
 }
-.center img{
+.center img {
   font-size: 8em;
   font-family: 'Roboto Slab', sans-serif;
 }
@@ -135,20 +134,21 @@ h2{
 .element:hover {
   border: solid #515151 4px;
 }
-.element img{
+.element img {
   min-height: 160px;
   min-width: 120px;
   height: 100%;
 }
-
 .search {
   margin-top: 100px;
   width: 350px;
   height: 50px;
   font-size: 12px;
 }
-
 .profile {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
   width: 20%;
   float: left;
   background: #e6e6e6;
@@ -163,58 +163,103 @@ h2{
   padding: 10px;
   width: 100%;
 }
-.snip:focus{
+.list-view {
+  flex: 1;
+}
+.snip:focus {
   outline: none;
 }
-.profilePic img{
+.profilePic {
+  flex: 1;
+}
+.profilePic img {
   width: 100%;
 }
-#albumView{
-  width: 80%;
-  float: right;
-  padding: 5px;
+.add {
+  border: none;
+  height: 2em;
+  width: 15%;
+  border-radius: 0 4px 4px 0;
+  margin-left: -4px;
+  background: #e6e6e6;
+  text-align: center;
 }
-#snipView{
-  background-color: #aaa;
-  width: 80%;
-  float: right;
-  padding: 5px;
+.save {
+  border-radius: 4px;
+  border: none;
+  background: #e6e6e6;
+  text-align: center;
+  width: 100%;
 }
-.grid{
-  -webkit-column-count: 5;
+.add:hover {
+  background: #ccc;
+}
+.grid {
+  -webkit-column-count: 2;
   -webkit-column-gap: 0px;
   -moz-column-count: 5;
   -moz-column-gap: 0px;
   column-count: 5;
   column-gap: 0px;
 }
-.picture{
+.picture {
   float: left;
   width: 100%;
   padding: 5px;
 }
-.picture img{
+.picture img {
   width: 100%;
   border-radius: 5px;
-  box-shadow: 0 0 5px #888;
+  box-shadow: 0 0 5px;
 }
-
-.tabs div{
+.tabs div {
   width: 50%;
   float: right;
+  cursor: pointer;
+  padding: .5em;
 }
-.tabs:first{
+.tabs div:hover {
+  background: #ccc;
+}
+.tabs:first {
   float: left;
 };
 
 .snip:hover {
   background-color: white;
 }
-
 .snip:active {
   background-color: gray;
 }
-
 .albumHeader {
   margin-bottom: 10px;
+}
+.snip-name {
+  padding: 4.5px 10px;
+  border-radius: 4px 0 0 4px;
+  margin: 0;
+  width: 85%;
+  border: none;
+}
+.flex-grid {
+  display: flex;
+  width: 80%;
+  float: right;
+}
+.input {
+  padding: 5px;
+}
+#albumView {
+  flex: 3;
+  width: 80%;
+  float: right;
+  padding: 5px;
+}
+#snipView {
+  flex: 1;
+  background-color: #29438F;
+  box-shadow: 0 0 3px;
+  width: 80%;
+  float: right;
+  padding: 5px;
 }
