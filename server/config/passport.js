@@ -1,12 +1,11 @@
+'use strict';
+
 //==passport and Oauth
 var FacebookStrategy = require('passport-facebook');
 var configAuth = require('./auth.js');
 var utils = require('../utils.js');
-var Q = require('q'); //===
-var User = require('./userModel.js');
-
-
-
+var client = require('./mongo');
+profiles = [];
 module.exports = function(passport) {
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -35,47 +34,31 @@ module.exports = function(passport) {
       callbackURL: configAuth.facebookAuth.callbackURL
     },
     function(accessToken, refreshToken, profile, done) {
-      var findUser = Q.nbind(User.findOne, User);
-      // finds user in database
-      findUser({id: profile.id}).then(function(user){
-        if(!user) {
-          var newUser = new User({
-            id: profile.id,
-            name: profile.displayName,
-            FBtoken: accessToken
-          });
-          
-          newUser.save(function(err, result){
-            if(err){
-              console.log(err, 'error!');
-            }else{
-             console.log(result, 'success!!');
-             return done(null, result);
-            }
-          });
-        }else{
-      console.log("passport",profile.id);
 
-          console.log("user found");
-          user.FBtoken = accessToken;
-          user.save(function(err, result){
-            if(err){
-              console.log(err, 'error on get new token passport line: 63');
-            }else{
-              console.log(result.FBtoken, 'successful retoken');
-              return done(null, user);
-            }
-          });
-        }
+      client.then(function(db) {
+        return db.collection('users').findOneAsync({ id: profile.id })
+        .then(function(user) {
+          profiles.push(profile.id);
+          console.log("PAST PROFILE.IDS", profiles);
+          console.log('PROFILE ID', typeof(profile.id));
+          if (!user) {
+            console.log('user NOT found, creating a new one');
+            var newUser = {
+              id: profile.id,
+              name: profile.displayName,
+              FBtoken: accessToken
+            };
+            db.collection('users').insert(newUser);
+            return done(null, newUser);
+          }
+          else {
+            console.log('user is found!', user);
+            console.log('user is found!', user._id);
+            db.collection('users').save({ _id: user._id, id: profile.id, name: profile.displayName, FBtoken : accessToken });
+          }
+          return done(null, user);
+        });
       });
-      // asynchronous verification, for effect...
-
-        // To keep the example simple, the user's Facebook profile is returned to
-        // represent the logged-in user.  In a typical application, you would want
-        // to associate the Facebook account with a user record in your database,
-        // and return that user instead.
-        // return done(null, profile);
-
   }));
 };
 
