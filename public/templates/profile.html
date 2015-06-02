@@ -12,16 +12,20 @@
     <button class="snip" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)"> {{ album.name }} </button>
   </div>
 </div>
-<div id="snipView" class="grid" ng-show="snipPhotos.length > 0">
-  <div ng-repeat="pic in snipPhotos" class="picture">
-    <img ng-src="{{pic.src}}" ng-click="checkOff(pic)">
+<section class="flex-grid">
+  <div id="albumView" class="grid">
+    <div ng-repeat="pic in albumPhotos" class="picture" ng-show="!pic.checked">
+      <img ng-src="{{pic.src}}" ng-click="checkOn(pic)">
+    </div>
   </div>
-  <input ng-model="snipName" class="snipName" ng-show="newSnip">
-  <button class="add" ng-click="snipAdd()" ng-show="newSnip">+</button>
-  <button class="add" ng-click="snipClose()" ng-show="!newSnip">X</button>
-</div>
-<div id="albumView" class="grid">
-  <div ng-repeat="pic in albumPhotos" class="picture" ng-show="!pic.checked">
-    <img ng-src="{{pic.src}}" ng-click="checkOn(pic)">
+  <div id="snipView" ng-show="snipPhotos.length > 0">
+    <div class="full-width input">
+      <input ng-model="snipName" class="snip-name" ng-show="newSnip">
+      <button class="add" ng-click="snipAdd()" ng-show="newSnip">add</button>
+      <button class="save" ng-click="snipClose()" ng-show="!newSnip">save and exit</button>
+    </div>
+    <div ng-repeat="pic in snipPhotos" class="picture">
+      <img ng-src="{{pic.src}}" ng-click="checkOff(pic)">
+    </div>
   </div>
-</div>
+</section>
