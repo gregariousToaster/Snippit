@@ -4,7 +4,6 @@
 var fs = require('fs');
 var Q = require('q');
 var User = require('./config/userModel.js');
-var api = require('./APIrequests.js');
 var _ = require('underscore');
 
 

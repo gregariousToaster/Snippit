@@ -2,7 +2,7 @@
 
 var express = require('express');
 var utils = require('../server/utils.js');
-var facebook = require('../server/APIrequests.js');
+var api = require('../server/APIrequests.js');
 
 // module.exports = router;
 
@@ -44,6 +44,23 @@ module.exports = function(passport) {
       res.redirect('/#/app/three');
   });
 
+
+  //Get /auth/instagram
+  // sends user to authenticate our app at instagram, it returns a code that is NOT a token (a token post request must be made
+  // to instagram to exchange the code for a token)
+  router.get('/auth/instagram', function(req, res){
+    //handles url redirect
+    api.authInstagram(req, res)
+  });
+
+  //Instagram sends a callback with a validation code in the URL
+  router.get('/auth/instagram/callback', function(req, res){
+    console.log(req.url, "URL IS HERE")
+    console.log(req.originalUrl, "ORIGINAL URL IS HERE")
+    var code = req.url.split('code=')[1]
+    console.log(code, "THIS IS THE CODE")
+  });
+
   router.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
@@ -63,7 +80,7 @@ module.exports = function(passport) {
 
   router.get('/getFacebookWall', function(req, res){
     console.log(res.json, "gefacebookwall router");
-    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data) {
+    api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data) {
       utils.FBWallPhotos(req, res, data, function(user){
         res.json(user);
       });
@@ -71,7 +88,7 @@ module.exports = function(passport) {
   });
 
   router.get('/getFacebookAlbums', function(req, res){
-    facebook.GET(req.user.FBtoken, '/v2.3/'+req.user.id+'/albums', function(data) {
+    api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/albums', function(data) {
       utils.handleAlbums(req, res, data, function(albums){
         console.log("albums sent in index", albums);
         res.json(albums);
@@ -81,7 +98,7 @@ module.exports = function(passport) {
 
   router.post('/getFacebookAlbumPhotos', function(req, res){
     var album = {id: req.body.id, name: req.body.name};
-    facebook.GET(req.user.FBtoken,'/v2.3/' + album.id + '/photos', function(data){
+    api.facebookGET(req.user.FBtoken,'/v2.3/' + album.id + '/photos', function(data){
       utils.getAlbumPhotos(req, res, album, data, function(user){
         console.log(JSON.parse(user));
         res.json(user);
