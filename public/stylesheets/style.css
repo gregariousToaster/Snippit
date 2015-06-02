@@ -24,7 +24,7 @@ body {
 .facebook:hover {
   background: rgba( 255, 255, 255, .6);
 }
-h2{
+h2 {
   margin: 0 0;
   display: inline;
 }
@@ -223,8 +223,7 @@ h2{
 }
 .tabs:first {
   float: left;
-};
-
+}
 .snip:hover {
   background-color: white;
 }
