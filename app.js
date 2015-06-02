@@ -7,10 +7,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-
-//=== Database
-var mongoose    = require('mongoose');
-mongoose.connect('mongodb://localhost/GregariousToaster');
+var util = require('util');
+var client = require('./server/config/mongo');
 
 var session = require('express-session');
 
@@ -48,6 +46,8 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+//=== Database
 
 // error handlers
 
