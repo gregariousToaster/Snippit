@@ -35,10 +35,6 @@ h2{
   left: 0;
   z-index: -1;
 }
-#signin div div .element {
-/*  -webkit-filter: blur(7px);
-  -webkit-transform:translate3d(0,0,0);*/
-}
 .viewSelect {
   width: 16.666%;
   border: none;
@@ -150,6 +146,9 @@ h2{
   font-size: 12px;
 }
 .profile {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
   width: 20%;
   float: left;
   background: #e6e6e6;
@@ -164,8 +163,14 @@ h2{
   padding: 10px;
   width: 100%;
 }
+.list-view {
+  flex: 1;
+}
 .snip:focus {
   outline: none;
+}
+.profilePic {
+  flex: 1;
 }
 .profilePic img {
   width: 100%;
@@ -238,6 +243,8 @@ h2{
 }
 .flex-grid {
   display: flex;
+  width: 80%;
+  float: right;
 }
 .input {
   padding: 5px;
