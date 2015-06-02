@@ -1,17 +1,23 @@
-<div class="profile">
-  <div class="profilePic"><img src="/images/photo.png" /></div>
-  <h1>Hello, First Last</h1>
+<section class="profile">
+  <div class="profilePic">
+    <img src="/images/photo.png"/>
+    <h1>Hello, First Last</h1>
+  </div>
   <div class="tabs">
     <div ng-click="showAlbums()">Albums</div>
     <div ng-click="showSnips()">Snips</div>
   </div>
-  <div class="snips" ng-show="snipTab">
-    <button class="snip" ng-repeat="(key, value) in snips" ng-click="snipClick(key, value)"> {{ key }} </button>
+  <div class="list-view">
+    <div class="snips" ng-show="snipTab">
+      <button class="snip" ng-repeat="(key, value) in snips" ng-click="snipClick(key, value)"> {{ key }} </button>
+    </div>
+    <div class="albums" ng-show="!snipTab">
+      <button class="snip" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)"> {{ album.name }} </button>
+    </div>
   </div>
-  <div class="albums" ng-show="!snipTab">
-    <button class="snip" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)"> {{ album.name }} </button>
-  </div>
-</div>
+</section>
+
+
 <section class="flex-grid">
   <div id="albumView" class="grid">
     <div ng-repeat="pic in albumPhotos" class="picture" ng-show="!pic.checked">
