@@ -1,18 +1,7 @@
-// var Facebook = require('facebook-node-sdk');
-
-// var facebook = new Facebook({ appID: '1424355067886211', secret: 'fb8a1c1d039a4d90c396f95c7bfd2562'})
-
-
-// exports.facebook = function(){
-
-//   facebook.api('/questh', function(err, data) {
-//     console.log(data);
-//   });
-// }
-
+var configAuth = require('./config/auth.js');
 var https = require('https');
 
-exports.GET = function(accessToken, apiPath, callback, ampersand) {
+exports.facebookGET = function(accessToken, apiPath, callback, ampersand) {
   ampersand = ampersand ? '&' : '?';
   // creating options object for the https request
   var options = {
@@ -61,3 +50,8 @@ exports.GET = function(accessToken, apiPath, callback, ampersand) {
 
   request.end();
 }
+
+exports.authInstagram = function(req, res){
+  res.redirect('https://api.instagram.com/oauth/authorize/?client_id='+configAuth.instagramAuth.clientID+'&redirect_uri='+configAuth.instagramAuth.callbackURL+'&response_type=code');
+}
+
