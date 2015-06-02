@@ -27,7 +27,7 @@ module.exports = function(passport) {
   router.get('/auth/facebook', passport.authenticate('facebook', {
     scope:
       ['user_photos', 'user_friends']
-    }), function(req, res){
+    }), function(req, res) {
   // The request will be redirected to Facebook for authentication, so this
   // function will not be called.
   });
@@ -94,13 +94,3 @@ module.exports = function(passport) {
 
     return router;
 };
-
-
-// function ensureAuthenticated(req, res, next) {
-//   if (req.isAuthenticated()) {
-//     console.log(req.isAuthenticated(), "AM I TRUE OR FALSE")
-//     return next();
-//   }
-//   console.log("NOT AUTHENTICATED")
-//   res.redirect('/#/signin')
-// }

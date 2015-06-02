@@ -3,9 +3,7 @@
 //==passport and Oauth
 var FacebookStrategy = require('passport-facebook');
 var configAuth = require('./auth.js');
-var utils = require('../utils.js');
 var client = require('./mongo');
-profiles = [];
 module.exports = function(passport) {
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -38,11 +36,9 @@ module.exports = function(passport) {
       client.then(function(db) {
         return db.collection('users').findOneAsync({ id: profile.id })
         .then(function(user) {
-          profiles.push(profile.id);
-          console.log("PAST PROFILE.IDS", profiles);
           console.log('PROFILE ID', typeof(profile.id));
           if (!user) {
-            console.log('user NOT found, creating a new one');
+            console.log('user NOT found, creating a new one...');
             var newUser = {
               id: profile.id,
               name: profile.displayName,
@@ -52,13 +48,13 @@ module.exports = function(passport) {
             return done(null, newUser);
           }
           else {
-            console.log('user is found!', user);
-            console.log('user is found!', user._id);
+            console.log('user is found, re-setting accessToken...');
             db.collection('users').save({ _id: user._id, id: profile.id, name: profile.displayName, FBtoken : accessToken });
+            return done(null, user);
           }
-          return done(null, user);
         });
       });
+
   }));
 };
 
