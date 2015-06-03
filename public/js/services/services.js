@@ -121,10 +121,16 @@ angular.module('snippit.services', ['snippit'])
       return $http.post('/getFacebookAlbumPhotos', obj);
     };
 
+    // Makes a get request and fetches Facebook user's name and ID.
+    var getFacebookUser = function() {
+      return $http.get('/facebookUser');
+    };
+
     return {
       getWallData: getWallData,
       getAlbumData: getAlbumData,
-      getAlbumPhotos: getAlbumPhotos
+      getAlbumPhotos: getAlbumPhotos,
+      getFacebookUser: getFacebookUser
     };
   }])
 ;

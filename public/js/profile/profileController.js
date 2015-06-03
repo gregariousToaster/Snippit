@@ -3,6 +3,8 @@
 angular.module('snippit.profile', ['snippit'])
   .controller('ProfileController', ['$scope', 'Facebook', '$window', function($scope, Facebook, $window) {
 
+    // Facebook user data (as of right now, name and id)
+    $scope.facebookUser = {};
 
     $scope.snipTab = false;
 
@@ -24,6 +26,14 @@ angular.module('snippit.profile', ['snippit'])
 
     // Parsed data
     $scope.parse = null;
+
+    // Invoke Facebook getFacebook user method, on success, assign
+    // $scope.facebookUser to that response (Facebook name and id).
+    $scope.fetchUser = function() {
+      Facebook.getFacebookUser().success(function(resp) {
+        $scope.facebookUser = resp;
+      });
+    };
 
     var sceneHeight = function(){
       return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
@@ -109,7 +119,7 @@ angular.module('snippit.profile', ['snippit'])
           break;
         };
       };
-      
+
       pic.checked = false;
     };
 
@@ -125,10 +135,11 @@ angular.module('snippit.profile', ['snippit'])
           $scope.albumNames.push({name:'Facebook Wall Photos'});
         document.getElementById('content').setAttribute('height', sceneHeight());
       });
+      $scope.fetchUser();
     }();
 
     var fixHeight = function(){
-      document.getElementById('content').setAttribute('height', 
+      document.getElementById('content').setAttribute('height',
         ($window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight))
       );
     };

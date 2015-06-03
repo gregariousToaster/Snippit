@@ -1,7 +1,7 @@
 <section class="profile">
   <div class="profile-pic">
-    <img src="/images/photo.png"/>
-    <h1>First Last</h1>
+    <img src="http://graph.facebook.com/{{ facebookUser.id }}/picture?width=500"/>
+    <h1>{{ facebookUser.name }}</h1>
   <div class="tabs">
     <div ng-click="showAlbums()">Albums</div>
     <div ng-click="showSnips()">Snips</div>
