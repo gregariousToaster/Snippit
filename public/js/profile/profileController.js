@@ -54,20 +54,30 @@ angular.module('snippit.profile', ['snippit'])
     // Facebook album. We then parse the data and push it to $scope.albumPhotos.
     $scope.albumClick = function(name, id) {
       $scope.albumPhotos = [];
-      Facebook.getAlbumPhotos(name, id).success(function(resp) {
-        var parse = JSON.parse(resp);
-        console.log(parse);
-        for (var key in parse) {
-          console.log('KEY: ', parse[key]); // If we could get an image ID we could probably add and remove to a snip item with more ease
-          for (var i = parse[key].length - 1; i >= 0; i--) {
+      if(!id){
+        Facebook.getWallData().success(function(resp){
+          var parse = JSON.parse(resp);
+          for (var i = 0; i < parse.wallPhotos.picture.length;i++){
             $scope.albumPhotos.push({
-              src: parse[key][i],
-              checked: false
+              src: parse.wallPhotos.picture[i],
+              checked: false,
             });
           }
-        }
-        console.log('$scope.albumPhotos: ', $scope.albumPhotos);
-      });
+          console.log(resp);
+        })
+      }else{
+        Facebook.getAlbumPhotos(name, id).success(function(resp) {
+          var parse = JSON.parse(resp);
+          console.log(parse);
+            for (var i = parse[name].length - 1; i >= 0; i--) {
+              $scope.albumPhotos.push({
+                src: parse[name][i],
+                checked: false
+              });
+            }
+          console.log('$scope.albumPhotos: ', $scope.albumPhotos);
+        });
+      }
     };
 
     $scope.snipClick = function(name) {
@@ -101,6 +111,7 @@ angular.module('snippit.profile', ['snippit'])
         for (var key in $scope.parse) {
           $scope.albumNames.push($scope.parse[key]);
         }
+          $scope.albumNames.push({name:'Facebook Wall Photos'});
         document.getElementById('content').setAttribute('height', sceneHeight());
       });
     }();
