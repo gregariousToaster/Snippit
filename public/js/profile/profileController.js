@@ -37,7 +37,7 @@ angular.module('snippit.profile', ['snippit'])
 
     var sceneHeight = function(){
       return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
-    }
+    };
 
     $scope.snipAdd = function() {
       $scope.snips[$scope.snipName] = $scope.snipPhotos;
@@ -47,21 +47,21 @@ angular.module('snippit.profile', ['snippit'])
       //make routes to redirect to saving on the mongo database server side
       //...on the server side we'll have a new snips database
       //
-    }
+    };
 
     $scope.snipClose = function() {
       $scope.snips[$scope.snipName] = $scope.snipPhotos;
       $scope.snipPhotos = [];
       $scope.newSnip = true;
-    }
+    };
 
     $scope.showAlbums = function() {
       $scope.snipTab = false;
-    }
+    };
 
     $scope.showSnips = function() {
       $scope.snipTab = true;
-    }
+    };
 
     // This function is invoked every time an album name is clicked on the
     // profile page. It passes the Facebook service's getAlbumPhotos method
@@ -81,7 +81,7 @@ angular.module('snippit.profile', ['snippit'])
             });
           }
           console.log(resp);
-        })
+        });
       }else{
         //if, on the other hand, we have the ids, we'll get the album data
         //based on the name album
@@ -100,9 +100,10 @@ angular.module('snippit.profile', ['snippit'])
     };
 
     $scope.snipClick = function(name) {
-      if($scope.snips[name] === '');
-      $scope.snipPhotos = $scope.snips[name];
-      $scope.newSnip = false;
+      if ($scope.snips[name] === '') {
+        $scope.snipPhotos = $scope.snips[name];
+        $scope.newSnip = false;
+      }
     };
 
     $scope.checkOn = function(pic) {
@@ -117,8 +118,8 @@ angular.module('snippit.profile', ['snippit'])
         if ($scope.snipPhotos[i].src === pic.src) {
           $scope.snipPhotos.splice(i, 1);
           break;
-        };
-      };
+        }
+      }
 
       pic.checked = false;
     };
