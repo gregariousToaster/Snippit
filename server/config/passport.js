@@ -55,9 +55,6 @@ module.exports = function(passport) {
                 {FBtoken : accessToken}
               }
             );
-
-            // db.collection('users').save(
-            //   { _id: user._id, id: profile.id, name: profile.displayName, FBtoken : accessToken });
             return done(null, user);
           }
         });
