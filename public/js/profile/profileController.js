@@ -141,15 +141,4 @@ angular.module('snippit.profile', ['snippit'])
       });
       $scope.fetchUser();
     }();
-
-    var fixHeight = function(){
-      document.getElementById('content').setAttribute('height',
-        ($window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight))
-      );
-    };
-
-    angular.element(document).ready(function () {
-      fixHeight();
-      window.addEventListener('resize', fixHeight, false);
-    });
   }]);
