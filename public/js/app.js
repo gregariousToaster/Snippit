@@ -4,9 +4,7 @@ angular.module('snippit', ['snippit.main',
   'snippit.services',
   'snippit.three',
   'snippit.auth',
-  'snippit.search',
   'snippit.profile',
-  'autocomplete',
   'ui.router'
   ])
   // This run block checks whether the user is authenticated or not by making
@@ -18,7 +16,6 @@ angular.module('snippit', ['snippit.main',
     $rootScope.$on('$stateChangeStart', function(e, toState) {
       if (toState && toState.authenticate) {
         $http.get('/auth/isAuthenticated').success(function(resp) {
-          console.log('checking auth...');
           if (!resp.auth) {
             $location.path('/signin');
           }
@@ -41,10 +38,6 @@ angular.module('snippit', ['snippit.main',
           'content': {
             templateUrl: 'templates/three.html',
             controller: 'ThreeController'
-          },
-          'search': {
-            templateUrl: 'templates/search.html',
-            controller: 'SearchController'
           }
         },
         authenticate: true
