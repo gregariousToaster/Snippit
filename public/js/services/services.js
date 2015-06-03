@@ -36,7 +36,7 @@ angular.module('snippit.services', ['snippit'])
     // It takes a number denoting the columns, an iterator, and a target array to push the object positions into.
     var table = function(n, i, target) {
       var object = new THREE.Object3D();
-      object.position.x = ((i % n) * 140) - 280;
+      object.position.x = ((i % n) * 140) - 640;
       object.position.y = -((Math.floor(i / n) + 1) * 180) + 540;
       target.push(object);
     };

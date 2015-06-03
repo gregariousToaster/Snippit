@@ -11,20 +11,21 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 .facebook {
-  background: rgba( 255, 255, 255, .2);
+  background: rgba(255, 255, 255, .2);
   color: #fff;
   border-radius: 5px;
   text-decoration: none;
   border: 2px solid #fff;
-  padding: 15px;
+  padding: 10px 15px;
+  margin-top: 20px;
 }
-.getPics {
+.get-pics {
   position: absolute;
 }
 .facebook:hover {
-  background: rgba( 255, 255, 255, .6);
+  background: rgba(255, 255, 255, .6);
 }
-h2{
+h2 {
   margin: 0 0;
   display: inline;
 }
@@ -35,16 +36,13 @@ h2{
   left: 0;
   z-index: -1;
 }
-.viewSelect {
+.view-select {
   width: 16.666%;
   border: none;
   background: rgba(243, 243, 243, .5);
   padding: 5px 10px;
 }
-.viewSelect:focus {
-  outline: none;
-}
-.viewSelect:hover {
+.view-select:hover {
   background-color: #888;
 }
 .blur {
@@ -111,13 +109,17 @@ h2{
   right: 0;
 }
 .center {
-  background: rgba(225, 225, 225, .8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(100, 100, 100, .8);
   position: absolute;
   height: 100%;
   width: 100%;
   text-align: center;
 }
 .center img {
+  width: 50%;
   font-size: 8em;
   font-family: 'Roboto Slab', sans-serif;
 }
@@ -146,6 +148,7 @@ h2{
   font-size: 12px;
 }
 .profile {
+  height: 75%;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -153,6 +156,9 @@ h2{
   float: left;
   background: #e6e6e6;
   text-align: center;
+}
+.profile h1 {
+  margin: 0;
 }
 .albums {
   width: 100%;
@@ -164,21 +170,22 @@ h2{
   width: 100%;
 }
 .list-view {
-  flex: 1;
+  flex-shrink: 100;
+  overflow: auto;
 }
 .snip:focus {
   outline: none;
 }
-.profilePic {
-  flex: 1;
+.profile-pic {
+  flex-shrink: 1;
 }
-.profilePic img {
+.profile-pic img {
   width: 100%;
 }
 .add {
   border: none;
   height: 2em;
-  width: 15%;
+  width: 25%;
   border-radius: 0 4px 4px 0;
   margin-left: -4px;
   background: #e6e6e6;
@@ -223,22 +230,18 @@ h2{
 }
 .tabs:first {
   float: left;
-};
-
+}
 .snip:hover {
   background-color: white;
 }
 .snip:active {
   background-color: gray;
 }
-.albumHeader {
-  margin-bottom: 10px;
-}
 .snip-name {
   padding: 4.5px 10px;
   border-radius: 4px 0 0 4px;
   margin: 0;
-  width: 85%;
+  width: 75%;
   border: none;
 }
 .flex-grid {
@@ -249,13 +252,13 @@ h2{
 .input {
   padding: 5px;
 }
-#albumView {
+#album-view {
   flex: 3;
   width: 80%;
   float: right;
   padding: 5px;
 }
-#snipView {
+#snip-view {
   flex: 1;
   background-color: #29438F;
   box-shadow: 0 0 3px;

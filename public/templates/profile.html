@@ -1,37 +1,37 @@
 <section class="profile">
-  <div class="profilePic">
+  <div class="profile-pic">
     <img src="/images/photo.png"/>
-    <h1>Hello, First Last</h1>
-  </div>
+    <h1>First Last</h1>
   <div class="tabs">
     <div ng-click="showAlbums()">Albums</div>
     <div ng-click="showSnips()">Snips</div>
   </div>
+  </div>
   <div class="list-view">
-    <div class="snips" ng-show="snipTab">
-      <button class="snip" ng-repeat="(key, value) in snips" ng-click="snipClick(key, value)"> {{ key }} </button>
-    </div>
-    <div class="albums" ng-show="!snipTab">
-      <button class="snip" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)"> {{ album.name }} </button>
+    <div class="inner-list">
+      <div class="snips" ng-show="snipTab">
+        <button class="snip" ng-repeat="(key, value) in snips" ng-click="snipClick(key, value)">{{ key }}</button>
+      </div>
+      <div class="albums" ng-show="!snipTab">
+        <button class="snip" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)">{{ album.name }}</button>
+      </div>
     </div>
   </div>
 </section>
-
-
 <section class="flex-grid">
-  <div id="albumView" class="grid">
+  <div id="album-view" class="grid">
     <div ng-repeat="pic in albumPhotos" class="picture" ng-show="!pic.checked">
-      <img ng-src="{{pic.src}}" ng-click="checkOn(pic)">
+      <img ng-src="{{ pic.src }}" ng-click="checkOn(pic)">
     </div>
   </div>
-  <div id="snipView" ng-show="snipPhotos.length > 0">
+  <div id="snip-view" ng-show="snipPhotos.length > 0">
     <div class="full-width input">
       <input ng-model="snipName" class="snip-name" ng-show="newSnip">
       <button class="add" ng-click="snipAdd()" ng-show="newSnip">add</button>
       <button class="save" ng-click="snipClose()" ng-show="!newSnip">save and exit</button>
     </div>
     <div ng-repeat="pic in snipPhotos" class="picture">
-      <img ng-src="{{pic.src}}" ng-click="checkOff(pic)">
+      <img ng-src="{{ pic.src }}" ng-click="checkOff(pic)">
     </div>
   </div>
 </section>
