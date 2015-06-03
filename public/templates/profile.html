@@ -24,7 +24,7 @@
       <img ng-src="{{ pic.src }}" ng-click="checkOn(pic)">
     </div>
   </div>
-  <div id="snip-view" ng-show="snipPhotos.length > 0">
+  <div id="snip-view" ng-show="snipPhotos.length > 0 || !newSnip">
     <div class="full-width input">
       <input ng-model="snipName" class="snip-name" ng-show="newSnip">
       <button class="add" ng-click="snipAdd()" ng-show="newSnip">add</button>

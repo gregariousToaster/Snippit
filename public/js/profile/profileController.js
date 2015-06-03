@@ -12,7 +12,7 @@ angular.module('snippit.profile', ['snippit'])
     // Album photos
     $scope.albumPhotos = [];
 
-    $scope.snipName;
+    $scope.snipName = '';
 
     $scope.newSnip = true;
 
@@ -22,12 +22,9 @@ angular.module('snippit.profile', ['snippit'])
     // Snips
     $scope.snips = {};
 
-    // Parsed data
-    $scope.parse = null;
-
-    var sceneHeight = function(){
-      return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
-    }
+    // var sceneHeight = function(){
+    //   return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
+    // }
 
     $scope.snipAdd = function() {
       $scope.snips[$scope.snipName] = $scope.snipPhotos;
@@ -40,8 +37,13 @@ angular.module('snippit.profile', ['snippit'])
     }
 
     $scope.snipClose = function() {
-      $scope.snips[$scope.snipName] = $scope.snipPhotos;
+      if ($scope.snipPhotos.length === 0) {
+        delete $scope.snips[$scope.snipName];
+      } else {
+        $scope.snips[$scope.snipName] = $scope.snipPhotos;
+      }
       $scope.snipPhotos = [];
+      $scope.snipName = '';
       $scope.newSnip = true;
     }
 
@@ -90,9 +92,10 @@ angular.module('snippit.profile', ['snippit'])
     };
 
     $scope.snipClick = function(name) {
-      if($scope.snips[name] === '');
       $scope.snipPhotos = $scope.snips[name];
       $scope.newSnip = false;
+      $scope.snipName = name;
+      console.log('name', $scope.snipName);
     };
 
     $scope.checkOn = function(pic) {
@@ -117,14 +120,18 @@ angular.module('snippit.profile', ['snippit'])
     // the album names for the logged in Facebook user, which allows them to
     // select an album to fetch photos from.
     $scope.init = function() {
+
       Facebook.getAlbumData().success(function(resp) {
-        $scope.parse = JSON.parse(resp);
-        for (var key in $scope.parse) {
-          $scope.albumNames.push($scope.parse[key]);
+        var parse = JSON.parse(resp);
+        for (var key in parse) {
+          $scope.albumNames.push(parse[key]);
         }
-          $scope.albumNames.push({name:'Facebook Wall Photos'});
-        document.getElementById('content').setAttribute('height', sceneHeight());
+        $scope.albumNames.push({name:'Facebook Wall Photos'});        
       });
+
+      // Snips.getSnipData().success(function(resp) {
+      //   $scope.snips = JSON.parse(resp);
+      // });
     }();
 
     var fixHeight = function(){
@@ -137,9 +144,4 @@ angular.module('snippit.profile', ['snippit'])
       fixHeight();
       window.addEventListener('resize', fixHeight, false);
     });
-
-
-
-    // $scope.init();
-
   }]);
