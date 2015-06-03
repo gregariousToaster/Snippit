@@ -3,6 +3,7 @@
 var express = require('express');
 var utils = require('../server/utils.js');
 var api = require('../server/APIrequests.js');
+var client = require('../server/config/mongo');
 
 // module.exports = router;
 
@@ -112,7 +113,16 @@ module.exports = function(passport) {
     }, false);
   });
 
-
+  // Does a MongoDB query based off of logged in Facebook user's ID.
+  // Response with name and id of that Facebook user.
+  router.get('/facebookUser', function(req, res) {
+    client.then(function(db){
+      return db.collection('users').findOneAsync({id:req.user.id});
+    })
+    .then(function(user){
+      res.json({name: user.name, id: user.id});
+    });
+  });
 
 
     return router;
