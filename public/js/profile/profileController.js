@@ -140,5 +140,20 @@ angular.module('snippit.profile', ['snippit'])
         $scope.albumNames.push({name:'Facebook Wall Photos'});        
       });
       $scope.fetchUser();
+      
     }();
+<<<<<<< HEAD
+=======
+
+    var fixHeight = function(){
+      document.getElementById('content').setAttribute('height',
+        ($window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight))
+      );
+    };
+
+    angular.element(document).ready(function () {
+      fixHeight();
+      window.addEventListener('resize', fixHeight, false);
+    });
+>>>>>>> minor changes to snip functionality
   }]);
