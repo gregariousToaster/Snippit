@@ -24,8 +24,6 @@ angular.module('snippit.auth', ['snippit'])
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
       }
 
-      console.log($scope.objects[0].element);
-
 
       renderer = new THREE.CSS3DRenderer();
       renderer.setSize($window.innerWidth, $window.innerHeight);

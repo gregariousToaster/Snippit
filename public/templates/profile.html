@@ -21,18 +21,18 @@
 <section class="flex-grid">
   <div id="album-view" class="grid">
     <div ng-show="loading" class="loading"><img src="../images/loading.gif" /></div>
-    <div ng-repeat="pic in albumPhotos" class="picture" ng-show="!pic.checked">
+    <div ng-repeat="pic in albumPhotos" class="picture" ng-show="!snipPhotos[pic.src]">
       <img ng-src="{{ pic.src }}" ng-click="checkOn(pic)">
     </div>
   </div>
-  <div id="snip-view" ng-show="snipPhotos.length > 0 || !newSnip">
+  <div id="snip-view" ng-show="snipCheck() || !newSnip">
     <div class="full-width input">
       <input ng-model="snipName" class="snip-name" ng-show="newSnip">
       <button class="add" ng-click="snipAdd()" ng-show="newSnip">add</button>
       <button class="save" ng-click="snipClose()" ng-show="!newSnip">save and exit</button>
     </div>
-    <div ng-repeat="pic in snipPhotos" class="picture">
-      <img ng-src="{{ pic.src }}" ng-click="checkOff(pic)">
+    <div ng-repeat="(key, value) in snipPhotos" class="picture">
+      <img ng-src="{{ key }}" ng-click="checkOff(key)">
     </div>
   </div>
 </section>

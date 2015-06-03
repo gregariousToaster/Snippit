@@ -28,6 +28,27 @@ exports.handleAlbums = function(req, res, data, cb){
   cb(JSON.stringify(albums));
 };
 
+exports.addSnip = function(req, res, cb){
+    var snip = {
+      name: req.body.name,
+      img: req.body.img
+    };
+    console.log('SNIP', snip);
+    if(req.body._id) {
+      client.then(function(db){
+        db.collection('snips').update({_id: req.body._id}, snip);
+      });
+    } else {
+      client.then(function(db){
+        db.collection('snips').insert(snip,
+          function(err, thingInserted){
+            console.log('SNIP', snip);
+            console.log('============thing insert==========',thingInserted);
+          });
+      })
+    }
+}
+
 exports.getAlbumPhotos = function(req, res, album, data, cb){
 
   var temp ={};
@@ -39,9 +60,6 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
 
   cb(JSON.stringify(temp));
 };
-
-
-
 
 exports.FBWallPhotos = function(req, res, data, cb){
 
@@ -80,7 +98,7 @@ exports.FBWallPhotos = function(req, res, data, cb){
       .then(function(user) {
         cb(JSON.stringify(user.data));
       });
-     });
+    });
   });
 
 };

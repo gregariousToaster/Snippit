@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('snippit.profile', ['snippit'])
-  .controller('ProfileController', ['$scope', 'Facebook', '$window', function($scope, Facebook, $window) {
+  .controller('ProfileController', ['$scope', 'Facebook', '$window', 'Snips', '$http', function($scope, Facebook, $window, Snips, $http) {
 
     // Facebook user data (as of right now, name and id)
     $scope.facebookUser = {};
@@ -16,10 +16,12 @@ angular.module('snippit.profile', ['snippit'])
 
     $scope.snipName = '';
 
+    $scope.snipId = null;
+
     $scope.newSnip = true;
 
     // Snip photos
-    $scope.snipPhotos = [];
+    $scope.snipPhotos = {};
 
     // Snips
     $scope.snips = {};
@@ -34,9 +36,26 @@ angular.module('snippit.profile', ['snippit'])
       });
     };
 
+    $scope.snipCheck = function(){
+      return !!Object.keys($scope.snipPhotos).length;
+    }
+
     $scope.snipAdd = function() {
+      if(!$scope.snipId){
+        Snips.saveSnips({img: $scope.snipPhotos, name: $scope.snipName})
+          .success(function(resp){
+            var id = JSON.parse(resp).id;
+            $scope.snips[id] = {
+              name: $scope.snipName,
+              img: $scope.snipPhotos
+            };
+          });
+      } else {
+        Snips.saveSnips({img: $scope.snipPhotos, name: $scope.snipName, _id: $scope.snipId});
+      }
       $scope.snips[$scope.snipName] = $scope.snipPhotos;
-      $scope.snipPhotos = [];
+      $scope.snipName = '';
+      $scope.snipPhotos = {};
 
       //snip saving code to go here
       //make routes to redirect to saving on the mongo database server side
@@ -50,7 +69,7 @@ angular.module('snippit.profile', ['snippit'])
       } else {
         $scope.snips[$scope.snipName] = $scope.snipPhotos;
       }
-      $scope.snipPhotos = [];
+      $scope.snipPhotos = {};
       $scope.snipName = '';
       $scope.newSnip = true;
     };
@@ -71,33 +90,25 @@ angular.module('snippit.profile', ['snippit'])
     $scope.albumClick = function(name, id) {
       $scope.loading = true;
       $scope.albumPhotos = [];
-      //if there's no id on the thing we click, we know it's facebook wall photos
       if(!id){
         Facebook.getWallData().success(function(resp){
-          var parse = JSON.parse(resp);
-          for (var i = 0; i < parse.wallPhotos.picture.length;i++){
+          var pics = JSON.parse(resp).wallPhotos;
+          for (var i = 0; i < parse.picture.length;i++){
             $scope.loading = false;
             $scope.albumPhotos.push({
-              src: parse.wallPhotos.picture[i],
-              checked: false,
+              src: pics.picture[i],
             });
           }
-          console.log(resp);
         });
-      }else{
-        //if, on the other hand, we have the ids, we'll get the album data
-        //based on the name album
+      } else {
         Facebook.getAlbumPhotos(name, id).success(function(resp) {
           var parse = JSON.parse(resp);
-          console.log(parse);
             for (var i = parse[name].length - 1; i >= 0; i--) {
               $scope.loading = false;
               $scope.albumPhotos.push({
                 src: parse[name][i],
-                checked: false
               });
             }
-          console.log('$scope.albumPhotos: ', $scope.albumPhotos);
         });
       }
     };
@@ -106,25 +117,18 @@ angular.module('snippit.profile', ['snippit'])
       $scope.snipPhotos = $scope.snips[name];
       $scope.newSnip = false;
       $scope.snipName = name;
-      console.log('name', $scope.snipName);
     };
 
     $scope.checkOn = function(pic) {
-      console.log('PICTURE', pic);
-      $scope.snipPhotos.push(pic);
-      pic.checked = true;
+      $scope.snipPhotos[pic.src] = {
+        src: pic.src,
+        thumb: pic.thumb,
+        position: Object.keys($scope.snipPhotos).length
+      };
     };
 
     $scope.checkOff = function(pic) {
-      console.log('PICTURE', pic);
-      for (var i = 0; i < $scope.snipPhotos.length; i++) {
-        if ($scope.snipPhotos[i].src === pic.src) {
-          $scope.snipPhotos.splice(i, 1);
-          break;
-        }
-      }
-
-      pic.checked = false;
+      delete $scope.snipPhotos[pic];
     };
 
     // This function is invoked on initialization of this controller. It fetches
@@ -142,18 +146,4 @@ angular.module('snippit.profile', ['snippit'])
       $scope.fetchUser();
       
     }();
-<<<<<<< HEAD
-=======
-
-    var fixHeight = function(){
-      document.getElementById('content').setAttribute('height',
-        ($window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight))
-      );
-    };
-
-    angular.element(document).ready(function () {
-      fixHeight();
-      window.addEventListener('resize', fixHeight, false);
-    });
->>>>>>> minor changes to snip functionality
   }]);

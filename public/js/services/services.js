@@ -138,4 +138,20 @@ angular.module('snippit.services', ['snippit'])
       refreshWallData: refreshWallData
     };
   }])
+  .factory('Snips', ['$http', function($http){
+
+    var getSnips = function() {
+      return $http.get('/');
+    };
+
+    var saveSnips = function(snip) {
+      console.log('SNIP SENT', snip);
+      return $http.post('/addSnip', snip);
+    };
+
+    return {
+      getSnips: getSnips,
+      saveSnips: saveSnips
+    };
+  }])
 ;

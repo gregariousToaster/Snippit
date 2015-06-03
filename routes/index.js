@@ -117,6 +117,7 @@ module.exports = function(passport) {
     }, false);
   });
 
+<<<<<<< HEAD
   // Does a MongoDB query based off of logged in Facebook user's ID.
   // Response with name and id of that Facebook user.
   router.get('/facebookUser', function(req, res) {
@@ -127,6 +128,12 @@ module.exports = function(passport) {
       res.json({name: user.name, id: user.id});
     });
   });
+=======
+  router.post('/addSnip', function(req, res){
+    utils.addSnip(req, res);
+  });
+
+>>>>>>> work on persistence of snips
 
 
     return router;
