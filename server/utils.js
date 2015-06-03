@@ -110,12 +110,12 @@ client.then(function(db){
         datas.wallPhotos.thumbnail.push(post.picture);
       });
 
-      db.collection('users').save({
-        _id: user._id,
-        id:user.id,
-        name:user.name,
-        FBtoken:user.FBtoken,
+      db.collection('users').update({
+        _id: user._id},
+        {$set:
+          {
         data:datas,
+        }
       });
     }
   }).then(function(){

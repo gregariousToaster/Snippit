@@ -141,4 +141,3 @@ angular.module('snippit.three', ['snippit'])
       renderer.render(scene, camera);
     };
   }]);
-

@@ -32,6 +32,11 @@ angular.module('snippit.profile', ['snippit'])
     $scope.snipAdd = function() {
       $scope.snips[$scope.snipName] = $scope.snipPhotos;
       $scope.snipPhotos = [];
+
+      //snip saving code to go here
+      //make routes to redirect to saving on the mongo database server side
+      //...on the server side we'll have a new snips database
+      //
     }
 
     $scope.snipClose = function() {
