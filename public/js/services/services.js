@@ -89,7 +89,7 @@ angular.module('snippit.services', ['snippit'])
 
       object.position.x = ((i % n) * 400) - 800;
       object.position.y = (-(Math.floor(i / n) % n) * 400) + 800;
-      object.position.z = (Math.floor(i / (n * n))) * 1000 - 2000;
+      object.position.z = (Math.floor(i / (n * n))) * 800;
 
       target.push(object);
     };
