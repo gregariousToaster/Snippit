@@ -1,5 +1,6 @@
 var configAuth = require('./config/auth.js');
 var https = require('https');
+var request = require('request');
 
 exports.facebookGET = function(accessToken, apiPath, callback, ampersand) {
   ampersand = ampersand ? '&' : '?';
@@ -51,7 +52,40 @@ exports.facebookGET = function(accessToken, apiPath, callback, ampersand) {
   request.end();
 }
 
+
+//redirects to the initial instagram Auth. This will be returned to the callback
+// and provide a code that can be traded for a token
 exports.authInstagram = function(req, res){
   res.redirect('https://api.instagram.com/oauth/authorize/?client_id='+configAuth.instagramAuth.clientID+'&redirect_uri='+configAuth.instagramAuth.callbackURL+'&response_type=code');
 }
 
+
+//Once instagram sends the code to the callback, this funciton handles the POST request 
+// that trades the code for the token and user information
+exports.instagramToken = function(code, cb){
+  request.post(
+    { form: { client_id: configAuth.instagramAuth.clientID,
+              client_secret: configAuth.instagramAuth.clientSecret,
+              grant_type: 'authorization_code',
+              redirect_uri: configAuth.instagramAuth.callbackURL,
+              code: code
+            },
+      url: 'https://api.instagram.com/oauth/access_token'
+    },
+    function (err, response, body) {
+      if (err) {
+        console.log("error in Post", err)
+      }else{
+        cb(JSON.parse(body))
+      }
+    }
+  );
+
+}
+// https://api.instagram.com/oauth/access_token?client_id=1f515809bd3e4107afea13c77ced3274&client_secret=c7eeefda5e4b44a78fde61b95c77b4d9&grant_type=authorization_code&redirect_uri=&code=e6b08ff1783e46f1b51bae9068f7cb91
+// curl -vF 'client_id=1f515809bd3e4107afea13c77ced3274' \
+//     -F 'client_secret=c7eeefda5e4b44a78fde61b95c77b4d9' \
+//     -F 'grant_type=authorization_code' \
+//     -F 'redirect_uri=Ahttp://127.0.0.1:3000/auth/instagram/callback' \
+//     -F 'code=77cc2d1ea0bd498d83a2df21cf15ddc0' \
+//     https://api.instagram.com/oauth/access_token

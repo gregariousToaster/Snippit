@@ -127,11 +127,7 @@ client.then(function(db){
   });
  });
 };
-// .then(function(err, result){
-//         if(err){
-//           console.log("ERROR", err);
-//         }else{
-//           console.log("Wall data added to the database");
-//           cb(JSON.stringify(result.data));
-//         }
-//       })
+
+// exports.addInstagramUser = function(req, res, data){
+  
+// }
