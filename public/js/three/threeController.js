@@ -21,7 +21,7 @@ angular.module('snippit.three', ['snippit'])
     var init = function(){
 
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / sceneHeight(), 1, 10000);
-      camera.position.z = 2500;
+      camera.position.z = 1500;
       scene = new THREE.Scene();
 
       var vector = new THREE.Vector3();
@@ -30,7 +30,7 @@ angular.module('snippit.three', ['snippit'])
 
       for (var i = 0; i < len; i++) {
         ThreeFactory.createObject(i, data.thumbnails, scene, $scope.objects, $scope.hit);
-        ThreeFactory.table(5, i, $scope.targets.table);
+        ThreeFactory.table(10, i, $scope.targets.table);
         ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
         ThreeFactory.helix(1, i, vector, $scope.targets.helix, 0.175, 450, 900, 900, 8);
         ThreeFactory.helix(2, i, vector, $scope.targets.doubleHelix, 0.175, 450, 500, 500, 50);

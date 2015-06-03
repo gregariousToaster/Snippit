@@ -3,6 +3,7 @@
 angular.module('snippit.profile', ['snippit'])
   .controller('ProfileController', ['$scope', 'Facebook', '$window', function($scope, Facebook, $window) {
 
+
     $scope.snipTab = false;
 
     // Album names
@@ -79,13 +80,11 @@ angular.module('snippit.profile', ['snippit'])
         });
       }
     };
-
     $scope.snipClick = function(name) {
+      if($scope.snips[name] === '');
       $scope.snipPhotos = $scope.snips[name];
       $scope.newSnip = false;
-
-    }
-
+    };
     $scope.checkOn = function(pic) {
       console.log('PICTURE', pic);
       $scope.snipPhotos.push(pic);
@@ -115,6 +114,19 @@ angular.module('snippit.profile', ['snippit'])
         document.getElementById('content').setAttribute('height', sceneHeight());
       });
     }();
+
+    var fixHeight = function(){
+      document.getElementById('content').setAttribute('height', 
+        ($window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight))
+      );
+    };
+
+    angular.element(document).ready(function () {
+      fixHeight();
+      window.addEventListener('resize', fixHeight, false);
+    });
+
+
 
     // $scope.init();
 
