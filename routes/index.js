@@ -61,13 +61,18 @@ module.exports = function(passport) {
     var code = req.url.split('code=')[1];
     console.log(code);
     //redirects the url to exchange the code for the token
-    // res.redirect('/auth/instagram/getToken');
-    api.instagramToken(code, function(user){
-      console.log(user);
+    res.redirect('/#/app/three');
+
+    api.instagramToken(code, function(data){
+      utils.refreshInstagramToken(req, res, data, function(user){
+
+      });
     });
   });
 
-
+  router.get('/auth/instagram/getToken', function(req, res){
+    console.log(req.user)
+  })
   router.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
