@@ -49,7 +49,15 @@ module.exports = function(passport) {
           }
           else {
             console.log('user is found, re-setting accessToken...');
-            db.collection('users').save({ _id: user._id, id: profile.id, name: profile.displayName, FBtoken : accessToken });
+            db.collection('users').update(
+              {_id: user._id},
+              {$set:
+                {FBtoken : accessToken}
+              }
+            );
+
+            // db.collection('users').save(
+            //   { _id: user._id, id: profile.id, name: profile.displayName, FBtoken : accessToken });
             return done(null, user);
           }
         });

@@ -60,6 +60,7 @@ angular.module('snippit.profile', ['snippit'])
     // Facebook album. We then parse the data and push it to $scope.albumPhotos.
     $scope.albumClick = function(name, id) {
       $scope.albumPhotos = [];
+      //if there's no id on the thing we click, we know it's facebook wall photos
       if(!id){
         Facebook.getWallData().success(function(resp){
           var parse = JSON.parse(resp);
@@ -72,6 +73,8 @@ angular.module('snippit.profile', ['snippit'])
           console.log(resp);
         })
       }else{
+        //if, on the other hand, we have the ids, we'll get the album data
+        //based on the name album
         Facebook.getAlbumPhotos(name, id).success(function(resp) {
           var parse = JSON.parse(resp);
           console.log(parse);
@@ -85,16 +88,19 @@ angular.module('snippit.profile', ['snippit'])
         });
       }
     };
+
     $scope.snipClick = function(name) {
       if($scope.snips[name] === '');
       $scope.snipPhotos = $scope.snips[name];
       $scope.newSnip = false;
     };
+
     $scope.checkOn = function(pic) {
       console.log('PICTURE', pic);
       $scope.snipPhotos.push(pic);
       pic.checked = true;
     };
+
     $scope.checkOff = function(pic) {
       console.log('PICTURE', pic);
       for (var i = 0; i < $scope.snipPhotos.length; i++) {
@@ -103,6 +109,7 @@ angular.module('snippit.profile', ['snippit'])
           break;
         };
       };
+      
       pic.checked = false;
     };
 

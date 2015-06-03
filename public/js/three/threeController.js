@@ -7,6 +7,8 @@ angular.module('snippit.three', ['snippit'])
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
     var scene, renderer, camera, controls;
 
+    //Setup is a boolean that lets us know not to render the scene until we have
+    //the facebook data.
     var setup = false;
 
     // This is a helper function that returns the total height of the THREE.js scene.
