@@ -19,6 +19,7 @@
     "gulp": "^3.8.11",
     "mongodb": "^2.0.33",
     "morgan": "~1.5.1",
+    "nconf": "^0.7.1",
     "passport": "^0.2.2",
     "passport-facebook": "^2.0.0",
     "request": "^2.57.0",
