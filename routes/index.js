@@ -128,7 +128,7 @@ module.exports = function(passport) {
 
   router.post('/saveSnip', function(req, res){
     utils.saveSnip(req, res)
-    res.json("complete");
+    res.end();
   });
 
   return router;

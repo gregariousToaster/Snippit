@@ -116,10 +116,11 @@ angular.module('snippit.profile', ['snippit'])
     };
 
     $scope.checkOn = function(id, pic) {
+      var pos = Object.keys($scope.snipPhotos).length;
       $scope.snipPhotos[id] = {
         src: pic.src,
         thumb: pic.thumb,
-        position: Object.keys($scope.snipPhotos).length
+        position: pos
       };
     };
 
