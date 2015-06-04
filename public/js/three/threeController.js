@@ -14,7 +14,7 @@ angular.module('snippit.three', ['snippit'])
     // This is a helper function that returns the total height of the THREE.js scene.
     var sceneHeight = function(){
       return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
-    }
+    };
 
     $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
@@ -22,9 +22,9 @@ angular.module('snippit.three', ['snippit'])
     var threeJS = function(resp) {
       var dat = JSON.parse(resp.data);
 
-      data = {pictures: dat.wallPhotos.picture,
+      var data = {pictures: dat.wallPhotos.picture,
                  thumbnails: dat.wallPhotos.thumbnail
-                }
+                };
 
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / sceneHeight(), 1, 10000);
       camera.position.z = 1500;
@@ -34,7 +34,7 @@ angular.module('snippit.three', ['snippit'])
 
       var vector = new THREE.Vector3();
 
-      var len = data.thumbnails.length
+      var len = data.thumbnails.length;
 
       for (var i = 0; i < len; i++) {
         ThreeFactory.createObject(i, data.thumbnails, scene, $scope.objects, $scope.hit);
