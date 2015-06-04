@@ -91,10 +91,10 @@ exports.FBWallPhotos = function(req, res, data, cb){
 client.then(function(db){
   return db.collection('users').findOneAsync({id: req.user.id})
   .then(function(user){
-     if(!user) {
+    if(!user) {
 
       console.log("ERROR, USER NOT FOUND, UTILS FBWallPhotos");
-     }else{
+    }else{
       console.log("user found IN HANDLE FACEBOOK");
       var dat = JSON.parse(data);
       var datas = {};
@@ -110,24 +110,44 @@ client.then(function(db){
         datas.wallPhotos.thumbnail.push(post.picture);
       });
 
-      db.collection('users').update({
-        _id: user._id},
+      db.collection('users').update({_id: user._id},
         {$set:
           {
-        data:datas,
+            data:datas,
+          }
         }
-      });
+      );
     }
   }).then(function(){
     db.collection('users').findOneAsync({id:req.user.id})
     .then(function(user) {
-      console.log('USER', user);
       cb(JSON.stringify(user.data));
     });
   });
  });
 };
 
-// exports.addInstagramUser = function(req, res, data){
-  
-// }
+exports.refreshInstagramToken = function(req, res, data, cb){
+  client.then(function(db){
+    return db.collection('users').findOneAsync({id: req.user.id})
+      .then(function(user){
+        if(!user){
+          console.log("ERROR, USER NOT FOUND UTILS addinstagramuser");
+        }else{
+          db.collection('users').update({_id: user._id},
+            {$set:
+              {
+                instagramToken: data.access_token,
+                instagramId: data.user.id
+              }
+            }
+          );
+        }
+      }).then(function(){
+        db.collection('users').findOneAsync({id:req.user.id})
+          .then(function(user){
+            cb(user)
+          });
+      });
+  });
+};

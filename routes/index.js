@@ -51,6 +51,7 @@ module.exports = function(passport) {
   // to instagram to exchange the code for a token)
   router.get('/auth/instagram', function(req, res){
     //handles url redirect
+
     api.authInstagram(req, res)
   });
 
@@ -58,15 +59,14 @@ module.exports = function(passport) {
   //this validation code IS NOT the token that allows for API calls
   // a swap is necessary to swap the code for the token
   router.get('/auth/instagram/callback', function(req, res){
-    var code = req.url.split('code=')[1];
-    console.log(code);
+    var code = req.url.split('code=')[1]
     //redirects the url to exchange the code for the token
-    // res.redirect('/auth/instagram/getToken');
-    api.instagramToken(code, function(user){
-      console.log(user);
+
+    api.instagramToken(req, res, code, function(data){
+      utils.refreshInstagramToken(req, res, data, function(user){
+      });
     });
   });
-
 
   router.get('/logout', function(req, res){
     req.logout();
