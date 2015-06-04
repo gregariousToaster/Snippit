@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('snippit.profile', ['snippit'])
-  .controller('ProfileController', ['$scope', 'Facebook', '$window', function($scope, Facebook, $window) {
+  .controller('ProfileController', ['$scope', 'Facebook', '$window', 'Snips', '$http', function($scope, Facebook, $window, Snips, $http) {
 
     // Facebook user data (as of right now, name and id)
     $scope.facebookUser = {};
@@ -12,20 +12,19 @@ angular.module('snippit.profile', ['snippit'])
     $scope.albumNames = [];
 
     // Album photos
-    $scope.albumPhotos = [];
+    $scope.albumPhotos = {};
 
-    $scope.snipName;
+    $scope.snipName = '';
+
+    $scope.snipId = null;
 
     $scope.newSnip = true;
 
     // Snip photos
-    $scope.snipPhotos = [];
+    $scope.snipPhotos = {};
 
     // Snips
     $scope.snips = {};
-
-    // Parsed data
-    $scope.parse = null;
 
     $scope.loading = false;
 
@@ -37,23 +36,37 @@ angular.module('snippit.profile', ['snippit'])
       });
     };
 
-    var sceneHeight = function(){
-      return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
-    };
+    $scope.snipCheck = function(){
+      return !!Object.keys($scope.snipPhotos).length;
+    }
+
 
     $scope.snipAdd = function() {
-      $scope.snips[$scope.snipName] = $scope.snipPhotos;
-      $scope.snipPhotos = [];
-
-      //snip saving code to go here
-      //make routes to redirect to saving on the mongo database server side
-      //...on the server side we'll have a new snips database
-      //
+      Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName})
+        .success(function(resp){
+          $scope.snips[resp] = {
+            name: $scope.snipName,
+            img: $scope.snipPhotos
+          };
+          $scope.snipName = '';
+          $scope.snipPhotos = {};
+        });
     };
 
     $scope.snipClose = function() {
-      $scope.snips[$scope.snipName] = $scope.snipPhotos;
-      $scope.snipPhotos = [];
+      if (Object.keys($scope.snipPhotos).length === 0) {
+        delete $scope.snips[$scope.snipId];
+        $scope.snipPhotos = {};
+        $scope.snipName = '';
+      } else {
+        $scope.snips[$scope.snipId].img = $scope.snipPhotos;
+        Snips.saveSnip({img: $scope.snipPhotos, name: $scope.snipName, _id: $scope.snipId})
+          .success(function(resp){
+            console.log(resp);
+            $scope.snipName = '';
+            $scope.snipPhotos = {};
+          });
+      }
       $scope.newSnip = true;
     };
 
@@ -72,91 +85,61 @@ angular.module('snippit.profile', ['snippit'])
     // Facebook album. We then parse the data and push it to $scope.albumPhotos.
     $scope.albumClick = function(name, id) {
       $scope.loading = true;
-      $scope.albumPhotos = [];
-      //if there's no id on the thing we click, we know it's facebook wall photos
+      $scope.albumPhotos = {};
       if(!id){
         Facebook.getWallData().success(function(resp){
-          var parse = JSON.parse(resp);
-          for (var i = 0; i < parse.wallPhotos.picture.length;i++){
+        //WE'LL COME BACK TO THIS
+          var pics = JSON.parse(resp).wallPhotos;
+          for (var i = 0; i < parse.picture.length;i++){
             $scope.loading = false;
             $scope.albumPhotos.push({
-              src: parse.wallPhotos.picture[i],
-              checked: false,
+              src: pics.picture[i],
             });
           }
-          console.log(resp);
         });
-      }else{
-        //if, on the other hand, we have the ids, we'll get the album data
-        //based on the name album
+      } else {
         Facebook.getAlbumPhotos(name, id).success(function(resp) {
           var parse = JSON.parse(resp);
-          console.log(parse);
-            for (var i = parse[name].length - 1; i >= 0; i--) {
+            for(var key in parse) {
               $scope.loading = false;
-              $scope.albumPhotos.push({
-                src: parse[name][i],
-                checked: false
-              });
+              $scope.albumPhotos = parse[key];
             }
-          console.log('$scope.albumPhotos: ', $scope.albumPhotos);
         });
       }
     };
 
-    $scope.snipClick = function(name) {
-      if ($scope.snips[name] === '') {
-        $scope.snipPhotos = $scope.snips[name];
-        $scope.newSnip = false;
-      }
+    $scope.snipClick = function(key, value) {
+      $scope.snipId = key;
+      $scope.snipPhotos = value.img;
+      $scope.newSnip = false;
+      $scope.snipName = value.name;
     };
 
-    $scope.checkOn = function(pic) {
-      console.log('PICTURE', pic);
-      $scope.snipPhotos.push(pic);
-      pic.checked = true;
+    $scope.checkOn = function(id, pic) {
+      $scope.snipPhotos[id] = {
+        src: pic.src,
+        thumb: pic.thumb,
+        position: Object.keys($scope.snipPhotos).length
+      };
     };
 
     $scope.checkOff = function(pic) {
-      console.log('PICTURE', pic);
-      for (var i = 0; i < $scope.snipPhotos.length; i++) {
-        if ($scope.snipPhotos[i].src === pic.src) {
-          $scope.snipPhotos.splice(i, 1);
-          break;
-        }
-      }
-
-      pic.checked = false;
+      delete $scope.snipPhotos[pic];
     };
 
     // This function is invoked on initialization of this controller. It fetches
     // the album names for the logged in Facebook user, which allows them to
     // select an album to fetch photos from.
     $scope.init = function() {
+
       Facebook.getAlbumData().success(function(resp) {
-        $scope.parse = JSON.parse(resp);
-        for (var key in $scope.parse) {
-          $scope.albumNames.push($scope.parse[key]);
+        var parse = JSON.parse(resp);
+        for (var key in parse) {
+          $scope.albumNames.push(parse[key]);
         }
-          $scope.albumNames.push({name:'Facebook Wall Photos'});
-        document.getElementById('content').setAttribute('height', sceneHeight());
+        $scope.albumNames.push({name:'Facebook Wall Photos'});        
       });
       $scope.fetchUser();
+      
     }();
-
-    var fixHeight = function(){
-      document.getElementById('content').setAttribute('height',
-        ($window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight))
-      );
-    };
-
-    angular.element(document).ready(function () {
-      fixHeight();
-      window.addEventListener('resize', fixHeight, false);
-    });
-
-
-
-    // $scope.init();
-
   }]);

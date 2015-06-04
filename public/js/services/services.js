@@ -138,4 +138,29 @@ angular.module('snippit.services', ['snippit'])
       refreshWallData: refreshWallData
     };
   }])
+  .factory('Snips', ['$http', function($http){
+
+    // Makes a request and fetches a user's snips.
+    var getSnips = function() {
+      return $http.get('/');
+    };
+
+    // Makes a request and posts a snip to the database.
+    // It takes a snip object with a name and img property.
+    var addSnip = function(snip) {
+      return $http.post('/addSnip', snip);
+    };
+
+    // Makes a request and updates a given snip with new info.
+    // It takes a snip object with an _id and img property.
+    var saveSnip = function(snip) {
+      return $http.post('/saveSnip', snip);
+    };
+
+    return {
+      getSnips: getSnips,
+      addSnip: addSnip,
+      saveSnip: saveSnip
+    };
+  }])
 ;
