@@ -22,9 +22,10 @@ angular.module('snippit.three', ['snippit'])
     var threeJS = function(resp) {
       var dat = JSON.parse(resp.data);
 
-      var data = {pictures: dat.wallPhotos.picture,
-                 thumbnails: dat.wallPhotos.thumbnail
-                };
+      data = {
+        pictures: dat.wallPhotos.picture,
+        thumbnails: dat.wallPhotos.thumbnail
+      };
 
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / sceneHeight(), 1, 10000);
       camera.position.z = 1500;

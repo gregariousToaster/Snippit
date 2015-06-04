@@ -204,9 +204,9 @@ h2 {
 .grid {
   -webkit-column-count: 4;
   -webkit-column-gap: 0px;
-  -moz-column-count: 5;
+  -moz-column-count: 4;
   -moz-column-gap: 0px;
-  column-count: 5;
+  column-count: 4;
   column-gap: 0px;
 }
 .picture {
