@@ -50,6 +50,7 @@ module.exports = function(passport) {
   // to instagram to exchange the code for a token)
   router.get('/auth/instagram', function(req, res){
     //handles url redirect
+
     api.authInstagram(req, res)
   });
 
@@ -58,20 +59,14 @@ module.exports = function(passport) {
   // a swap is necessary to swap the code for the token
   router.get('/auth/instagram/callback', function(req, res){
     var code = req.url.split('code=')[1]
-    console.log(code)
     //redirects the url to exchange the code for the token
-    res.redirect('/#/app/three');
 
-    api.instagramToken(code, function(data){
+    api.instagramToken(req, res, code, function(data){
       utils.refreshInstagramToken(req, res, data, function(user){
-
       });
     });
   });
 
-  router.get('/auth/instagram/getToken', function(req, res){
-    console.log(req.user)
-  })
   router.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');

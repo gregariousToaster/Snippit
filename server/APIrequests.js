@@ -55,14 +55,14 @@ exports.facebookGET = function(accessToken, apiPath, callback, ampersand) {
 
 //redirects to the initial instagram Auth. This will be returned to the callback
 // and provide a code that can be traded for a token
-exports.authInstagram = function(req, res){
+exports.authInstagram = function(req, res) {
   res.redirect('https://api.instagram.com/oauth/authorize/?client_id='+configAuth.instagramAuth.clientID+'&redirect_uri='+configAuth.instagramAuth.callbackURL+'&response_type=code');
 }
 
 
 //Once instagram sends the code to the callback, this funciton handles the POST request 
 // that trades the code for the token and user information
-exports.instagramToken = function(code, cb){
+exports.instagramToken = function(req, res, code, cb){
   request.post(
     { form: { client_id: configAuth.instagramAuth.clientID,
               client_secret: configAuth.instagramAuth.clientSecret,
@@ -76,6 +76,7 @@ exports.instagramToken = function(code, cb){
       if (err) {
         console.log("error in Post", err)
       }else{
+
         cb(JSON.parse(body))
       }
     }
