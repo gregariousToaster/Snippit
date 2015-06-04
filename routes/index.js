@@ -121,9 +121,13 @@ module.exports = function(passport) {
 
   router.post('/addSnip', function(req, res){
     utils.addSnip(req, res, function(err, id){
-      console.log('ID', id);
       res.json(id.ops[0]._id);
     });
+  });
+
+  router.post('/saveSnip', function(req, res){
+    utils.saveSnip(req, res)
+    res.json("complete");
   });
 
   return router;

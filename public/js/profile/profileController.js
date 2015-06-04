@@ -41,34 +41,31 @@ angular.module('snippit.profile', ['snippit'])
     }
 
     $scope.snipAdd = function() {
-      if(!$scope.snipId){
-        Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName})
-          .success(function(resp){
-            $scope.snips[resp] = {
-              name: $scope.snipName,
-              img: $scope.snipPhotos
-            };
-            $scope.snipName = '';
-            $scope.snipPhotos = {};
-          });
-      } else {
-        Snips.saveSnips({img: $scope.snipPhotos, name: $scope.snipName, _id: $scope.snipId});
-      }
-      // $scope.snips[$scope.snipName] = $scope.snipPhotos;
-
-      //snip saving code to go here
-      //make routes to redirect to saving on the mongo database server side
-      //...on the server side we'll have a new snips database
+      Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName})
+        .success(function(resp){
+          $scope.snips[resp] = {
+            name: $scope.snipName,
+            img: $scope.snipPhotos
+          };
+          $scope.snipName = '';
+          $scope.snipPhotos = {};
+        });
     };
 
     $scope.snipClose = function() {
       if (Object.keys($scope.snipPhotos).length === 0) {
         delete $scope.snips[$scope.snipId];
+        $scope.snipPhotos = {};
+        $scope.snipName = '';
       } else {
         $scope.snips[$scope.snipId].img = $scope.snipPhotos;
+        Snips.saveSnip({img: $scope.snipPhotos, name: $scope.snipName, _id: $scope.snipId})
+          .success(function(resp){
+            console.log(resp);
+            $scope.snipName = '';
+            $scope.snipPhotos = {};
+          });
       }
-      $scope.snipPhotos = {};
-      $scope.snipName = '';
       $scope.newSnip = true;
     };
 
@@ -114,7 +111,7 @@ angular.module('snippit.profile', ['snippit'])
       $scope.snipId = key;
       $scope.snipPhotos = value.img;
       $scope.newSnip = false;
-      $scope.snipName = key;
+      $scope.snipName = value.name;
     };
 
     $scope.checkOn = function(id, pic) {
