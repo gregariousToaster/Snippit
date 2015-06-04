@@ -106,6 +106,10 @@ angular.module('snippit.services', ['snippit'])
 
     // This is a helper function to get the Wall Photos of the current user.
     var getWallData = function() {
+      return $http.get('/getData');
+    };
+
+    var refreshWallData = function() {
       return $http.get('/getFacebookWall');
     };
 
@@ -130,7 +134,8 @@ angular.module('snippit.services', ['snippit'])
       getWallData: getWallData,
       getAlbumData: getAlbumData,
       getAlbumPhotos: getAlbumPhotos,
-      getFacebookUser: getFacebookUser
+      getFacebookUser: getFacebookUser,
+      refreshWallData: refreshWallData
     };
   }])
 ;

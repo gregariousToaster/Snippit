@@ -3,7 +3,7 @@
 
 angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', function($scope, ThreeFactory, $window, $document, Facebook) {
-    
+
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
     var scene, renderer, camera, controls;
 
@@ -22,6 +22,9 @@ angular.module('snippit.three', ['snippit'])
     var init = function(){
       Facebook.getWallData()
         .then(function(resp){
+          if (!resp) {
+            console.log('NEEDS NEW FACEBOOK DATA!!! ', resp);
+          }
           var dat = JSON.parse(resp.data);
 
           data = {pictures: dat.wallPhotos.picture,

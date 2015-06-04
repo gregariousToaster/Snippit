@@ -78,7 +78,6 @@ angular.module('snippit.auth', ['snippit'])
 
 
     var animate = function() {
-      console.log(animate);
       requestAnimationFrame(animate);
       TWEEN.update();
       timer += 0.001;
