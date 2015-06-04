@@ -40,6 +40,7 @@ angular.module('snippit.profile', ['snippit'])
       return !!Object.keys($scope.snipPhotos).length;
     }
 
+
     $scope.snipAdd = function() {
       Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName})
         .success(function(resp){
