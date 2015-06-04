@@ -89,6 +89,10 @@ module.exports = function(passport) {
   });
 
   router.get('/getFacebookWall', function(req, res){
+<<<<<<< HEAD
+=======
+    console.log(res.json, "getfacebookwall router");
+>>>>>>> fixed spelling error
     api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data) {
       utils.FBWallPhotos(req, res, data, function(user){
         res.json(user);
