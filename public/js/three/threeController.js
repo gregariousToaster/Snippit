@@ -3,7 +3,7 @@
 
 angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', function($scope, ThreeFactory, $window, $document, Facebook) {
-    
+
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
     var scene, renderer, camera, controls;
 
@@ -14,56 +14,70 @@ angular.module('snippit.three', ['snippit'])
     // This is a helper function that returns the total height of the THREE.js scene.
     var sceneHeight = function(){
       return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
-    }
+    };
 
     $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 
+    var threeJS = function(resp) {
+      var dat = JSON.parse(resp.data);
+
+      var data = {pictures: dat.wallPhotos.picture,
+                 thumbnails: dat.wallPhotos.thumbnail
+                };
+
+      camera = new THREE.PerspectiveCamera(30, $window.innerWidth / sceneHeight(), 1, 10000);
+      camera.position.z = 1500;
+      scene = new THREE.Scene();
+
+      setup = true;
+
+      var vector = new THREE.Vector3();
+
+      var len = data.thumbnails.length;
+
+      for (var i = 0; i < len; i++) {
+        ThreeFactory.createObject(i, data.thumbnails, scene, $scope.objects, $scope.hit);
+        ThreeFactory.table(10, i, $scope.targets.table);
+        ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
+        ThreeFactory.helix(1, i, vector, $scope.targets.helix, 0.175, 450, 900, 900, 8);
+        ThreeFactory.helix(2, i, vector, $scope.targets.doubleHelix, 0.175, 450, 500, 500, 50);
+        ThreeFactory.helix(3, i, vector, $scope.targets.tripleHelix, 0.1, 450, 500, 500, 50);
+        ThreeFactory.grid(5, i, $scope.targets.grid);
+      }
+
+      renderer = new THREE.CSS3DRenderer();
+      renderer.setSize($window.innerWidth, sceneHeight());
+      renderer.domElement.style.position = 'absolute';
+      renderer.domElement.classList.add('render');
+
+      $scope.transform($scope.targets.table, 2000);
+
+      document.getElementById('content').setAttribute('height', sceneHeight());
+      document.getElementById('container').appendChild(renderer.domElement);
+
+      window.addEventListener('resize', onWindowResize, false);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.damping = 0.2;
+      controls.addEventListener('change', $scope.render);
+    };
+
+    // Now checks to see if photos currently exist in the database for
+    // this user. If not, it'll fetch them from Facebook, if it does, it'll
+    // fetch from MongoDB.
     var init = function(){
       Facebook.getWallData()
         .then(function(resp){
-          var dat = JSON.parse(resp.data);
-
-          data = {pictures: dat.wallPhotos.picture,
-                     thumbnails: dat.wallPhotos.thumbnail
-                    }
-
-          camera = new THREE.PerspectiveCamera(30, $window.innerWidth / sceneHeight(), 1, 10000);
-          camera.position.z = 1500;
-          scene = new THREE.Scene();
-
-          setup = true;
-
-          var vector = new THREE.Vector3();
-
-          var len = data.thumbnails.length
-
-          for (var i = 0; i < len; i++) {
-            ThreeFactory.createObject(i, data.thumbnails, scene, $scope.objects, $scope.hit);
-            ThreeFactory.table(10, i, $scope.targets.table);
-            ThreeFactory.sphere(i, vector, $scope.targets.sphere, 800, len);
-            ThreeFactory.helix(1, i, vector, $scope.targets.helix, 0.175, 450, 900, 900, 8);
-            ThreeFactory.helix(2, i, vector, $scope.targets.doubleHelix, 0.175, 450, 500, 500, 50);
-            ThreeFactory.helix(3, i, vector, $scope.targets.tripleHelix, 0.1, 450, 500, 500, 50);
-            ThreeFactory.grid(5, i, $scope.targets.grid);
-          }
-
-          renderer = new THREE.CSS3DRenderer();
-          renderer.setSize($window.innerWidth, sceneHeight());
-          renderer.domElement.style.position = 'absolute';
-          renderer.domElement.classList.add('render');
-
-          $scope.transform($scope.targets.table, 2000);
-
-          document.getElementById('content').setAttribute('height', sceneHeight());
-          document.getElementById('container').appendChild(renderer.domElement);
-
-          window.addEventListener('resize', onWindowResize, false);
-
-          controls = new THREE.OrbitControls(camera, renderer.domElement);
-          controls.damping = 0.2;
-          controls.addEventListener('change', $scope.render);
-        });
+        if (resp.data.bool === 'false') {
+          Facebook.refreshWallData()
+          .then(function(resp) {
+            threeJS(resp);
+          });
+        } else {
+          threeJS(resp);
+        }
+      });
     };
 
     $scope.hit = function(){

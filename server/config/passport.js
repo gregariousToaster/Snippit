@@ -4,6 +4,7 @@
 var FacebookStrategy = require('passport-facebook');
 var configAuth = require('./auth.js');
 var client = require('./mongo');
+
 module.exports = function(passport) {
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -43,7 +44,6 @@ module.exports = function(passport) {
       client.then(function(db) {
         return db.collection('users').findOneAsync({ id: profile.id })
         .then(function(user) {
-          console.log('PROFILE ID', typeof(profile.id));
           if (!user) {
             console.log('user NOT found, creating a new one...');
             var newUser = {
