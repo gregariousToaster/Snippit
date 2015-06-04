@@ -27,6 +27,8 @@ angular.module('snippit.profile', ['snippit'])
     // Parsed data
     $scope.parse = null;
 
+    $scope.loading = false;
+
     // Invoke Facebook getFacebook user method, on success, assign
     // $scope.facebookUser to that response (Facebook name and id).
     $scope.fetchUser = function() {
@@ -69,12 +71,14 @@ angular.module('snippit.profile', ['snippit'])
     // success, we are given a response, which are the photos for that specific
     // Facebook album. We then parse the data and push it to $scope.albumPhotos.
     $scope.albumClick = function(name, id) {
+      $scope.loading = true;
       $scope.albumPhotos = [];
       //if there's no id on the thing we click, we know it's facebook wall photos
       if(!id){
         Facebook.getWallData().success(function(resp){
           var parse = JSON.parse(resp);
           for (var i = 0; i < parse.wallPhotos.picture.length;i++){
+            $scope.loading = false;
             $scope.albumPhotos.push({
               src: parse.wallPhotos.picture[i],
               checked: false,
@@ -89,6 +93,7 @@ angular.module('snippit.profile', ['snippit'])
           var parse = JSON.parse(resp);
           console.log(parse);
             for (var i = parse[name].length - 1; i >= 0; i--) {
+              $scope.loading = false;
               $scope.albumPhotos.push({
                 src: parse[name][i],
                 checked: false

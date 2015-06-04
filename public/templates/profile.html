@@ -20,6 +20,7 @@
 </section>
 <section class="flex-grid">
   <div id="album-view" class="grid">
+    <div ng-show="loading" class="loading"><img src="../images/loading.gif" /></div>
     <div ng-repeat="pic in albumPhotos" class="picture" ng-show="!pic.checked">
       <img ng-src="{{ pic.src }}" ng-click="checkOn(pic)">
     </div>
