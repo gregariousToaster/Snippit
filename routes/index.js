@@ -74,9 +74,17 @@ module.exports = function(passport) {
     res.json(authorized);
   });
 
+
+  // If photos exist in database, response with data. If not,
+  // response with an object with a bool property pointing to
+  // false.
   router.get('/getData', function(req, res){
     utils.grabData(req, res, function(user){
-      res.json(user);
+      if (user) {
+        res.json(user);
+      } else {
+        res.json({bool: 'false'});
+      }
     });
   });
 
