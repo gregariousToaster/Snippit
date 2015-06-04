@@ -33,29 +33,22 @@ exports.addSnip = function(req, res, cb){
       name: req.body.name,
       img: req.body.img
     };
-    console.log('SNIP', snip);
     if(req.body._id) {
       client.then(function(db){
         db.collection('snips').update({_id: req.body._id}, snip);
       });
     } else {
       client.then(function(db){
-        db.collection('snips').insert(snip,
-          function(err, thingInserted){
-            console.log('SNIP', snip);
-            console.log('============thing insert==========',thingInserted);
-          });
+        db.collection('snips').insert(snip, cb);
       })
     }
 }
 
 exports.getAlbumPhotos = function(req, res, album, data, cb){
-
   var temp ={};
-  temp[album.name] = [];
+  temp[album.name] = {};
   _.each(JSON.parse(data).data, function(photo){
-    temp[album.name].push(photo.source);
-
+    temp[album.name][photo.id] = {src: photo.source, thumb: photo.picture};
   });
 
   cb(JSON.stringify(temp));

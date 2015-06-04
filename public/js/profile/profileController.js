@@ -12,7 +12,7 @@ angular.module('snippit.profile', ['snippit'])
     $scope.albumNames = [];
 
     // Album photos
-    $scope.albumPhotos = [];
+    $scope.albumPhotos = {};
 
     $scope.snipName = '';
 
@@ -42,32 +42,30 @@ angular.module('snippit.profile', ['snippit'])
 
     $scope.snipAdd = function() {
       if(!$scope.snipId){
-        Snips.saveSnips({img: $scope.snipPhotos, name: $scope.snipName})
+        Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName})
           .success(function(resp){
-            var id = JSON.parse(resp).id;
-            $scope.snips[id] = {
+            $scope.snips[resp] = {
               name: $scope.snipName,
               img: $scope.snipPhotos
             };
+            $scope.snipName = '';
+            $scope.snipPhotos = {};
           });
       } else {
         Snips.saveSnips({img: $scope.snipPhotos, name: $scope.snipName, _id: $scope.snipId});
       }
-      $scope.snips[$scope.snipName] = $scope.snipPhotos;
-      $scope.snipName = '';
-      $scope.snipPhotos = {};
+      // $scope.snips[$scope.snipName] = $scope.snipPhotos;
 
       //snip saving code to go here
       //make routes to redirect to saving on the mongo database server side
       //...on the server side we'll have a new snips database
-      //
     };
 
     $scope.snipClose = function() {
-      if ($scope.snipPhotos.length === 0) {
-        delete $scope.snips[$scope.snipName];
+      if (Object.keys($scope.snipPhotos).length === 0) {
+        delete $scope.snips[$scope.snipId];
       } else {
-        $scope.snips[$scope.snipName] = $scope.snipPhotos;
+        $scope.snips[$scope.snipId].img = $scope.snipPhotos;
       }
       $scope.snipPhotos = {};
       $scope.snipName = '';
@@ -89,9 +87,10 @@ angular.module('snippit.profile', ['snippit'])
     // Facebook album. We then parse the data and push it to $scope.albumPhotos.
     $scope.albumClick = function(name, id) {
       $scope.loading = true;
-      $scope.albumPhotos = [];
+      $scope.albumPhotos = {};
       if(!id){
         Facebook.getWallData().success(function(resp){
+        //WE'LL COME BACK TO THIS
           var pics = JSON.parse(resp).wallPhotos;
           for (var i = 0; i < parse.picture.length;i++){
             $scope.loading = false;
@@ -103,24 +102,23 @@ angular.module('snippit.profile', ['snippit'])
       } else {
         Facebook.getAlbumPhotos(name, id).success(function(resp) {
           var parse = JSON.parse(resp);
-            for (var i = parse[name].length - 1; i >= 0; i--) {
+            for(var key in parse) {
               $scope.loading = false;
-              $scope.albumPhotos.push({
-                src: parse[name][i],
-              });
+              $scope.albumPhotos = parse[key];
             }
         });
       }
     };
 
-    $scope.snipClick = function(name) {
-      $scope.snipPhotos = $scope.snips[name];
+    $scope.snipClick = function(key, value) {
+      $scope.snipId = key;
+      $scope.snipPhotos = value.img;
       $scope.newSnip = false;
-      $scope.snipName = name;
+      $scope.snipName = key;
     };
 
-    $scope.checkOn = function(pic) {
-      $scope.snipPhotos[pic.src] = {
+    $scope.checkOn = function(id, pic) {
+      $scope.snipPhotos[id] = {
         src: pic.src,
         thumb: pic.thumb,
         position: Object.keys($scope.snipPhotos).length

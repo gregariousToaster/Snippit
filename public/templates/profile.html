@@ -10,7 +10,7 @@
   <div class="list-view">
     <div class="inner-list">
       <div class="snips" ng-show="snipTab">
-        <button class="snip" ng-repeat="(key, value) in snips" ng-click="snipClick(key, value)">{{ key }}</button>
+        <button class="snip" ng-repeat="(key, value) in snips" ng-click="snipClick(key, value)">{{ value.name }}</button>
       </div>
       <div class="albums" ng-show="!snipTab">
         <button class="snip" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)">{{ album.name }}</button>
@@ -21,8 +21,8 @@
 <section class="flex-grid">
   <div id="album-view" class="grid">
     <div ng-show="loading" class="loading"><img src="../images/loading.gif" /></div>
-    <div ng-repeat="pic in albumPhotos" class="picture" ng-show="!snipPhotos[pic.src]">
-      <img ng-src="{{ pic.src }}" ng-click="checkOn(pic)">
+    <div ng-repeat="(key, value) in albumPhotos" class="picture" ng-show="!snipPhotos[key]">
+      <img ng-src="{{ value.src }}" ng-click="checkOn(key, value)">
     </div>
   </div>
   <div id="snip-view" ng-show="snipCheck() || !newSnip">
@@ -32,7 +32,7 @@
       <button class="save" ng-click="snipClose()" ng-show="!newSnip">save and exit</button>
     </div>
     <div ng-repeat="(key, value) in snipPhotos" class="picture">
-      <img ng-src="{{ key }}" ng-click="checkOff(key)">
+      <img ng-src="{{ value.src }}" ng-click="checkOff(key, value)">
     </div>
   </div>
 </section>

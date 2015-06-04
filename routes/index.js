@@ -5,11 +5,6 @@ var utils = require('../server/utils.js');
 var api = require('../server/APIrequests.js');
 var client = require('../server/config/mongo');
 
-// module.exports = router;
-
-
-
-
 module.exports = function(passport) {
 
   var router = express.Router();
@@ -89,10 +84,6 @@ module.exports = function(passport) {
   });
 
   router.get('/getFacebookWall', function(req, res){
-<<<<<<< HEAD
-=======
-    console.log(res.json, "getfacebookwall router");
->>>>>>> fixed spelling error
     api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data) {
       utils.FBWallPhotos(req, res, data, function(user){
         res.json(user);
@@ -117,7 +108,6 @@ module.exports = function(passport) {
     }, false);
   });
 
-<<<<<<< HEAD
   // Does a MongoDB query based off of logged in Facebook user's ID.
   // Response with name and id of that Facebook user.
   router.get('/facebookUser', function(req, res) {
@@ -128,13 +118,13 @@ module.exports = function(passport) {
       res.json({name: user.name, id: user.id});
     });
   });
-=======
+
   router.post('/addSnip', function(req, res){
-    utils.addSnip(req, res);
+    utils.addSnip(req, res, function(err, id){
+      console.log('ID', id);
+      res.json(id.ops[0]._id);
+    });
   });
 
->>>>>>> work on persistence of snips
-
-
-    return router;
+  return router;
 };

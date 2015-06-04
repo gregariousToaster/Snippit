@@ -144,14 +144,14 @@ angular.module('snippit.services', ['snippit'])
       return $http.get('/');
     };
 
-    var saveSnips = function(snip) {
+    var addSnip = function(snip) {
       console.log('SNIP SENT', snip);
       return $http.post('/addSnip', snip);
     };
 
     return {
       getSnips: getSnips,
-      saveSnips: saveSnips
+      addSnip: addSnip
     };
   }])
 ;
