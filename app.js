@@ -11,6 +11,7 @@ var util = require('util');
 var client = require('./server/config/mongo');
 
 var session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
 
 var routes = require('./routes/index');
 
@@ -19,6 +20,16 @@ var utils = require('./server/utils.js');
 var api = require('./server/APIrequests.js');
 
 var app = express();
+var store = new MongoDBStore({
+  uri: 'mongodb://localhost/GregariousToaster',
+  collection: 'mySessions'
+});
+
+// error handling for session store
+store.on('error', function(error) {
+  assert.ifError(error);
+  assert.ok(false);
+});
 
 // pass passport for configuration
 require('./server/config/passport.js')(passport);
@@ -31,7 +42,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //passport Oauth
-app.use(session({ secret: 'keyboard cat' }));
+app.use(session({ 
+  secret: 'keyboard cat',
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7 // week long cookies
+  },
+  store: store 
+}));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 app.use(passport.initialize());

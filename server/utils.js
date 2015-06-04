@@ -134,8 +134,6 @@ exports.refreshInstagramToken = function(req, res, data, cb){
         if(!user){
           console.log("ERROR, USER NOT FOUND UTILS addinstagramuser");
         }else{
-          console.log(data)
-          console.log('user found in instsagramtoken');
           db.collection('users').update({_id: user._id},
             {$set:
               {
@@ -148,7 +146,6 @@ exports.refreshInstagramToken = function(req, res, data, cb){
       }).then(function(){
         db.collection('users').findOneAsync({id:req.user.id})
           .then(function(user){
-            console.log(user, "THIS IS THE ONE")
             cb(user)
           });
       });

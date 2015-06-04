@@ -7,18 +7,25 @@ var client = require('./mongo');
 module.exports = function(passport) {
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
-//   serialize users into and deserialize users out of the session.  Typically,
-//   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.  However, since this example does not
-//   have a database of user records, the complete GitHub profile is serialized
-//   and deserialized.
+//   serialize users into and deserialize users out of the session. 
   passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user.id);
   });
 
-  passport.deserializeUser(function(obj, done) {
-    done(null, obj);
+  passport.deserializeUser(function(id, done) {
+    client.then(function(db){
+      return db.collection('users').findOneAsync({id: id})
+        .then(function(user){
+          if(!user) {
+            console.log("user not found in desiralize")
+          }
+          done(null, user);
+          
+        });
+    })
   });
+   // User.findById(id, function(err, user){
+   //    done(err, user);
 //==============
 
 //=============
