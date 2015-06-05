@@ -138,3 +138,11 @@ exports.refreshInstagramToken = function(req, res, data, cb){
       });
   });
 };
+
+exports.getInstagramPhotos = function(req, res, user, cb){
+  
+}
+
+
+
+
