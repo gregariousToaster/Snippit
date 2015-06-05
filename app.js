@@ -27,8 +27,8 @@ var store = new MongoDBStore({
 
 // error handling for session store
 store.on('error', function(error) {
-  assert.ifError(error);
-  assert.ok(false);
+  // assert.ifError(error);
+  // assert.ok(false);
 });
 
 // pass passport for configuration
@@ -42,12 +42,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //passport Oauth
-app.use(session({ 
+app.use(session({
   secret: 'keyboard cat',
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7 // week long cookies
   },
-  store: store 
+  store: store
 }));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
