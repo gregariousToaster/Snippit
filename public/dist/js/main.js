@@ -210,6 +210,20 @@ angular.module('snippit.profile', ['snippit'])
       return !!Object.keys($scope.snipPhotos).length;
     }
 
+    $scope.fetchSnips = function(){
+      Snips.getSnips().success(function(resp) {
+        console.log('RESP', resp);
+        for (var i = 0; i < resp.length; i++) {
+          console.log('RESP' + i, resp[i]);
+          $scope.snips[resp[i].name] = {
+            name: resp[i].name,
+            img: resp[i].img
+          }
+        }
+        console.log('SCOPE SNIPS', $scope.snips);
+      })
+    }
+
 
     $scope.snipAdd = function() {
       Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName})
@@ -308,10 +322,10 @@ angular.module('snippit.profile', ['snippit'])
         for (var key in parse) {
           $scope.albumNames.push(parse[key]);
         }
-        $scope.albumNames.push({name:'Facebook Wall Photos'});        
+        $scope.albumNames.push({name:'Facebook Wall Photos'});
       });
       $scope.fetchUser();
-      
+      $scope.fetchSnips();
     }();
   }]);
 
@@ -459,7 +473,7 @@ angular.module('snippit.services', ['snippit'])
 
     // Makes a request and fetches a user's snips.
     var getSnips = function() {
-      return $http.get('/');
+      return $http.get('/getSnips');
     };
 
     // Makes a request and posts a snip to the database.

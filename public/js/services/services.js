@@ -142,7 +142,7 @@ angular.module('snippit.services', ['snippit'])
 
     // Makes a request and fetches a user's snips.
     var getSnips = function() {
-      return $http.get('/');
+      return $http.get('/getSnips');
     };
 
     // Makes a request and posts a snip to the database.

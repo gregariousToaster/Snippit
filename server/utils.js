@@ -75,6 +75,18 @@ exports.saveSnip = function(req, res, cb){
   });
 };
 
+exports.getSnips = function(req, res, cb){
+  client.then(function(db){
+    db.collection('snips').findAsync()
+    .then(function(item) {
+      item.toArray(function(err, snips) {
+        console.log('snips', snips);
+        cb(snips);
+      })
+    })
+  });
+};
+
 // Util function for getting user's Facebook wall photos.
 // Takes a request, a response, a data object, and a callback.
 exports.FBWallPhotos = function(req, res, data, cb){

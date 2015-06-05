@@ -131,5 +131,11 @@ module.exports = function(passport) {
     res.end();
   });
 
+  router.get('/getSnips', function(req, res){
+    utils.getSnips(req, res, function(snips){
+      res.json(snips);
+    });
+  });
+
   return router;
 };
