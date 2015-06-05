@@ -54,6 +54,8 @@ module.exports = function(passport) {
 
     api.instagramToken(req, res, code, function(data){
       utils.refreshInstagramToken(req, res, data, function(user){
+        console.log(user)
+        res.redirect('/#/app/profile')
       });
     });
   });
