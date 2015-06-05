@@ -1,6 +1,8 @@
 var configAuth = require('./config/auth.js');
 var https = require('https');
 var request = require('request');
+var ig = require('instagram-node').instagram();
+
 
 exports.facebookGET = function(accessToken, apiPath, callback, ampersand) {
   ampersand = ampersand ? '&' : '?';
@@ -52,7 +54,6 @@ exports.facebookGET = function(accessToken, apiPath, callback, ampersand) {
   request.end();
 }
 
-
 //redirects to the initial instagram Auth. This will be returned to the callback
 // and provide a code that can be traded for a token
 exports.authInstagram = function(req, res) {
@@ -81,12 +82,128 @@ exports.instagramToken = function(req, res, code, cb){
       }
     }
   );
+}
+//congiures the instagram npm module
+ig.use({ client_id: configAuth.instagramAuth.clientID,
+         client_secret: configAuth.instagramAuth.clientSecret });
+exports.instagramGET = function(req, res, token, callback){
+  ig.use({ access_token: token });
+  ig.user_media_recent('self',{count:100}, function(err, medias) {
+    if(err){
+      console.log(err, 'Error, Token no longer valid');
+      res.redirect('/auth/instagram');
+    }else{
+      var instagramPhotos = [];
+      medias.forEach(function(post){
+        instagramPhotos.push({thumbnail: post.images.thumbnail.url, picture: post.images.standard_resolution.url, id: post.id})
+      })
+      
+      callback(instagramPhotos);
+    }
+  });
 
 }
-// https://api.instagram.com/oauth/access_token?client_id=1f515809bd3e4107afea13c77ced3274&client_secret=c7eeefda5e4b44a78fde61b95c77b4d9&grant_type=authorization_code&redirect_uri=&code=e6b08ff1783e46f1b51bae9068f7cb91
-// curl -vF 'client_id=1f515809bd3e4107afea13c77ced3274' \
-//     -F 'client_secret=c7eeefda5e4b44a78fde61b95c77b4d9' \
-//     -F 'grant_type=authorization_code' \
-//     -F 'redirect_uri=Ahttp://127.0.0.1:3000/auth/instagram/callback' \
-//     -F 'code=77cc2d1ea0bd498d83a2df21cf15ddc0' \
-//     https://api.instagram.com/oauth/access_token
+/*
+[ { attribution: null,
+    tags: [],
+    type: 'image',
+    location: null,
+    comments: { count: 0, data: [] },
+    filter: 'Lo-fi',
+    created_time: '1362943500',
+    link: 'https://instagram.com/p/WsEqPdPb6p/',
+    likes: { count: 10, data: [Object] },
+    images:
+     { low_resolution: [Object],
+       thumbnail: [Object],
+       standard_resolution: [Object] },
+    users_in_photo: [],
+    caption:
+     { created_time: '1362943500',
+       text: 'Reminiscing in Santa Barbara  With @davidmeyer',
+       from: [Object],
+       id: '408722235205730105' },
+    user_has_liked: true,
+    id: '408722161184652969_176673950',
+    user:
+     { username: 'qhenkart',
+       profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_176673950_75sq_1338508319.jpg',
+       id: '176673950',
+       full_name: 'Quest Henkart' } },
+  { attribution: null,
+    tags: [],
+    type: 'image',
+    location: null,
+    comments: { count: 0, data: [] },
+    filter: 'Lo-fi',
+    created_time: '1362813062',
+    link: 'https://instagram.com/p/WoL3qRPb6x/',
+    likes: { count: 7, data: [Object] },
+    images:
+     { low_resolution: [Object],
+       thumbnail: [Object],
+       standard_resolution: [Object] },
+    users_in_photo: [],
+    caption:
+     { created_time: '1362813062',
+       text: '@jordancolton @shea_la85 @pureonyxkixx',
+       from: [Object],
+       id: '407628416179617064' },
+    user_has_liked: false,
+    id: '407627969746288305_176673950',
+    user:
+     { username: 'qhenkart',
+       profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_176673950_75sq_1338508319.jpg',
+       id: '176673950',
+       full_name: 'Quest Henkart' } },
+  { attribution: null,
+    tags: [],
+    type: 'image',
+    location: null,
+    comments: { count: 0, data: [] },
+    filter: 'Hefe',
+    created_time: '1342408606',
+    link: 'https://instagram.com/p/NIFdU1vb1o/',
+    likes: { count: 1, data: [Object] },
+    images:
+     { low_resolution: [Object],
+       thumbnail: [Object],
+       standard_resolution: [Object] },
+    users_in_photo: [],
+    caption:
+     { created_time: '1342408606',
+       text: 'Sunset concord',
+       from: [Object],
+       id: '236463006555159808' },
+    user_has_liked: false,
+    id: '236462985910795624_176673950',
+    user:
+     { username: 'qhenkart',
+       profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_176673950_75sq_1338508319.jpg',
+       id: '176673950',
+       full_name: 'Quest Henkart' } },
+  { attribution: null,
+    tags: [],
+    type: 'image',
+    location: null,
+    comments: { count: 0, data: [] },
+    filter: 'Lo-fi',
+    created_time: '1340941987',
+    link: 'https://instagram.com/p/McYGv4vb0B/',
+    likes: { count: 1, data: [Object] },
+    images:
+     { low_resolution: [Object],
+       thumbnail: [Object],
+       standard_resolution: [Object] },
+    users_in_photo: [],
+    caption: null,
+    user_has_liked: false,
+    id: '224160098312633601_176673950',
+    user:
+     { username: 'qhenkart',
+       profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_176673950_75sq_1338508319.jpg',
+       id: '176673950',
+       full_name: 'Quest Henkart' } } ] 'medias'
+
+
+*/
