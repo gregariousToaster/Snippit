@@ -2,6 +2,7 @@
 
 var _ = require('underscore');
 var client = require('./config/mongo');
+var ObjectId = require('mongodb').ObjectID;
 
 
 
@@ -67,11 +68,10 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
 // Util function for saving an updated snip to the Database.
 // Takes a request, a response, and a callback.
 exports.saveSnip = function(req, res, cb){
-  var snip = {
-    'img': JSON.stringify(req.body.img)
-  };
   client.then(function(db){
-    db.collection('snips').update({_id: 'ObjectId(' + req.body._id + ')'}, {$set: snip});
+    db.collection('snips').update({_id: ObjectId(req.body._id)}, {$set: {
+      img: req.body.img
+    }});
   });
 };
 
@@ -90,12 +90,9 @@ exports.FBWallPhotos = function(req, res, data, cb){
         datas.wallPhotos.picture = [];
         datas.wallPhotos.id = [];
         datas.wallPhotos.thumbnail = [];
-        datas.wallPhotos.caption = [];
         _.each(dat.data, function(post){
-          post.name = post.name || '';
           datas.wallPhotos.picture.push(post.source);
           datas.wallPhotos.id.push(post.id);
-          datas.wallPhotos.caption.push(post.name);
           datas.wallPhotos.thumbnail.push(post.picture);
         });
 
