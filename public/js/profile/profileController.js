@@ -34,9 +34,9 @@ angular.module('snippit.profile', ['snippit'])
       Facebook.getFacebookUser().success(function(resp) {
         $scope.facebookUser = resp;
         Snips.getSnips(resp.snips).success(function(resp) {
-          console.log('RESP', resp);
-          $scope.snips = resp;
-          console.log('SCOPE SNIPS', $scope.snips);
+          for (var i = 0; i < resp.length; i++) {
+            $scope.snips[resp[i]._id] = resp[i];
+          };
         });
       });
     };
