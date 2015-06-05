@@ -53,7 +53,7 @@ angular.module('snippit.profile', ['snippit'])
         thumb: pic.thumb,
         position: pos
       };
-      
+
       $rootScope.snipOpen = true;
 
     };
