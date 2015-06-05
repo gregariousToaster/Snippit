@@ -67,26 +67,8 @@ exports.getSnips = function(req, res, cb){
           }
        });
     };
-    // setTimeout(function(){
-    //   console.log(snips);
-    // }, 100)
   });
 };
-
-// exports.getSnips = function(req, res, cb){
-//   var snips = {};
-//   client.then(function(db) {
-//     for (var i = 0; i < req.body.snips.length; i++) {
-//       db.collection('snips').findOne({_id: ObjectId(req.body.snips[i])}, function(err, snip){
-//         snips[snip._id] = snip;
-//         console.log(snips);
-//       });
-//     };
-//   }).then(function(){
-//     cb(JSON.stringify(snips))
-//   });
-// };
-
 
 exports.getAlbumPhotos = function(req, res, album, data, cb){
   var temp ={};
