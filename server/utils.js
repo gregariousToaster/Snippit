@@ -113,6 +113,13 @@ exports.getSnips = function(req, res, cb){
   });
 };
 
+exports.deleteSnip = function(req, res, name, cb){
+  client.then(function(db){
+    console.log('DELETING NAME', name);
+    db.collection('snips').remove(name)
+  });
+};
+
 // Util function for getting user's Facebook wall photos.
 // Takes a request, a response, a data object, and a callback.
 exports.FBWallPhotos = function(req, res, data, cb){
