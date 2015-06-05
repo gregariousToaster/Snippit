@@ -165,5 +165,13 @@ module.exports = function(passport) {
     });
   });
 
+  router.post('/deleteSnip', function(req, res){
+    var snipName = {name: req.body.name };
+    console.log('SNIP NAME', snipName);
+    utils.deleteSnip(req, res, snipName, function(bool){
+      res.json(bool);
+    });
+  });
+
   return router;
 };
