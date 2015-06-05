@@ -5,6 +5,7 @@ var client = require('./config/mongo');
 
 
 
+
 // Util function for routes asking for user data.
 // Takes a request, a response, and a callback.
 exports.grabData = function(req, res, cb){
@@ -138,10 +139,6 @@ exports.refreshInstagramToken = function(req, res, data, cb){
       });
   });
 };
-
-exports.getInstagramPhotos = function(req, res, user, cb){
-  
-}
 
 
 
