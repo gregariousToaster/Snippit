@@ -63,8 +63,8 @@ angular.module('snippit.services', ['snippit'])
 
     // This is a helper function to create the position necessary for the helix shapes.
     // It takes a number denoting the strings, an iterator, a vector to lookat,
-    // a target array to push the object positions into, a spacing variable, the offset,
-    // an X radius, a Z radius,and the step height.
+    // a target array to push the object positions into, a spacing variable, the offset
+    // of the entire helix off of the y axis, an X radius, a Z radius, and the step height.
     var helix = function(n, i, vector, target, spacing, offset, xRad, zRad, step) {
       var object = new THREE.Object3D();
       var phi = i * spacing + (i % n) / n * (Math.PI * 2);

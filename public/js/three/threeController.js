@@ -28,6 +28,8 @@ angular.module('snippit.three', ['snippit'])
       };
 
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / sceneHeight(), 1, 10000);
+
+      //start the camera zoomed out 1500 from the origin
       camera.position.z = 1500;
       scene = new THREE.Scene();
 
@@ -36,6 +38,7 @@ angular.module('snippit.three', ['snippit'])
       var vector = new THREE.Vector3();
 
       var len = data.thumbnails.length;
+
 
       for (var i = 0; i < len; i++) {
         ThreeFactory.createObject(i, data.thumbnails, scene, $scope.objects, $scope.hit);
@@ -81,6 +84,7 @@ angular.module('snippit.three', ['snippit'])
       });
     };
 
+    //open a modal fram with a version of the picture when clicked
     $scope.hit = function(){
       Modal.open({
          content: "<div class='imageResize'><img src='"+data.pictures[this]+"' /></div>",
@@ -90,6 +94,7 @@ angular.module('snippit.three', ['snippit'])
        });
     };
 
+    //when a new transformatoion begins, move the camera back to its initial position
     $scope.clicked = function(targets){
       $scope.transform(targets, 2000);
 
@@ -106,6 +111,7 @@ angular.module('snippit.three', ['snippit'])
         .start();
     };
 
+    //This is to make the card movement from position to position more interesting
     $scope.transform = function(targets, duration) {
 
       TWEEN.removeAll();
@@ -131,13 +137,11 @@ angular.module('snippit.three', ['snippit'])
         .start();
     };
 
+    //when the window is resized
     var onWindowResize = function() {
-
       camera.aspect = window.innerWidth / sceneHeight();
       camera.updateProjectionMatrix();
-
       renderer.setSize(window.innerWidth, sceneHeight());
-
       $scope.render();
     };
 
