@@ -32,6 +32,11 @@ angular.module('snippit', ['snippit.main',
         controller: 'MainController',
         authenticate: true
       })
+      .state('three', {
+        url: '/three/{snipId}',
+        templateUrl: 'templates/three.html',
+        controller: 'ThreeController',
+      })
       .state('app.three', {
         url: '/three',
         views: {

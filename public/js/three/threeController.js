@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('snippit.three', ['snippit'])
-  .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', function($scope, ThreeFactory, $window, $document, Facebook) {
+  .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', function($scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams) {
 
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
     var scene, renderer, camera, controls;
@@ -11,21 +11,46 @@ angular.module('snippit.three', ['snippit'])
     //the facebook data.
     var setup = false;
 
+    var signedIn = !!document.getElementsByClassName('header')[0]
+
     // This is a helper function that returns the total height of the THREE.js scene.
     var sceneHeight = function(){
-      return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
+      if (signedIn) {
+        return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
+      } else {
+        return $window.innerHeight; 
+      }
     };
 
     $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 
-    var threeJS = function(resp) {
-      var dat = JSON.parse(resp.data);
+    var prepFb = function(resp) {
+      var parsed = JSON.parse(resp.data);
 
       data = {
-        pictures: dat.wallPhotos.picture,
-        thumbnails: dat.wallPhotos.thumbnail
+        pictures: parsed.wallPhotos.picture,
+        thumbnails: parsed.wallPhotos.thumbnail
       };
+
+      return data;
+    };
+
+    var prepSnip = function(resp) {
+      data = {
+        pictures: [],
+        thumbnails: []
+      }
+
+      for(var key in resp) {
+        data.pictures.push(resp[key].src);
+        data.thumbnails.push(resp[key].thumb);
+      }
+
+      return data;
+    }
+
+    var threeJS = function(data) {
 
       camera = new THREE.PerspectiveCamera(30, $window.innerWidth / sceneHeight(), 1, 10000);
 
@@ -57,7 +82,9 @@ angular.module('snippit.three', ['snippit'])
 
       $scope.transform($scope.targets.table, 2000);
 
-      document.getElementById('content').setAttribute('height', sceneHeight());
+      if (signedIn) {
+        document.getElementById('content').setAttribute('height', sceneHeight());
+      }
       document.getElementById('container').appendChild(renderer.domElement);
 
       window.addEventListener('resize', onWindowResize, false);
@@ -71,23 +98,30 @@ angular.module('snippit.three', ['snippit'])
     // this user. If not, it'll fetch them from Facebook, if it does, it'll
     // fetch from MongoDB.
     var init = function(){
-      Facebook.getWallData()
-        .then(function(resp){
-        if (resp.data.bool === 'false') {
-          Facebook.refreshWallData()
+      if (signedIn) {
+        Facebook.getWallData()
+          .then(function(resp){
+          if (resp.data.bool === 'false') {
+            Facebook.refreshWallData()
+            .then(function(resp) {
+              threeJS(prepFb(resp));
+            });
+          } else {
+            threeJS(prepFb(resp));
+          }
+        });
+      } else {
+        Snips.getSnips([$stateParams.snipId])
           .then(function(resp) {
-            threeJS(resp);
+            threeJS(prepSnip(resp.data[$stateParams.snipId].img));
           });
-        } else {
-          threeJS(resp);
-        }
-      });
+      }
     };
 
     //open a modal fram with a version of the picture when clicked
     $scope.hit = function(){
       Modal.open({
-         content: "<div class='imageResize'><img src='"+data.pictures[this]+"' /></div>",
+         content: "<div class='imageResize'><img src='" + data.pictures[this] + "' /></div>",
          draggable: false,
          width: 'auto',
          context: this
