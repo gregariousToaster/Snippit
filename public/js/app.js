@@ -56,6 +56,16 @@ angular.module('snippit', ['snippit.main',
         url: '/signin',
         templateUrl: 'templates/signin.html',
         controller: 'AuthController',
+      })
+      .state('privacy', {
+        url: '/privacy',
+        templateUrl: 'templates/privacy.html',
+        controller: 'MainController',
+      })
+      .state('terms', {
+        url: '/terms',
+        templateUrl: 'templates/terms.html',
+        controller: 'MainController',
       });
     // If a requested state is invalid, it will redirect to the three state
     $urlRouterProvider.otherwise('/app/three');
