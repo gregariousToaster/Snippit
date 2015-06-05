@@ -50,10 +50,43 @@ exports.addSnip = function(req, res, cb){
     name: req.body.name,
     img: req.body.img
   };
-  client.then(function(db){
+  client.then(function(db) {
     db.collection('snips').insert(snip, cb);
   });
 };
+
+exports.getSnips = function(req, res, cb){
+  var snips = {};
+  client.then(function(db) {
+    for (var i = 0; i < req.body.snips.length; i++) {
+      db.collection('snips').findOneAsync({_id: ObjectId(req.body.snips[i])})
+        .then(function(snip){
+          snips[snip._id] = snip;
+          if(req.body.snips.length === Object.keys(snips).length) {
+            cb(JSON.stringify(snips))
+          }
+       });
+    };
+    // setTimeout(function(){
+    //   console.log(snips);
+    // }, 100)
+  });
+};
+
+// exports.getSnips = function(req, res, cb){
+//   var snips = {};
+//   client.then(function(db) {
+//     for (var i = 0; i < req.body.snips.length; i++) {
+//       db.collection('snips').findOne({_id: ObjectId(req.body.snips[i])}, function(err, snip){
+//         snips[snip._id] = snip;
+//         console.log(snips);
+//       });
+//     };
+//   }).then(function(){
+//     cb(JSON.stringify(snips))
+//   });
+// };
+
 
 exports.getAlbumPhotos = function(req, res, album, data, cb){
   var temp ={};

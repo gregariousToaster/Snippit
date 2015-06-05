@@ -120,10 +120,9 @@ module.exports = function(passport) {
     });
   });
 
-  router.post('/getSnip', function(req, res){
-    utils.getSnips(req, res, function(err, id){
-      utils.getSnip(id.ops[0]._id, req.body.userId);
-      res.json(id.ops[0]._id);
+  router.post('/getSnips', function(req, res){
+    utils.getSnips(req, res, function(snips){
+      res.json(snips)
     });
   });
 
