@@ -17,6 +17,7 @@
     "express": "~4.12.2",
     "express-session": "^1.11.2",
     "gulp": "^3.8.11",
+    "instagram-node": "^0.5.7",
     "mongodb": "^2.0.33",
     "morgan": "~1.5.1",
     "nconf": "^0.7.1",

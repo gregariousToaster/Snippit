@@ -32,11 +32,23 @@ module.exports = function(passport) {
   });
 
 
+  router.get('/getInstagram', function(req, res){
+    console.log(req.user.instagramToken)
+    if(req.user.instagramToken){
+      api.instagramGET(req, res, req.user.instagramToken, function(media){
+        //sends the data to the user
+        res.json(JSON.stringify(media))
+      });
+    }else{
+      res.redirect('/auth/instagram');
+    }
+  })
+
   //Get /auth/instagram
   // sends user to authenticate our app at instagram, it returns a code that is NOT a token (a token post request must be made
   // to instagram to exchange the code for a token)
   router.get('/auth/instagram', function(req, res){
-
+    
     //handles url redirect
 
     api.authInstagram(req, res)
@@ -50,12 +62,21 @@ module.exports = function(passport) {
   // res.redirect('/auth/instagram/getToken');
   router.get('/auth/instagram/callback', function(req, res){
     var code = req.url.split('code=')[1]
-    //redirects the url to exchange the code for the token
-
+    
+  //redirects the url to exchange the code for the token
     api.instagramToken(req, res, code, function(data){
       utils.refreshInstagramToken(req, res, data, function(user){
+        //redirects user to where they left off
+        //fulfills API request for photos and organizes it
+        res.redirect('/getInstagram')
+        // api.instagramGET(req, res, user.instagramToken, function(media){
+        //   //sends the data to the user
+        // res.redirect('/#/app/profile', JSON.stringify(media));
+        //   // res.json(JSON.stringify(media))
+        // })
       });
     });
+    
   });
 
   router.get('/logout', function(req, res){
