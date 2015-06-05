@@ -203,16 +203,24 @@ angular.module('snippit.profile', ['snippit'])
     $scope.fetchUser = function() {
       Facebook.getFacebookUser().success(function(resp) {
         $scope.facebookUser = resp;
+        Snips.getSnips(resp.snips).success(function(resp) {
+          for (var i = 0; i < resp.length; i++) {
+            $scope.snips[resp[i]._id] = resp[i];
+          };
+        });
       });
     };
 
     $scope.snipCheck = function(){
       return !!Object.keys($scope.snipPhotos).length;
-    }
+    };
 
+    $scope.fetchSnips = function(){
+    };
 
     $scope.snipAdd = function() {
-      Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName})
+      console.log($scope.facebookUser);
+      Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName, userId: $scope.facebookUser.id})
         .success(function(resp){
           $scope.snips[resp] = {
             name: $scope.snipName,
@@ -286,10 +294,11 @@ angular.module('snippit.profile', ['snippit'])
     };
 
     $scope.checkOn = function(id, pic) {
+      var pos = Object.keys($scope.snipPhotos).length;
       $scope.snipPhotos[id] = {
         src: pic.src,
         thumb: pic.thumb,
-        position: Object.keys($scope.snipPhotos).length
+        position: pos
       };
     };
 
@@ -307,10 +316,10 @@ angular.module('snippit.profile', ['snippit'])
         for (var key in parse) {
           $scope.albumNames.push(parse[key]);
         }
-        $scope.albumNames.push({name:'Facebook Wall Photos'});        
+        $scope.albumNames.push({name:'Facebook Wall Photos'});
       });
       $scope.fetchUser();
-      
+      $scope.fetchSnips();
     }();
   }]);
 
@@ -457,8 +466,8 @@ angular.module('snippit.services', ['snippit'])
   .factory('Snips', ['$http', function($http){
 
     // Makes a request and fetches a user's snips.
-    var getSnips = function() {
-      return $http.get('/');
+    var getSnips = function(snips) {
+      return $http.post('/getSnips', {snips: snips});
     };
 
     // Makes a request and posts a snip to the database.
