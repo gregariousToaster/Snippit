@@ -3,6 +3,5 @@ gregariousToaster.pem
 node_modules
 .tmp
 .sass-cache
-public/bower_components
 #Authentication
 settings.json
