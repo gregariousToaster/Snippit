@@ -141,8 +141,8 @@ angular.module('snippit.services', ['snippit'])
   .factory('Snips', ['$http', function($http){
 
     // Makes a request and fetches a user's snips.
-    var getSnips = function() {
-      return $http.get('/getSnips');
+    var getSnips = function(snips) {
+      return $http.post('/getSnips', {snips: snips});
     };
 
     // Makes a request and posts a snip to the database.

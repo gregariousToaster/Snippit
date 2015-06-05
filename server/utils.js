@@ -50,8 +50,23 @@ exports.addSnip = function(req, res, cb){
     name: req.body.name,
     img: req.body.img
   };
-  client.then(function(db){
+  client.then(function(db) {
     db.collection('snips').insert(snip, cb);
+  });
+};
+
+exports.getSnips = function(req, res, cb){
+  var snips = {};
+  client.then(function(db) {
+    for (var i = 0; i < req.body.snips.length; i++) {
+      db.collection('snips').findOneAsync({_id: ObjectId(req.body.snips[i])})
+        .then(function(snip){
+          snips[snip._id] = snip;
+          if(req.body.snips.length === Object.keys(snips).length) {
+            cb(JSON.stringify(snips))
+          }
+       });
+    };
   });
 };
 
@@ -63,6 +78,15 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
   });
 
   cb(JSON.stringify(temp));
+};
+
+
+exports.connectSnip = function(snipId, fbId) {
+  client.then(function(db){
+    db.collection('users').update({id: fbId}, {$push: {
+        snips: snipId
+    }});
+  });
 };
 
 // Util function for saving an updated snip to the Database.
