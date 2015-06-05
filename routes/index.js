@@ -116,12 +116,20 @@ module.exports = function(passport) {
       return db.collection('users').findOneAsync({id:req.user.id});
     })
     .then(function(user){
-      res.json({name: user.name, id: user.id});
+      res.json({name: user.name, id: user.id, snips: user.snips});
+    });
+  });
+
+  router.post('/getSnip', function(req, res){
+    utils.getSnips(req, res, function(err, id){
+      utils.getSnip(id.ops[0]._id, req.body.userId);
+      res.json(id.ops[0]._id);
     });
   });
 
   router.post('/addSnip', function(req, res){
     utils.addSnip(req, res, function(err, id){
+      utils.connectSnip(id.ops[0]._id, req.body.userId);
       res.json(id.ops[0]._id);
     });
   });

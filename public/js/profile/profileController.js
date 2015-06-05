@@ -33,6 +33,7 @@ angular.module('snippit.profile', ['snippit'])
     $scope.fetchUser = function() {
       Facebook.getFacebookUser().success(function(resp) {
         $scope.facebookUser = resp;
+        Snips.getSnips(resp.snips);
       });
     };
 
@@ -56,7 +57,8 @@ angular.module('snippit.profile', ['snippit'])
 
 
     $scope.snipAdd = function() {
-      Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName})
+      console.log($scope.facebookUser);
+      Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName, userId: $scope.facebookUser.id})
         .success(function(resp){
           $scope.snips[resp] = {
             name: $scope.snipName,

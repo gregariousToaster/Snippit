@@ -65,6 +65,15 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
   cb(JSON.stringify(temp));
 };
 
+
+exports.connectSnip = function(snipId, fbId) {
+  client.then(function(db){
+    db.collection('users').update({id: fbId}, {$push: {
+        snips: snipId
+    }});
+  });
+};
+
 // Util function for saving an updated snip to the Database.
 // Takes a request, a response, and a callback.
 exports.saveSnip = function(req, res, cb){
