@@ -2,6 +2,7 @@
 
 angular.module('snippit', ['snippit.main',
   'snippit.services',
+  'snippit.snips',
   'snippit.three',
   'snippit.auth',
   'snippit.profile',
@@ -53,6 +54,10 @@ angular.module('snippit', ['snippit.main',
           'content': {
             templateUrl: 'templates/profile.html',
             controller: 'ProfileController'
+          },
+          'snips': {
+            templateUrl: 'templates/snips.html',
+            controller: 'SnipsController'
           }
         },
         authenticate: true

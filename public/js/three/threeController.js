@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('snippit.three', ['snippit'])
-  .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', function($scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams) {
+  .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', '$rootScope', function($scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams, $rootScope) {
 
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
     var scene, renderer, camera, controls;
@@ -11,16 +11,25 @@ angular.module('snippit.three', ['snippit'])
     //the facebook data.
     var setup = false;
 
-    var signedIn = !!document.getElementsByClassName('header')[0]
+    var signedIn = !!document.getElementsByClassName('side')[0];
+
+    $scope.hideProfile = function() {
+      $rootScope.hiddenProfile = !$rootScope.hiddenProfile;
+      onWindowResize();
+    };
 
     // This is a helper function that returns the total height of the THREE.js scene.
-    var sceneHeight = function(){
-      if (signedIn) {
-        return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
+    var sceneWidth = function() {
+      if ($rootScope.hiddenProfile) {
+        return $window.innerWidth;
       } else {
-        return $window.innerHeight; 
+        return $window.innerWidth * .8; 
       }
     };
+
+    var sceneHeight = function() {
+      return $window.innerHeight - 60;
+    }
 
     $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
@@ -52,9 +61,8 @@ angular.module('snippit.three', ['snippit'])
 
     var threeJS = function(data) {
 
-      camera = new THREE.PerspectiveCamera(30, $window.innerWidth / sceneHeight(), 1, 10000);
-
       //start the camera zoomed out 1500 from the origin
+      camera = new THREE.PerspectiveCamera(30, sceneWidth() / sceneHeight(), 1, 10000);
       camera.position.z = 1500;
       scene = new THREE.Scene();
 
@@ -76,15 +84,15 @@ angular.module('snippit.three', ['snippit'])
       }
 
       renderer = new THREE.CSS3DRenderer();
-      renderer.setSize($window.innerWidth, sceneHeight());
+      renderer.setSize(sceneWidth(), sceneHeight());
       renderer.domElement.style.position = 'absolute';
       renderer.domElement.classList.add('render');
 
       $scope.transform($scope.targets.table, 2000);
 
-      if (signedIn) {
-        document.getElementById('content').setAttribute('height', sceneHeight());
-      }
+      // if (signedIn) {
+        // document.getElementById('content').setAttribute('height', $window.);
+      // }
       document.getElementById('container').appendChild(renderer.domElement);
 
       window.addEventListener('resize', onWindowResize, false);
@@ -111,10 +119,12 @@ angular.module('snippit.three', ['snippit'])
           }
         });
       } else {
-        Snips.getSnips([$stateParams.snipId])
-          .then(function(resp) {
-            threeJS(prepSnip(resp.data[$stateParams.snipId].img));
-          });
+        if ($stateParams.snipId) { 
+          Snips.getSnips([$stateParams.snipId])
+            .then(function(resp) {
+              threeJS(prepSnip(resp.data[$stateParams.snipId].img));
+            });
+        }
       }
     };
 
@@ -173,9 +183,12 @@ angular.module('snippit.three', ['snippit'])
 
     //when the window is resized
     var onWindowResize = function() {
-      camera.aspect = window.innerWidth / sceneHeight();
+
+      camera.aspect = sceneWidth() / sceneHeight();
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, sceneHeight());
+
+      renderer.setSize(sceneWidth(), sceneHeight());
+
       $scope.render();
     };
 

@@ -1,0 +1,10 @@
+<div ui-view>
+    <div class="full-width input">
+      <input ng-model="snipName" class="snip-name" ng-show="$root.newSnip">
+      <button class="add" ng-click="snipAdd()" ng-show="$root.newSnip">add</button>
+      <button class="save full-width" ng-click="snipClose()" ng-show="!$root.newSnip">save and exit</button>
+    </div>
+    <div ng-repeat="(key, value) in $root.snipPhotos" class="picture full-width">
+      <img ng-src="{{ value.src }}" ng-click="checkOff(key)" class="shadow full-width">
+    </div>
+</div>

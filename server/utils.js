@@ -62,13 +62,12 @@ exports.addSnip = function(req, res, cb){
 // each result to the snips object with key unique ID and value as the snip.
 // callback with the snips object, which gets sent back to the request.
 exports.getSnips = function(req, res, cb){
-  
+
   var snips = {};
   client.then(function(db) {
     for (var i = 0; i < req.body.snips.length; i++) {
       db.collection('snips').findOneAsync({_id: ObjectId(req.body.snips[i])})
         .then(function(snip){
-        console.log('SNIPSDATA=====================', snip);
           snips[snip._id] = snip;
           if(req.body.snips.length === Object.keys(snips).length) {
             cb(snips);
