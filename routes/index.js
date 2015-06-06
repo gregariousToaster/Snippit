@@ -92,6 +92,7 @@ module.exports = function(passport) {
     });
   });
 
+  //get 100 photos of user tagged from facebook
   router.get('/getFacebookWall', function(req, res){
 
     api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data) {
