@@ -5,12 +5,13 @@ var utils = require('../server/utils.js');
 var api = require('../server/APIrequests.js');
 var client = require('../server/config/mongo');
 
+//passes passport into the router to maintain passport configuration
 module.exports = function(passport) {
 
   var router = express.Router();
 
   /// GET /auth/facebook
-  //   Use passport.authenticate() as route middleware to authenticate the
+  //   Uses passport.authenticate() as route middleware to authenticate the
   //   request.  The first step in Facebook authentication will involve
   //   redirecting the user to facebook.com.  After authorization, Facebook will
   //   redirect the user back to this application at /auth/facebook/callback
@@ -32,7 +33,9 @@ module.exports = function(passport) {
   });
 
 
-  router.get('/getInstagram', function(req, res){
+//checks database for Instagram token and returns 100 Instagram photos
+  router.get('/getInstagram', passport.authenticate('facebook', { failureRedirect: '/#/signin' }),
+  function(req, res){
     console.log(req.user.instagramToken)
     api.instagramGET(req, res, req.user.instagramToken, function(media){
       //sends the data to the user
@@ -67,11 +70,13 @@ module.exports = function(passport) {
     
   });
 
+//logs user out of app and resets authentication
   router.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
   });
 
+//checks if user is authenticated to manage front-end restrictions
   router.get('/auth/isAuthenticated', function(req, res){
     var authorized = {};
     authorized.auth = req.isAuthenticated();
@@ -92,7 +97,7 @@ module.exports = function(passport) {
     });
   });
 
-  //get 100 photos of user tagged from facebook
+//populates database with photos from the facebook wall
   router.get('/getFacebookWall', function(req, res){
 
     api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data) {
@@ -102,6 +107,7 @@ module.exports = function(passport) {
     }, false);
   });
 
+//sends a list of album names and ids to the user
   router.get('/getFacebookAlbums', function(req, res){
     api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/albums', function(data) {
       utils.handleAlbums(req, res, data, function(albums){
@@ -110,6 +116,7 @@ module.exports = function(passport) {
     }, false);
   });
 
+//sends photos from a specific album to a user
   router.post('/getFacebookAlbumPhotos', function(req, res){
     var album = {id: req.body.id, name: req.body.name};
     api.facebookGET(req.user.FBtoken,'/v2.3/' + album.id + '/photos', function(data) {
@@ -130,12 +137,15 @@ module.exports = function(passport) {
     });
   });
 
+
+//retrieves saved Snips from the database
   router.post('/getSnips', function(req, res){
     utils.getSnips(req, res, function(snips){
       res.json(snips)
     });
   });
 
+//saves a new snip into the database
   router.post('/addSnip', function(req, res){
     utils.addSnip(req, res, function(err, id){
       utils.connectSnip(id.ops[0]._id, req.body.userId);
@@ -143,17 +153,13 @@ module.exports = function(passport) {
     });
   });
 
+//updates an existing snip
   router.post('/saveSnip', function(req, res){
     utils.saveSnip(req, res)
     res.end();
   });
 
-  router.get('/getSnips', function(req, res){
-    utils.getSnips(req, res, function(snips){
-      res.json(snips);
-    });
-  });
-
+//deletes a snip
   router.post('/deleteSnip', function(req, res){
     var snipName = {name: req.body.name };
     console.log('SNIP NAME', snipName);
