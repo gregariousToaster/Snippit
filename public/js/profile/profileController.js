@@ -108,9 +108,10 @@ angular.module('snippit.profile', ['snippit'])
     $scope.albumClick = function(name, id) {
       $scope.loading = true;
       $scope.albumPhotos = {};
+      //When there is no id, we know it's the "album" of the most recently tagged
+      //photos of the user.
       if(!id){
         Facebook.getWallData().success(function(resp){
-        //WE'LL COME BACK TO THIS
           var pics = JSON.parse(resp).wallPhotos;
           for (var i = 0; i < parse.picture.length;i++){
             $scope.loading = false;
@@ -154,7 +155,6 @@ angular.module('snippit.profile', ['snippit'])
     // the album names for the logged in Facebook user, which allows them to
     // select an album to fetch photos from.
     $scope.init = function() {
-
       Facebook.getAlbumData().success(function(resp) {
         var parse = JSON.parse(resp);
         for (var key in parse) {
