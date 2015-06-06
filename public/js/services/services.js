@@ -129,13 +129,17 @@ angular.module('snippit.services', ['snippit'])
     var getFacebookUser = function() {
       return $http.get('/facebookUser');
     };
+    var getInstagram = function(){
+      return $http.get('/getInstagram');
+    }
 
     return {
       getWallData: getWallData,
       getAlbumData: getAlbumData,
       getAlbumPhotos: getAlbumPhotos,
       getFacebookUser: getFacebookUser,
-      refreshWallData: refreshWallData
+      refreshWallData: refreshWallData,
+      getInstagram: getInstagram
     };
   }])
   .factory('Snips', ['$http', function($http){

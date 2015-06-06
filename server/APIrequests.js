@@ -93,9 +93,9 @@ exports.instagramGET = function(req, res, token, callback){
       console.log(err, 'Error, Token no longer valid');
       res.redirect('/auth/instagram');
     }else{
-      var instagramPhotos = [];
+      var instagramPhotos = {};
       medias.forEach(function(post){
-        instagramPhotos.push({thumbnail: post.images.thumbnail.url, picture: post.images.standard_resolution.url, id: post.id})
+        instagramPhotos[post.id] = {thumb: post.images.thumbnail.url, src: post.images.standard_resolution.url}
       })
       
       callback(instagramPhotos);
@@ -103,107 +103,3 @@ exports.instagramGET = function(req, res, token, callback){
   });
 
 }
-/*
-[ { attribution: null,
-    tags: [],
-    type: 'image',
-    location: null,
-    comments: { count: 0, data: [] },
-    filter: 'Lo-fi',
-    created_time: '1362943500',
-    link: 'https://instagram.com/p/WsEqPdPb6p/',
-    likes: { count: 10, data: [Object] },
-    images:
-     { low_resolution: [Object],
-       thumbnail: [Object],
-       standard_resolution: [Object] },
-    users_in_photo: [],
-    caption:
-     { created_time: '1362943500',
-       text: 'Reminiscing in Santa Barbara  With @davidmeyer',
-       from: [Object],
-       id: '408722235205730105' },
-    user_has_liked: true,
-    id: '408722161184652969_176673950',
-    user:
-     { username: 'qhenkart',
-       profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_176673950_75sq_1338508319.jpg',
-       id: '176673950',
-       full_name: 'Quest Henkart' } },
-  { attribution: null,
-    tags: [],
-    type: 'image',
-    location: null,
-    comments: { count: 0, data: [] },
-    filter: 'Lo-fi',
-    created_time: '1362813062',
-    link: 'https://instagram.com/p/WoL3qRPb6x/',
-    likes: { count: 7, data: [Object] },
-    images:
-     { low_resolution: [Object],
-       thumbnail: [Object],
-       standard_resolution: [Object] },
-    users_in_photo: [],
-    caption:
-     { created_time: '1362813062',
-       text: '@jordancolton @shea_la85 @pureonyxkixx',
-       from: [Object],
-       id: '407628416179617064' },
-    user_has_liked: false,
-    id: '407627969746288305_176673950',
-    user:
-     { username: 'qhenkart',
-       profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_176673950_75sq_1338508319.jpg',
-       id: '176673950',
-       full_name: 'Quest Henkart' } },
-  { attribution: null,
-    tags: [],
-    type: 'image',
-    location: null,
-    comments: { count: 0, data: [] },
-    filter: 'Hefe',
-    created_time: '1342408606',
-    link: 'https://instagram.com/p/NIFdU1vb1o/',
-    likes: { count: 1, data: [Object] },
-    images:
-     { low_resolution: [Object],
-       thumbnail: [Object],
-       standard_resolution: [Object] },
-    users_in_photo: [],
-    caption:
-     { created_time: '1342408606',
-       text: 'Sunset concord',
-       from: [Object],
-       id: '236463006555159808' },
-    user_has_liked: false,
-    id: '236462985910795624_176673950',
-    user:
-     { username: 'qhenkart',
-       profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_176673950_75sq_1338508319.jpg',
-       id: '176673950',
-       full_name: 'Quest Henkart' } },
-  { attribution: null,
-    tags: [],
-    type: 'image',
-    location: null,
-    comments: { count: 0, data: [] },
-    filter: 'Lo-fi',
-    created_time: '1340941987',
-    link: 'https://instagram.com/p/McYGv4vb0B/',
-    likes: { count: 1, data: [Object] },
-    images:
-     { low_resolution: [Object],
-       thumbnail: [Object],
-       standard_resolution: [Object] },
-    users_in_photo: [],
-    caption: null,
-    user_has_liked: false,
-    id: '224160098312633601_176673950',
-    user:
-     { username: 'qhenkart',
-       profile_picture: 'https://instagramimages-a.akamaihd.net/profiles/profile_176673950_75sq_1338508319.jpg',
-       id: '176673950',
-       full_name: 'Quest Henkart' } } ] 'medias'
-
-
-*/
