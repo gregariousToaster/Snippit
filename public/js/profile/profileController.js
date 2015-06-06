@@ -8,6 +8,9 @@ angular.module('snippit.profile', ['snippit'])
 
     $scope.snipTab = false;
 
+    //stores instagram photos
+    $scope.instagramPhotos = [];
+
     // Album names
     $scope.albumNames = [];
 
@@ -27,6 +30,7 @@ angular.module('snippit.profile', ['snippit'])
     $scope.snips = {};
 
     $scope.loading = false;
+
 
     // Invoke Facebook getFacebook user method, on success, assign
     // $scope.facebookUser to that response (Facebook name and id).
@@ -100,6 +104,17 @@ angular.module('snippit.profile', ['snippit'])
       $scope.snipTab = true;
     };
 
+    //authorize and import instagram photos
+    $scope.getInstagram = function(){
+      $scope.loading = true;
+      $scope.albumPhotos = {};
+      Facebook.getInstagram().success(function(resp) {
+        $scope.albumPhotos = JSON.parse(resp);
+        console.log($scope.albumPhotos)
+        $scope.loading = false;
+
+      });
+    }
     // This function is invoked every time an album name is clicked on the
     // profile page. It passes the Facebook service's getAlbumPhotos method
     // the name and ID of the clicked album, which returns a promise. Upon
@@ -108,9 +123,10 @@ angular.module('snippit.profile', ['snippit'])
     $scope.albumClick = function(name, id) {
       $scope.loading = true;
       $scope.albumPhotos = {};
+
       if(!id){
         Facebook.getWallData().success(function(resp){
-        //WE'LL COME BACK TO THIS
+        //WE'LL COME BACK TO THIS 
           var pics = JSON.parse(resp).wallPhotos;
           for (var i = 0; i < parse.picture.length;i++){
             $scope.loading = false;
@@ -126,6 +142,7 @@ angular.module('snippit.profile', ['snippit'])
               $scope.loading = false;
               $scope.albumPhotos = parse[key];
             }
+            console.log($scope.albumPhotos)
         });
       }
     };
