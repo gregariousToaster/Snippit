@@ -23,8 +23,8 @@ exports.grabData = function(req, res, cb){
   });
 };
 
-// Util function for getting photos for a particular album.
-// Takes a request, a response, an album object, data to look through, and a callback.
+// Util function for getting photos for a particular album. Takes a request,
+// a response, an album object, data to look through, and a callback.
 exports.getAlbumPhotos = function(req, res, album, data, cb){
   var temp ={};
   temp[album.name] = {};
@@ -34,8 +34,9 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
   cb(JSON.stringify(temp));
 };
 
-// Util function for handling the Albums recieved fur routes before sending them to the user.
-// Takes a request, a response, a data object with Album information, and a callback.
+// Util function for handling the Albums recieved fur routes before sending
+// them to the user. Takes a request, a response, a data object with Album
+// information, and a callback.
 exports.handleAlbums = function(req, res, data, cb){
 
   var albums = {};
@@ -45,8 +46,8 @@ exports.handleAlbums = function(req, res, data, cb){
   cb(JSON.stringify(albums));
 };
 
-// Util function for adding a snip to the Database.
-// Takes a request, a response, and a callback.
+// Util function for adding a snip to the Database. Takes a request, a response,
+// and a callback.
 exports.addSnip = function(req, res, cb){
   var snip = {
     name: req.body.name,
@@ -57,6 +58,9 @@ exports.addSnip = function(req, res, cb){
   });
 };
 
+// Queries the database for snips based on it's unique ID. Then assigns
+// each result to the snips object with key unique ID and value as the snip.
+// callback with the snips object, which gets sent back to the request.
 exports.getSnips = function(req, res, cb){
   var snips = {};
   client.then(function(db) {
@@ -72,10 +76,12 @@ exports.getSnips = function(req, res, cb){
   });
 };
 
+// Gets an album's photos based off of data and returns an object with
+// a temp object, which has access to all the album's photos.
 exports.getAlbumPhotos = function(req, res, album, data, cb){
   var temp ={};
   temp[album.name] = {};
-  _.each(JSON.parse(data).data, function(photo){
+  _.each(JSON.parse(data).data, function(photo) {
     temp[album.name][photo.id] = {src: photo.source, thumb: photo.picture};
   });
 
@@ -101,18 +107,21 @@ exports.saveSnip = function(req, res, cb){
   });
 };
 
-exports.getSnips = function(req, res, cb){
-  client.then(function(db){
-    db.collection('snips').findAsync()
-    .then(function(item) {
-      item.toArray(function(err, snips) {
-        console.log('snips', snips);
-        cb(snips);
-      })
-    })
-  });
-};
 
+// exports.getSnips = function(req, res, cb){
+//   client.then(function(db){
+//     db.collection('snips').findAsync()
+//     .then(function(item) {
+//       item.toArray(function(err, snips) {
+//         console.log('snips', snips);
+//         cb(snips);
+//       })
+//     })
+//   });
+// };
+
+// Deletes a snip from the database based on an identifying piece of information
+// for that snip, such as snip name or ID.
 exports.deleteSnip = function(req, res, name, cb){
   client.then(function(db){
     console.log('DELETING NAME', name);

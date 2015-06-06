@@ -29,6 +29,7 @@ angular.module('snippit.profile', ['snippit'])
     // Snips
     $scope.snips = {};
 
+    // Keeps track of whether to show the loading gif on fetching data
     $scope.loading = false;
 
 
@@ -45,26 +46,33 @@ angular.module('snippit.profile', ['snippit'])
       });
     };
 
+    // Check if there any items in $scope.snipPhotos to determine
+    // whether or not we should show the snip sidebar on the right.
+    // If there are no photos in that object, it means that we haven't
+    // selected any images to add to our snip or there are no existing
+    // photos in an existing snip.
     $scope.snipCheck = function(){
       return !!Object.keys($scope.snipPhotos).length;
     };
 
+    // Call Snips' getSnips method, upon success, responds with
+    // a resp object that's an array, which we loop over and set
+    // as values on the $scope.snips object. This allows the user
+    // to see the snips that they've created.
     $scope.fetchSnips = function(){
       Snips.getSnips().success(function(resp) {
-        console.log('RESP', resp);
         for (var i = 0; i < resp.length; i++) {
-          console.log('RESP' + i, resp[i]);
           $scope.snips[resp[i]._id] = {
             name: resp[i].name,
             img: resp[i].img
           }
         }
-        console.log('SCOPE SNIPS', $scope.snips);
       })
     }
 
+    // Adds a snip to the database with the photos, snip name, and
+    // Facebook user ID.
     $scope.snipAdd = function() {
-      console.log($scope.facebookUser);
       Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName, userId: $scope.facebookUser.id})
         .success(function(resp){
           $scope.snips[resp] = {
@@ -76,8 +84,13 @@ angular.module('snippit.profile', ['snippit'])
         });
     };
 
+    // Snip close is invoked when a user edits their snip.
+    // If they saved their snip without any photos in it, we
+    // call deleteSnip to remove the snip from the database.
+    // We also delete that snip from the snips object, which
+    // displays all the snip names. If the snip has photos,
+    // the snip is updated in the database.
     $scope.snipClose = function() {
-      console.log('SNIP NAME', $scope.snipName);
       if (Object.keys($scope.snipPhotos).length === 0) {
         console.log('NO PHOTOS, DELETING SNIP FROM DATABASE');
         Snips.deleteSnip($scope.snipName)
@@ -147,6 +160,9 @@ angular.module('snippit.profile', ['snippit'])
       }
     };
 
+    // Clicking on a snip assigns that snip's info to variables that
+    // hold onto that data until we perform a saving or adding action
+    // on it.
     $scope.snipClick = function(key, value) {
       $scope.snipId = key;
       $scope.snipPhotos = value.img;
@@ -154,6 +170,9 @@ angular.module('snippit.profile', ['snippit'])
       $scope.snipName = value.name;
     };
 
+    // Adds a clicked photo to the snipPhotos object, which consists of
+    // the picture ID as the key, the link, thumbnail, and position of
+    // the photo (within the snippit) for the values.
     $scope.checkOn = function(id, pic) {
       var pos = Object.keys($scope.snipPhotos).length;
       $scope.snipPhotos[id] = {
@@ -163,13 +182,17 @@ angular.module('snippit.profile', ['snippit'])
       };
     };
 
+    // Deletes a photo from snipPhotos when a user clicks on a snip sidebar
+    // photo.
     $scope.checkOff = function(pic) {
       delete $scope.snipPhotos[pic];
     };
 
     // This function is invoked on initialization of this controller. It fetches
     // the album names for the logged in Facebook user, which allows them to
-    // select an album to fetch photos from.
+    // select an album to fetch photos from. It's also invoking fetchUser and
+    // fetchSnips, which fetches data for the current logged in user, as well as
+    // that user's saved snips.
     $scope.init = function() {
       Facebook.getAlbumData().success(function(resp) {
         var parse = JSON.parse(resp);
