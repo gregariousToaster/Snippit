@@ -13,6 +13,7 @@ module.exports = function(passport) {
     done(null, user.id);
   });
 
+
   passport.deserializeUser(function(id, done) {
     client.then(function(db){
       return db.collection('users').findOneAsync({id: id})
@@ -25,11 +26,9 @@ module.exports = function(passport) {
         });
     })
   });
-   // User.findById(id, function(err, user){
-   //    done(err, user);
-//==============
+   
 
-//=============
+
 // Use the FacebookStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
 //   credentials (in this case, an accessToken, refreshToken, and Facebook
@@ -40,7 +39,8 @@ module.exports = function(passport) {
       callbackURL: configAuth.facebookAuth.callbackURL
     },
     function(accessToken, refreshToken, profile, done) {
-
+//saves user data into database or logs them in if they already exist. Always updates
+//facebook token
       client.then(function(db) {
         return db.collection('users').findOneAsync({ id: profile.id })
         .then(function(user) {

@@ -165,6 +165,7 @@ exports.FBWallPhotos = function(req, res, data, cb){
   });
 };
 
+//sets the Instagram token into the database after code/token exchange
 exports.refreshInstagramToken = function(req, res, data, cb){
   client.then(function(db){
     return db.collection('users').findOneAsync({id: req.user.id})
