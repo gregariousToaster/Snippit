@@ -9,6 +9,7 @@ module.exports = function(passport) {
 
   var router = express.Router();
 
+  /// GET /auth/facebook
   //   Use passport.authenticate() as route middleware to authenticate the
   //   request.  The first step in Facebook authentication will involve
   //   redirecting the user to facebook.com.  After authorization, Facebook will
@@ -19,6 +20,7 @@ module.exports = function(passport) {
     }), function(req, res) {
   });
 
+  // GET /auth/facebook/callback
   //   Use passport.authenticate() as route middleware to authenticate the
   //   request.  If authentication fails, the user will be redirected back to the
   //   login page.  Otherwise, the primary route function function will be called,
@@ -32,42 +34,37 @@ module.exports = function(passport) {
 
   router.get('/getInstagram', function(req, res){
     console.log(req.user.instagramToken)
-    if(req.user.instagramToken){
-      api.instagramGET(req, res, req.user.instagramToken, function(media){
-        res.json(JSON.stringify(media))
-      });
-    }else{
-      res.redirect('/auth/instagram');
-    }
+    api.instagramGET(req, res, req.user.instagramToken, function(media){
+      //sends the data to the user
+      res.json(JSON.stringify(media))
+    });
   })
 
-  // Sends user to authenticate our app at instagram, it returns a code
-  // that is NOT a token (a token post request must be made to instagram
-  // to exchange the code for a token)
+  //Get /auth/instagram
+  // sends user to authenticate our app at instagram, it returns a code that is NOT a token (a token post request must be made
+  // to instagram to exchange the code for a token)
   router.get('/auth/instagram', function(req, res){
+    console.log('redirecting');
+    //handles url redirect
     api.authInstagram(req, res)
+
   });
 
-  // Instagram sends a callback with a validation code in the URL
-  // this validation code IS NOT the token that allows for API calls
+  //Instagram sends a callback with a validation code in the URL
+  //this validation code IS NOT the token that allows for API calls
   // a swap is necessary to swap the code for the token
-  // redirects the url to exchange the code for the token
+  //redirects the url to exchange the code for the token
   // res.redirect('/auth/instagram/getToken');
   router.get('/auth/instagram/callback', function(req, res){
     var code = req.url.split('code=')[1]
+    
+  //redirects the url to exchange the code for the token
     api.instagramToken(req, res, code, function(data){
       utils.refreshInstagramToken(req, res, data, function(user){
-        res.redirect('/getInstagram')
+        res.redirect('/#/app/profile');
       });
     });
-  });
-
-  // Returns a boolean object depending on whether or not the user is
-  // currently authenticated via passport. Responds with the authorized object.
-  router.get('/auth/isAuthenticated', function(req, res){
-    var authorized = {};
-    authorized.auth = req.isAuthenticated();
-    res.json(authorized);
+    
   });
 
   router.get('/logout', function(req, res){
@@ -75,8 +72,16 @@ module.exports = function(passport) {
     res.redirect('/');
   });
 
-  // If photos exist in database, respond with data. If not, response with
-  // an object with a bool property pointing to false.
+  router.get('/auth/isAuthenticated', function(req, res){
+    var authorized = {};
+    authorized.auth = req.isAuthenticated();
+    res.json(authorized);
+  });
+
+
+  // If photos exist in database, response with data. If not,
+  // response with an object with a bool property pointing to
+  // false.
   router.get('/getData', function(req, res){
     utils.grabData(req, res, function(user){
       if (user) {
@@ -87,9 +92,8 @@ module.exports = function(passport) {
     });
   });
 
-  // Makes an API request to Facebook with the user's FB token, ID, and responds
-  // with a user's FB wall photos.
   router.get('/getFacebookWall', function(req, res){
+
     api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data) {
       utils.FBWallPhotos(req, res, data, function(user){
         res.json(user);
@@ -97,8 +101,6 @@ module.exports = function(passport) {
     }, false);
   });
 
-  // Makes an API request to Facebook with the user's FB token, ID, and responds
-  // with a user's FB album names.
   router.get('/getFacebookAlbums', function(req, res){
     api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/albums', function(data) {
       utils.handleAlbums(req, res, data, function(albums){
@@ -107,8 +109,6 @@ module.exports = function(passport) {
     }, false);
   });
 
-  // Makes an API request to Facebook with an album ID, and responds with a
-  // user's FB album photos specific to that album.
   router.post('/getFacebookAlbumPhotos', function(req, res){
     var album = {id: req.body.id, name: req.body.name};
     api.facebookGET(req.user.FBtoken,'/v2.3/' + album.id + '/photos', function(data) {
@@ -118,8 +118,8 @@ module.exports = function(passport) {
     }, false);
   });
 
-  // Does a MongoDB query based on logged in Facebook user's ID. Responds
-  // with name and id of that Facebook user.
+  // Does a MongoDB query based off of logged in Facebook user's ID.
+  // Response with name and id of that Facebook user.
   router.get('/facebookUser', function(req, res) {
     client.then(function(db){
       return db.collection('users').findOneAsync({id:req.user.id});
@@ -155,6 +155,7 @@ module.exports = function(passport) {
 
   router.post('/deleteSnip', function(req, res){
     var snipName = {name: req.body.name };
+    console.log('SNIP NAME', snipName);
     utils.deleteSnip(req, res, snipName, function(bool){
       res.json(bool);
     });

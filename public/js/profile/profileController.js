@@ -118,14 +118,12 @@ angular.module('snippit.profile', ['snippit'])
     };
 
     //authorize and import instagram photos
-    $scope.getInstagram = function(){
+    $scope.showInstagram = function(){
       $scope.loading = true;
       $scope.albumPhotos = {};
       Facebook.getInstagram().success(function(resp) {
-        $scope.albumPhotos = JSON.parse(resp);
-        console.log($scope.albumPhotos)
-        $scope.loading = false;
-
+          $scope.albumPhotos = JSON.parse(resp);
+          $scope.loading = false;
       });
     }
     // This function is invoked every time an album name is clicked on the

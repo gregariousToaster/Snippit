@@ -169,10 +169,11 @@ h2 {
   padding: 10px;
   width: 100%;
 }
-#instagram {
+.instagram {
   background-color: #3498db;
+  text-decoration: none;
 }
-#instagram:hover{
+.instagram:hover{
   background-color: #2980b9;
 }
 .list-view {
