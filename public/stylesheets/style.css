@@ -1,14 +1,31 @@
+/* overarching styles */
 * {
   box-sizing: border-box;
 }
 *:focus {
   outline: none;
 }
-body {
-  width: 100%;
+
+/* mobular classes */
+.full-height {
   height: 100%;
+}
+.full-width {
+  width: 100%;
+}
+.shadow {
+  box-shadow: 0 0 5px #888;
+}
+
+
+body {
+  overflow: hidden;
   margin: 0;
   font-family: 'Roboto', sans-serif;
+}
+h2 {
+  margin: 0;
+  padding: 5px;
 }
 .facebook {
   background: rgba(255, 255, 255, .2);
@@ -19,87 +36,89 @@ body {
   padding: 10px 15px;
   margin-top: 20px;
 }
-.get-pics {
-  position: absolute;
-}
 .facebook:hover {
   background: rgba(255, 255, 255, .6);
-}
-h2 {
-  margin: 0 0;
-  display: inline;
 }
 .render {
   height: 100%;
   position: absolute;
+  top: 60px;
+  left: 0;
+  z-index: 0;
+}
+.authRender {
+  height: 100%;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
 }
-.view-select {
-  width: 16.666%;
+.hide-profile {
+  background: #29438F;
   border: none;
-  background: rgba(243, 243, 243, .5);
-  padding: 5px 10px;
+  color: #fff;
+  flex: 0 0 60px;
+}
+.hide-profile img {
+  transition: .5s;
+  width: 20px;
+}
+.flipped {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+  transition: .5s;
+}
+.view-select h2 {
+  font-weight: 100;
+}
+.view-select {
+  width: 16%;
+  border: none;
+  background: #29438F;
+  color: #fff;
+  padding: 14px 10px;
 }
 .view-select:hover {
   background-color: #888;
 }
-.blur {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
 .content {
   position: absolute;
-  width: 100%;
-  top: 3.75em;
-  z-index: -1;
+  left: 20%;
+  height: 100%;
+  overflow-y: auto;
 }
-.menu {
-  box-shadow: 0 0 4px #888;
-  position: absolute;
-  z-index: 10;
-}
-.header {
+.side {
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
   position: fixed;
   top: 0;
   left: 0;
-  height: 3em;
-  width: 100%;
+  text-align: center;
+  height: 100%;
+  width: 20%;
+  float: left;
   font-size: 1em;
-  padding: 30px;
   box-shadow: 0 0 5px;
-  background-color: #282878;
+  transition: .5s;
+  background: #fff;
+}
+.profile-pic {
+  flex: 0 0 auto;
+}
+.name {
+  flex: 0 0 auto;
 }
 .logo {
+  flex: 0 0 60px;
+  background-color: #282878;
   font-family: 'Roboto Slab', sans-serif;
   font-weight: 300;
   font-size: 1.5em;
-  position: absolute;
-  top: .25em;
   color: #fff;
-}
-.right {
-  position: absolute;
-  padding: 1.25em;
-  top: 0;
-  right: 1em;
-}
-.right ul li {
-  display: inline;
-}
-.right a {
-  font-weight: 300;
-  padding: 1em 0;
-  margin: 0 1em;
-  text-decoration: none;
-  color: #fff;
-}
-.right a:hover {
-  border-bottom: 5px solid #fff;
 }
 .full-screen {
   position: fixed;
@@ -114,8 +133,6 @@ h2 {
   justify-content: center;
   background: rgba(100, 100, 100, .8);
   position: absolute;
-  height: 100%;
-  width: 100%;
   text-align: center;
 }
 .center img {
@@ -160,14 +177,10 @@ h2 {
 .profile h1 {
   margin: 0;
 }
-.albums {
-  width: 100%;
-}
 .snip {
   display: block;
   border: none;
   padding: 10px;
-  width: 100%;
 }
 .instagram {
   background-color: #3498db;
@@ -177,17 +190,10 @@ h2 {
   background-color: #2980b9;
 }
 .list-view {
-  flex-shrink: 100;
   overflow: auto;
 }
 .snip:focus {
   outline: none;
-}
-.profile-pic {
-  flex-shrink: 1;
-}
-.profile-pic img {
-  width: 100%;
 }
 .add {
   border: none;
@@ -203,7 +209,6 @@ h2 {
   border: none;
   background: #e6e6e6;
   text-align: center;
-  width: 100%;
 }
 .add:hover {
   background: #ccc;
@@ -218,25 +223,32 @@ h2 {
 }
 .picture {
   float: left;
-  width: 100%;
-  padding: 5px;
 }
-.picture img {
-  width: 100%;
-  border-radius: 5px;
-  box-shadow: 0 0 5px;
+.tab-views {
+  flex: 1 10 auto;
+  overflow-y: auto;
+}
+.tab-view {
+  float: left;
+  clear: both;
+  text-align: left;
+}
+.right {
+  float: right;
+}
+.tabs {
+  background: #29438F;
+  color: #fff;
+  font-weight: 100;
 }
 .tabs div {
-  width: 50%;
+  width: 33.33%;
   float: right;
   cursor: pointer;
   padding: .5em;
 }
 .tabs div:hover {
   background: #ccc;
-}
-.tabs:first {
-  float: left;
 }
 .snip:hover {
   background-color: white;
@@ -251,25 +263,67 @@ h2 {
   width: 75%;
   border: none;
 }
-.flex-grid {
-  display: flex;
-  width: 80%;
-  float: right;
-}
 .input {
   padding: 5px;
 }
-#album-view {
-  flex: 3;
-  width: 80%;
+#snip-view {
+  width: 100%;
   float: right;
   padding: 5px;
 }
-#snip-view {
-  flex: 1;
+.snips {
+  position: absolute;
+  height: 100%;
+  overflow-y: auto;
+  width: 20%;
   background-color: #29438F;
-  box-shadow: 0 0 3px;
+  box-shadow: 0 0 5px;
+}
+.loading {
+  width: 20%;
+  margin: 10% 40%;
+  box-sizing: content-box;
+}
+.flex {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
   width: 80%;
   float: right;
-  padding: 5px;
+  height: 100%;
+  overflow: hidden;
+}
+.thin {
+  width: 60%;
+  transition: .5s;
+}
+.fat {
+  width: 80%;
+  transition: .5s;
+}
+.full {
+  width: 100%;
+  left: 0;
+  transition: .5s;
+}
+.hiddenprofile {
+  left: -20% !important;
+  transition: .5s;
+}
+#menu {
+  height: 60px;
+  display: flex;
+  box-shadow: 0 0 5px;
+}
+button.settings {
+  width: 100%;
+}
+.hidden {
+  right: -20%;
+  transition: .5s;
+}
+.shown {
+  right: 0;
+  transition: .5s;
 }

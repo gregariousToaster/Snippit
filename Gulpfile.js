@@ -24,16 +24,16 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('public/dist/js'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
-    .pipe(gulp.dest('public/dist/js'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(gulp.dest('public/dist/js'));
+    // .pipe(notify({ message: 'Scripts task complete' }));
 });
 
 gulp.task('styles', function() {
   return gulp.src('public/stylesheets/*.css')
     .pipe(rename({ suffix: '.min' }))
     .pipe(minifycss())
-    .pipe(gulp.dest('public/dist/stylesheets'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(gulp.dest('public/dist/stylesheets'));
+    // .pipe(notify({ message: 'Scripts task complete' }));
 });
 
 gulp.task('clean', function(cb) {

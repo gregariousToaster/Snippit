@@ -1,12 +1,36 @@
 <div ui-view>
-  <div class="header">
+  <div class="side" ng-class="{hiddenprofile: $root.hiddenProfile}">
     <div class="logo">
       <h2>Snippit</h2>
     </div>
-    <div class="right">
-        <a href="#/app/profile">Profile</a>
-        <a href="/logout">Signout</a>
+    <img class="profile-pic full-width" src="http://graph.facebook.com/{{ facebookUser.id }}/picture?width=500"/>
+    <h1 class="name">{{ facebookUser.name }}</h1>
+    <div class="tabs name">
+      <div ng-click="showTab(2)">Settings</div>
+      <div ng-click="showTab(1)">Snips</div>
+      <div ng-click="showTab(0)">Albums</div>
     </div>
+    <div class="tab-views">
+      <div class="tab-view full-width" ng-show="tab === 0">
+        <div class="snip full-width" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)">{{ album.name }}</div>
+      </div>
+      <div class="tab-view full-width" ng-show="tab === 1">
+        <div class="snip full-width" ng-repeat="(key, value) in snips">
+          {{ value.name }}
+          <span class="right">
+            <button ng-click="view2D(key, value)">2D</button>
+            <button ng-click="view3D(key, value)">3D</button>
+            <button ng-click="delete(key, value)">Delete</button>
+          </span>
+        </div>
+      </div>
+      <div class="tab-view full-width" ng-show="tab === 2">
+        <button class="settings">Authorize Instagram</button>
+        <button class="settings">Delete Account</button>
+        <button class="settings">Sign Out</button>
+      </div>
   </div>
-  <div ui-view="content" class="content" id="content"></div>
+  </div>
+  <div ui-view="content" class="content" id="content" ng-class="{thin: $root.snipOpen, fat: !$root.snipOpen, full: $root.hiddenProfile}"></div>
+  <div ui-view="snips" class="snips" id="snips" ng-class="{shown: $root.snipOpen, hidden: !$root.snipOpen}"></div>
 </div>

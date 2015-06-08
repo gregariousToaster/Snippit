@@ -2,6 +2,7 @@
 
 angular.module('snippit', ['snippit.main',
   'snippit.services',
+  'snippit.snips',
   'snippit.three',
   'snippit.auth',
   'snippit.profile',
@@ -32,6 +33,11 @@ angular.module('snippit', ['snippit.main',
         controller: 'MainController',
         authenticate: true
       })
+      .state('three', {
+        url: '/three/{snipId}',
+        templateUrl: 'templates/three.html',
+        controller: 'ThreeController',
+      })
       .state('app.three', {
         url: '/three',
         views: {
@@ -48,6 +54,10 @@ angular.module('snippit', ['snippit.main',
           'content': {
             templateUrl: 'templates/profile.html',
             controller: 'ProfileController'
+          },
+          'snips': {
+            templateUrl: 'templates/snips.html',
+            controller: 'SnipsController'
           }
         },
         authenticate: true

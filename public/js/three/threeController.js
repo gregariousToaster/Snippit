@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('snippit.three', ['snippit'])
-  .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', function($scope, ThreeFactory, $window, $document, Facebook) {
+  .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', '$rootScope', function($scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams, $rootScope) {
 
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
     var scene, renderer, camera, controls;
@@ -11,25 +11,58 @@ angular.module('snippit.three', ['snippit'])
     //the facebook data.
     var setup = false;
 
+    var signedIn = !!document.getElementsByClassName('side')[0];
+
+    $scope.hideProfile = function() {
+      $rootScope.hiddenProfile = !$rootScope.hiddenProfile;
+      onWindowResize();
+    };
+
     // This is a helper function that returns the total height of the THREE.js scene.
-    var sceneHeight = function(){
-      return $window.innerHeight - (document.getElementsByClassName('header')[0].offsetHeight);
+    var sceneWidth = function() {
+      if ($rootScope.hiddenProfile) {
+        return $window.innerWidth;
+      } else {
+        return $window.innerWidth * .8; 
+      }
+    };
+
+    var sceneHeight = function() {
+      return $window.innerHeight - 60;
     };
 
     $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
 
-    var threeJS = function(resp) {
-      var dat = JSON.parse(resp.data);
+    var prepFb = function(resp) {
+      var parsed = JSON.parse(resp.data);
 
       data = {
-        pictures: dat.wallPhotos.picture,
-        thumbnails: dat.wallPhotos.thumbnail
+        pictures: parsed.wallPhotos.picture,
+        thumbnails: parsed.wallPhotos.thumbnail
       };
 
-      camera = new THREE.PerspectiveCamera(30, $window.innerWidth / sceneHeight(), 1, 10000);
+      return data;
+    };
+
+    var prepSnip = function(resp) {
+      data = {
+        pictures: [],
+        thumbnails: []
+      }
+
+      for(var key in resp) {
+        data.pictures.push(resp[key].src);
+        data.thumbnails.push(resp[key].thumb);
+      }
+
+      return data;
+    };
+
+    var threeJS = function(data) {
 
       //start the camera zoomed out 1500 from the origin
+      camera = new THREE.PerspectiveCamera(30, sceneWidth() / sceneHeight(), 1, 10000);
       camera.position.z = 1500;
       scene = new THREE.Scene();
 
@@ -51,13 +84,12 @@ angular.module('snippit.three', ['snippit'])
       }
 
       renderer = new THREE.CSS3DRenderer();
-      renderer.setSize($window.innerWidth, sceneHeight());
+      renderer.setSize(sceneWidth(), sceneHeight());
       renderer.domElement.style.position = 'absolute';
       renderer.domElement.classList.add('render');
 
       $scope.transform($scope.targets.table, 2000);
 
-      document.getElementById('content').setAttribute('height', sceneHeight());
       document.getElementById('container').appendChild(renderer.domElement);
 
       window.addEventListener('resize', onWindowResize, false);
@@ -71,23 +103,36 @@ angular.module('snippit.three', ['snippit'])
     // this user. If not, it'll fetch them from Facebook, if it does, it'll
     // fetch from MongoDB.
     var init = function(){
-      Facebook.getWallData()
-        .then(function(resp){
-        if (resp.data.bool === 'false') {
-          Facebook.refreshWallData()
-          .then(function(resp) {
-            threeJS(resp);
-          });
+      if (signedIn) {
+        if ($rootScope.snipId) {
+          threeJS(prepSnip($rootScope.snipPhotos));
         } else {
-          threeJS(resp);
+          Facebook.getWallData()
+            .then(function(resp){
+            if (resp.data.bool === 'false') {
+              Facebook.refreshWallData()
+              .then(function(resp) {
+                threeJS(prepFb(resp));
+              });
+            } else {
+              threeJS(prepFb(resp));
+            }
+          });
         }
-      });
+      } else {
+        if ($stateParams.snipId) { 
+          Snips.getSnips([$stateParams.snipId])
+            .then(function(resp) {
+              threeJS(prepSnip(resp.data[$stateParams.snipId].img));
+            });
+        }
+      }
     };
 
     //open a modal fram with a version of the picture when clicked
     $scope.hit = function(){
       Modal.open({
-         content: "<div class='imageResize'><img src='"+data.pictures[this]+"' /></div>",
+         content: "<div class='imageResize'><img src='" + data.pictures[this] + "' /></div>",
          draggable: false,
          width: 'auto',
          context: this
@@ -139,9 +184,12 @@ angular.module('snippit.three', ['snippit'])
 
     //when the window is resized
     var onWindowResize = function() {
-      camera.aspect = window.innerWidth / sceneHeight();
+
+      camera.aspect = sceneWidth() / sceneHeight();
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, sceneHeight());
+
+      renderer.setSize(sceneWidth(), sceneHeight());
+
       $scope.render();
     };
 
@@ -160,5 +208,14 @@ angular.module('snippit.three', ['snippit'])
 
     $scope.render = function(){
       renderer.render(scene, camera);
+    };
+
+    $rootScope.rerender = function() {
+      document.getElementById('container').removeChild(document.getElementsByClassName('render')[0]);
+
+      $scope.objects = [];
+      $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
+      init();
+      animate();
     };
   }]);

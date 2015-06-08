@@ -12,6 +12,7 @@ angular.module('snippit.services', ['snippit'])
       el.className = 'element';
       el.setAttribute('ng-show', 'picData[-1]');
 
+
       var image = document.createElement('img');
       image.className = 'picImg';
       image.src = collection[i];
