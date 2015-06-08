@@ -168,5 +168,13 @@ module.exports = function(passport) {
     });
   });
 
+  //delete account
+  router.get('/deleteAccount', function(req, res){
+    utils.deleteAccount(req, res, function(){
+      req.logout();
+      res.redirect('/')
+    })
+  })
+
   return router;
 };
