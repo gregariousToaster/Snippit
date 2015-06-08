@@ -31,6 +31,27 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       });
     };
 
+
+    $scope.snipClose = function() {
+      $rootScope.snipOpen = false;  
+      $rootScope.newSnip = true;
+      if (Object.keys($rootScope.snipPhotos).length === 0) {
+        delete $rootScope.snips[$rootScope.snipId];
+        $rootScope.snipPhotos = {};
+        $rootScope.snipId = null;
+        $rootScope.snipName = '';
+      } else {
+        $rootScope.snips[$scope.snipId].img = $scope.snipPhotos;
+        Snips.saveSnip({img: $scope.snipPhotos, name: $scope.snipName, _id: $scope.snipId})
+          .success(function(resp){
+            console.log(resp);
+            $rootScope.snipName = '';
+            $rootScope.snipPhotos = {};
+            $rootScope.snipId = null;
+          });
+      }
+    };
+
     $scope.albumClick = function(name, id) {
       $rootScope.loading = true;
       $rootScope.albumPhotos = {};
