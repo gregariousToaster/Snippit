@@ -194,7 +194,11 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
 
     $rootScope.loading = false;
 
+    $rootScope.newSnip = true;
+
     $scope.tab = 1;
+
+    $rootScope.snips = {};
 
     $scope.albumNames = [];
 
@@ -209,7 +213,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
         $rootScope.facebookUser = resp;
         Snips.getSnips(resp.snips).success(function(resp) {
           console.log('SNIPS', resp);
-          $scope.snips = resp;
+          $rootScope.snips = resp;
         });
       });
     };
@@ -530,11 +534,9 @@ angular.module('snippit.services', ['snippit'])
 angular.module('snippit.snips', ['snippit'])
   .controller('SnipsController', ['$rootScope', '$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', function($rootScope, $scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams) {
 
-  $scope.snipName = '';
-
   $scope.snipAdd = function() {
       $rootScope.snipOpen = false;  
-      Snips.addSnip({img: $rootScope.snipPhotos, name: $scope.snipName, userId: $rootScope.facebookUser.id})
+      Snips.addSnip({img: $rootScope.snipPhotos, name: $rootScope.snipName, userId: $rootScope.facebookUser.id})
         .success(function(resp){
           $rootScope.snips[resp] = {
             name: $rootScope.snipName,
@@ -547,6 +549,7 @@ angular.module('snippit.snips', ['snippit'])
 
     $scope.snipClose = function() {
       $rootScope.snipOpen = false;  
+      $rootScope.newSnip = true;
       if (Object.keys($rootScope.snipPhotos).length === 0) {
         delete $rootScope.snips[$scope.snipId];
         $rootScope.snipPhotos = {};
@@ -560,7 +563,6 @@ angular.module('snippit.snips', ['snippit'])
             $rootScope.snipPhotos = {};
           });
       }
-      $rootScope.newSnip = true;
     };
     
     $scope.checkOff = function(pic) {
@@ -636,7 +638,7 @@ angular.module('snippit.three', ['snippit'])
 
       //start the camera zoomed out 1500 from the origin
       camera = new THREE.PerspectiveCamera(30, sceneWidth() / sceneHeight(), 1, 10000);
-      camera.position.z = 1500;
+      camera.position.z = 2000;
       scene = new THREE.Scene();
 
       setup = true;

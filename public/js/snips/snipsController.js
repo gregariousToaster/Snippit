@@ -4,11 +4,9 @@
 angular.module('snippit.snips', ['snippit'])
   .controller('SnipsController', ['$rootScope', '$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', function($rootScope, $scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams) {
 
-  $scope.snipName = '';
-
   $scope.snipAdd = function() {
       $rootScope.snipOpen = false;  
-      Snips.addSnip({img: $rootScope.snipPhotos, name: $scope.snipName, userId: $rootScope.facebookUser.id})
+      Snips.addSnip({img: $rootScope.snipPhotos, name: $rootScope.snipName, userId: $rootScope.facebookUser.id})
         .success(function(resp){
           $rootScope.snips[resp] = {
             name: $rootScope.snipName,
@@ -21,6 +19,7 @@ angular.module('snippit.snips', ['snippit'])
 
     $scope.snipClose = function() {
       $rootScope.snipOpen = false;  
+      $rootScope.newSnip = true;
       if (Object.keys($rootScope.snipPhotos).length === 0) {
         delete $rootScope.snips[$scope.snipId];
         $rootScope.snipPhotos = {};
@@ -34,7 +33,6 @@ angular.module('snippit.snips', ['snippit'])
             $rootScope.snipPhotos = {};
           });
       }
-      $rootScope.newSnip = true;
     };
     
     $scope.checkOff = function(pic) {

@@ -7,7 +7,11 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
 
     $rootScope.loading = false;
 
+    $rootScope.newSnip = true;
+
     $scope.tab = 1;
+
+    $rootScope.snips = {};
 
     $scope.albumNames = [];
 
@@ -22,7 +26,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
         $rootScope.facebookUser = resp;
         Snips.getSnips(resp.snips).success(function(resp) {
           console.log('SNIPS', resp);
-          $scope.snips = resp;
+          $rootScope.snips = resp;
         });
       });
     };
