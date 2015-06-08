@@ -1,6 +1,6 @@
 <div ui-view>
     <div class="full-width input">
-      <input ng-model="snipName" class="snip-name" ng-show="$root.newSnip">
+      <input ng-model="$root.snipName" class="snip-name" ng-show="$root.newSnip">
       <button class="add" ng-click="snipAdd()" ng-show="$root.newSnip">add</button>
       <button class="save full-width" ng-click="snipClose()" ng-show="!$root.newSnip">save and exit</button>
     </div>

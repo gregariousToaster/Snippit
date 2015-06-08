@@ -64,7 +64,7 @@ angular.module('snippit.three', ['snippit'])
 
       //start the camera zoomed out 1500 from the origin
       camera = new THREE.PerspectiveCamera(30, sceneWidth() / sceneHeight(), 1, 10000);
-      camera.position.z = 1500;
+      camera.position.z = 2000;
       scene = new THREE.Scene();
 
       setup = true;

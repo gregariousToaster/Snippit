@@ -54,9 +54,9 @@ h2 {
   z-index: -1;
 }
 .hide-profile {
-  background: rgba(10,10,10,.5);
+  background: rgba(150, 150, 150, .6);
   border: none;
-  color: #fff;
+  color: #333;
   flex: 0 0 60px;
 }
 .hide-profile i {
@@ -76,12 +76,13 @@ h2 {
 .view-select {
   width: 16%;
   border: none;
-  background: rgba(10,10,10,.5);
-  color: #fff;
+  background: rgba(150, 150, 150, .6);
+  color: #333;
   padding: 14px 10px;
 }
 .view-select:hover {
   background: rgba(10,10,10,.8);
+  color: #fff;
 }
 .content {
   position: absolute;
@@ -182,18 +183,11 @@ h2 {
   border: none;
   padding: 10px;
 }
-.instagram {
-  background-color: #3498db;
-  text-decoration: none;
-}
-.instagram:hover{
-  background-color: #2980b9;
+.hover:hover {
+  background: #e6e6e6;
 }
 .list-view {
   overflow: auto;
-}
-.snip:focus {
-  outline: none;
 }
 .add {
   border: none;
@@ -233,6 +227,11 @@ h2 {
   clear: both;
   text-align: left;
 }
+.tab-view a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
 .right {
   float: right;
 }
@@ -261,12 +260,6 @@ h2 {
 }
 .tabs div:hover {
   background-color: #282878;
-}
-.snip:hover {
-  background-color: white;
-}
-.snip:active {
-  background-color: gray;
 }
 .snip-name {
   padding: 4.5px 10px;
@@ -326,7 +319,6 @@ h2 {
 #menu {
   height: 60px;
   display: flex;
-  box-shadow: 0 0 5px;
 }
 button.settings {
   width: 100%;
