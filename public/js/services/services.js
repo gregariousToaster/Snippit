@@ -166,9 +166,10 @@ angular.module('snippit.services', ['snippit'])
       return $http.post('/saveSnip', snip);
     };
 
-    var deleteSnip = function(name) {
-      var snipName = {name: name};
-      return $http.post('/deleteSnip', snipName);
+    var deleteSnip = function(id) {
+      console.log('DELETING', id);
+      var snipID = {_id: id};
+      return $http.post('/deleteSnip', snipID);
     };
 
     return {

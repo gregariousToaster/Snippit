@@ -70,7 +70,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       if($state.current.name !== 'app.profile') {
         $state.go('^.profile');
       }
-    }
+    };
 
     $scope.view3D = function(key, value) {
       $rootScope.snipPhotos = value.img;
@@ -83,7 +83,12 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       } else {
         $rootScope.rerender();
       }
-    }
+    };
+
+    $scope.deleteSnip = function(key) {
+      delete $rootScope.snips[key];
+      Snips.deleteSnip(key);
+    };
 
 
     $scope.init = function() {

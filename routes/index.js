@@ -60,14 +60,14 @@ module.exports = function(passport) {
   // res.redirect('/auth/instagram/getToken');
   router.get('/auth/instagram/callback', function(req, res){
     var code = req.url.split('code=')[1]
-    
+
   //redirects the url to exchange the code for the token
     api.instagramToken(req, res, code, function(data){
       utils.refreshInstagramToken(req, res, data, function(user){
         res.redirect('/#/app/profile');
       });
     });
-    
+
   });
 
 //logs user out of app and resets authentication
@@ -161,9 +161,7 @@ module.exports = function(passport) {
 
 //deletes a snip
   router.post('/deleteSnip', function(req, res){
-    var snipName = {name: req.body.name };
-    console.log('SNIP NAME', snipName);
-    utils.deleteSnip(req, res, snipName, function(bool){
+    utils.deleteSnip(req, res, function(bool){
       res.json(bool);
     });
   });
