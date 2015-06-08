@@ -4,6 +4,6 @@
       <i class="material-icons" ng-class="{flipped: $root.hiddenProfile}">navigate_before</i>
       <!-- <img class="retract" src="../images/retract.png" ng-class="{flipped: !$root.hiddenProfile}"> -->
     </button>
-    <button class="view-select" ng-repeat="(key, value) in targets"  ng-click="clicked(targets[key])"><h2>{{key | uppercase}}</h2></button>
+    <button class="view-select" ng-repeat="target in targetNames"  ng-click="clicked(targets[target[0]])"><h2>{{ target[1] }}</h2></button>
   </div>
 </div>

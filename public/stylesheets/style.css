@@ -59,9 +59,8 @@ h2 {
   color: #fff;
   flex: 0 0 60px;
 }
-.hide-profile img {
+.hide-profile i {
   transition: .5s;
-  width: 20px;
 }
 .flipped {
   -webkit-transform: rotate(180deg);

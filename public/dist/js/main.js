@@ -605,6 +605,7 @@ angular.module('snippit.three', ['snippit'])
 
     $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
+    $scope.targetNames = [['table', 'Table'], ['sphere', 'Sphere'], ['helix', 'Helix'], ['doubleHelix', 'Double Helix'], ['tripleHelix', 'Triple Helix'], ['grid', 'Grid']];
 
     var prepFb = function(resp) {
       var parsed = JSON.parse(resp.data);
