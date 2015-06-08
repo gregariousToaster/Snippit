@@ -1,7 +1,7 @@
 <div ui-view id="container">
   <div id="menu">
     <button class="hide-profile" ng-click="hideProfile()">
-      <img class="retract" src="../images/retract.png" ng-class="{flipped: $root.hiddenProfile}">
+      <img class="retract" src="../images/retract.png" ng-class="{flipped: !$root.hiddenProfile}">
     </button>
     <button class="view-select" ng-repeat="(key, value) in targets"  ng-click="clicked(targets[key])"><h2>{{key | uppercase}}</h2></button>
   </div>

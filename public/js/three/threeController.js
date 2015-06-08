@@ -28,7 +28,7 @@ angular.module('snippit.three', ['snippit'])
     };
 
     var sceneHeight = function() {
-      return $window.innerHeight - 60;
+      return $window.innerHeight;
     };
 
     $scope.objects = [];

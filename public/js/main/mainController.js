@@ -20,8 +20,8 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
     $scope.fetchUser = function() {
       Facebook.getFacebookUser().success(function(resp) {
         $rootScope.facebookUser = resp;
-        console.log('RESP', resp);
         Snips.getSnips(resp.snips).success(function(resp) {
+          console.log('SNIPS', resp);
           $scope.snips = resp;
         });
       });
