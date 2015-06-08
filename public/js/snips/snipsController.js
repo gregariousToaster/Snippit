@@ -4,9 +4,11 @@
 angular.module('snippit.snips', ['snippit'])
   .controller('SnipsController', ['$rootScope', '$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', function($rootScope, $scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams) {
 
+  $scope.snipName = '';
+
   $scope.snipAdd = function() {
       $rootScope.snipOpen = false;  
-      Snips.addSnip({img: $scope.snipPhotos, name: $scope.snipName, userId: $scope.facebookUser.id})
+      Snips.addSnip({img: $rootScope.snipPhotos, name: $scope.snipName, userId: $rootScope.facebookUser.id})
         .success(function(resp){
           $rootScope.snips[resp] = {
             name: $rootScope.snipName,

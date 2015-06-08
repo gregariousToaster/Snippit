@@ -42,9 +42,9 @@ h2 {
 .render {
   height: 100%;
   position: absolute;
-  top: 60px;
+  top: 0;
   left: 0;
-  z-index: 0;
+  z-index: -1;
 }
 .authRender {
   height: 100%;
@@ -54,7 +54,7 @@ h2 {
   z-index: -1;
 }
 .hide-profile {
-  background: #29438F;
+  background: rgba(10,10,10,.5);
   border: none;
   color: #fff;
   flex: 0 0 60px;
@@ -77,18 +77,19 @@ h2 {
 .view-select {
   width: 16%;
   border: none;
-  background: #29438F;
+  background: rgba(10,10,10,.5);
   color: #fff;
   padding: 14px 10px;
 }
 .view-select:hover {
-  background-color: #888;
+  background: rgba(10,10,10,.8);
 }
 .content {
   position: absolute;
   left: 20%;
   height: 100%;
   overflow-y: auto;
+  z-index: -2;
 }
 .side {
   display: flex;
@@ -248,7 +249,7 @@ h2 {
   padding: .5em;
 }
 .tabs div:hover {
-  background: #ccc;
+  background-color: #282878;
 }
 .snip:hover {
   background-color: white;
