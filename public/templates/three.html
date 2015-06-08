@@ -1,6 +1,6 @@
 <div ui-view id="container">
   <div id="menu">
-    <button class="hide-profile" ng-click="hideProfile()">
+    <button class="hide-profile" ng-click="hideProfile()" ng-show="signedIn">
       <i class="material-icons" ng-class="{flipped: $root.hiddenProfile}">navigate_before</i>
       <!-- <img class="retract" src="../images/retract.png" ng-class="{flipped: !$root.hiddenProfile}"> -->
     </button>

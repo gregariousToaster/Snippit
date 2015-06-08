@@ -1,10 +1,13 @@
-<div ui-view>
+<div ui-view class="flex-col">
     <div class="full-width input">
-      <input ng-model="$root.snipName" class="snip-name" ng-show="$root.newSnip">
-      <button class="add" ng-click="snipAdd()" ng-show="$root.newSnip">add</button>
-      <button class="save full-width" ng-click="snipClose()" ng-show="!$root.newSnip">save and exit</button>
+      <input ng-model="$root.snipName" class="snip-name" ng-show="$root.newSnip" placeholder="Please type snip name">
+      <button class="add" ng-click="snipAdd()" ng-show="$root.newSnip"><i class="material-icons">add</i></button>
     </div>
-    <div ng-repeat="(key, value) in $root.snipPhotos" class="picture full-width">
-      <img ng-src="{{ value.src }}" ng-click="checkOff(key)" class="shadow full-width">
+    <div class="snip-scroll">
+      <div class="scroll-photos">
+        <div ng-repeat="(key, value) in $root.snipPhotos" class="snip-picture full-width">
+          <img ng-src="{{ value.src }}" ng-click="checkOff(key)" class="full-width">
+        </div>
+      </div>
     </div>
 </div>

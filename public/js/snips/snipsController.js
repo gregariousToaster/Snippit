@@ -21,7 +21,7 @@ angular.module('snippit.snips', ['snippit'])
       $rootScope.snipOpen = false;  
       $rootScope.newSnip = true;
       if (Object.keys($rootScope.snipPhotos).length === 0) {
-        delete $rootScope.snips[$scope.snipId];
+        delete $rootScope.snips[$rootScope.snipId];
         $rootScope.snipPhotos = {};
         $rootScope.snipName = '';
       } else {

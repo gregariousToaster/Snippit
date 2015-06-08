@@ -218,6 +218,27 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       });
     };
 
+
+    $scope.snipClose = function() {
+      $rootScope.snipOpen = false;  
+      $rootScope.newSnip = true;
+      if (Object.keys($rootScope.snipPhotos).length === 0) {
+        delete $rootScope.snips[$rootScope.snipId];
+        $rootScope.snipPhotos = {};
+        $rootScope.snipId = null;
+        $rootScope.snipName = '';
+      } else {
+        $rootScope.snips[$scope.snipId].img = $scope.snipPhotos;
+        Snips.saveSnip({img: $scope.snipPhotos, name: $scope.snipName, _id: $scope.snipId})
+          .success(function(resp){
+            console.log(resp);
+            $rootScope.snipName = '';
+            $rootScope.snipPhotos = {};
+            $rootScope.snipId = null;
+          });
+      }
+    };
+
     $scope.albumClick = function(name, id) {
       $rootScope.loading = true;
       $rootScope.albumPhotos = {};
@@ -551,7 +572,7 @@ angular.module('snippit.snips', ['snippit'])
       $rootScope.snipOpen = false;  
       $rootScope.newSnip = true;
       if (Object.keys($rootScope.snipPhotos).length === 0) {
-        delete $rootScope.snips[$scope.snipId];
+        delete $rootScope.snips[$rootScope.snipId];
         $rootScope.snipPhotos = {};
         $rootScope.snipName = '';
       } else {
@@ -585,7 +606,7 @@ angular.module('snippit.three', ['snippit'])
     //the facebook data.
     var setup = false;
 
-    var signedIn = !!document.getElementsByClassName('side')[0];
+    $scope.signedIn = !!document.getElementsByClassName('side')[0];
 
     $scope.hideProfile = function() {
       $rootScope.hiddenProfile = !$rootScope.hiddenProfile;
@@ -594,7 +615,7 @@ angular.module('snippit.three', ['snippit'])
 
     // This is a helper function that returns the total height of the THREE.js scene.
     var sceneWidth = function() {
-      if ($rootScope.hiddenProfile) {
+      if ($rootScope.hiddenProfile || !$scope.signedIn) {
         return $window.innerWidth;
       } else {
         return $window.innerWidth * .8; 
@@ -678,7 +699,7 @@ angular.module('snippit.three', ['snippit'])
     // this user. If not, it'll fetch them from Facebook, if it does, it'll
     // fetch from MongoDB.
     var init = function(){
-      if (signedIn) {
+      if ($scope.signedIn) {
         if ($rootScope.snipId) {
           threeJS(prepSnip($rootScope.snipPhotos));
         } else {
