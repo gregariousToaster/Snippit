@@ -141,6 +141,7 @@ module.exports = function(passport) {
 //retrieves saved Snips from the database
   router.post('/getSnips', function(req, res){
     utils.getSnips(req, res, function(snips){
+      console.log(snips);
       res.json(snips)
     });
   });
