@@ -237,6 +237,18 @@ h2 {
 .right {
   float: right;
 }
+.right button {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+.right i {
+  background: transparent;
+  color: #e6e6e6;
+}
+.right i:hover {
+  color: black;
+}
 .tabs {
   background: #29438F;
   color: #fff;
