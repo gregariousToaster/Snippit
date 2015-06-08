@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('snippit.main', ['snippit', 'snippit.services'])
-  .controller('MainController', ['$rootScope', '$scope', 'Facebook', 'Snips', function($rootScope, $scope, Facebook, Snips) {
+  .controller('MainController', ['$rootScope', '$scope', 'Facebook', 'Snips', '$state', function($rootScope, $scope, Facebook, Snips, $state) {
 
     $rootScope.facebookUser = {};
 
@@ -34,7 +34,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
         Facebook.getWallData().success(function(resp){
         //WE'LL COME BACK TO THIS
           var pics = JSON.parse(resp).wallPhotos;
-          for (var i = 0; i < parse.picture.length;i++){
+          for (var i = 0; i < pics.picture.length;i++){
             $rootScope.loading = false;
             $rootScope.albumPhotos.push({
               src: pics.picture[i],
@@ -50,15 +50,37 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
             }
         });
       }
+      if($state.current.name !== 'app.profile') {
+        $rootScope.newSnip = true;
+        $rootScope.snipPhotos = {};
+        $state.go('^.profile');
+      }
     };
 
-    $scope.snipClick = function(key, value) {
+    $scope.view2D = function(key, value) {
       $rootScope.snipId = key;
       $rootScope.snipPhotos = value.img;
       $rootScope.newSnip = false;
       $scope.snipName = value.name;
       $rootScope.snipOpen = true;
-    };
+      if($state.current.name !== 'app.profile') {
+        $state.go('^.profile');
+      }
+    }
+
+    $scope.view3D = function(key, value) {
+      $rootScope.snipPhotos = value.img;
+      $rootScope.snipId = key;
+      $rootScope.newSnip = true;
+      $scope.snipName = value.name;
+      $rootScope.snipOpen = false;
+      if($state.current.name !== 'app.three') {
+        $state.go('^.three');
+      } else {
+        $rootScope.rerender();
+      }
+    }
+
 
     $scope.init = function() {
 

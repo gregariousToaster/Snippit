@@ -18,16 +18,16 @@
         <div class="snip full-width" ng-repeat="(key, value) in snips">
           {{ value.name }}
           <span class="right">
-            <button ng-click="snipClick(key, value)">2D</button>
-            <button ng-click="snipClick(key, value)">3D</button>
-            <button ng-click="snipClick(key, value)">Delete</button>
+            <button ng-click="view2D(key, value)">2D</button>
+            <button ng-click="view3D(key, value)">3D</button>
+            <button ng-click="delete(key, value)">Delete</button>
           </span>
         </div>
       </div>
       <div class="tab-view full-width" ng-show="tab === 2">
-        <button class"settings">Authorize Instagram</button>
-        <button class"settings">Delete Account</button>
-        <button class"settings">Sign Out</button>
+        <button class="settings">Authorize Instagram</button>
+        <button class="settings">Delete Account</button>
+        <button class="settings">Sign Out</button>
       </div>
   </div>
   </div>

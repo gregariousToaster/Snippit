@@ -29,7 +29,7 @@ angular.module('snippit.three', ['snippit'])
 
     var sceneHeight = function() {
       return $window.innerHeight - 60;
-    }
+    };
 
     $scope.objects = [];
     $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
@@ -57,7 +57,7 @@ angular.module('snippit.three', ['snippit'])
       }
 
       return data;
-    }
+    };
 
     var threeJS = function(data) {
 
@@ -90,9 +90,6 @@ angular.module('snippit.three', ['snippit'])
 
       $scope.transform($scope.targets.table, 2000);
 
-      // if (signedIn) {
-        // document.getElementById('content').setAttribute('height', $window.);
-      // }
       document.getElementById('container').appendChild(renderer.domElement);
 
       window.addEventListener('resize', onWindowResize, false);
@@ -107,17 +104,21 @@ angular.module('snippit.three', ['snippit'])
     // fetch from MongoDB.
     var init = function(){
       if (signedIn) {
-        Facebook.getWallData()
-          .then(function(resp){
-          if (resp.data.bool === 'false') {
-            Facebook.refreshWallData()
-            .then(function(resp) {
+        if ($rootScope.snipId) {
+          threeJS(prepSnip($rootScope.snipPhotos));
+        } else {
+          Facebook.getWallData()
+            .then(function(resp){
+            if (resp.data.bool === 'false') {
+              Facebook.refreshWallData()
+              .then(function(resp) {
+                threeJS(prepFb(resp));
+              });
+            } else {
               threeJS(prepFb(resp));
-            });
-          } else {
-            threeJS(prepFb(resp));
-          }
-        });
+            }
+          });
+        }
       } else {
         if ($stateParams.snipId) { 
           Snips.getSnips([$stateParams.snipId])
@@ -207,5 +208,14 @@ angular.module('snippit.three', ['snippit'])
 
     $scope.render = function(){
       renderer.render(scene, camera);
+    };
+
+    $rootScope.rerender = function() {
+      document.getElementById('container').removeChild(document.getElementsByClassName('render')[0]);
+
+      $scope.objects = [];
+      $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
+      init();
+      animate();
     };
   }]);

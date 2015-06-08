@@ -29,7 +29,7 @@ angular.module('snippit.auth', ['snippit'])
       renderer = new THREE.CSS3DRenderer();
       renderer.setSize($window.innerWidth, $window.innerHeight);
       renderer.domElement.style.position = 'absolute';
-      renderer.domElement.classList.add('render');
+      renderer.domElement.classList.add('authRender');
 
       $scope.transform($scope.targets.sphere, 2000);
 

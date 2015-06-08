@@ -19,6 +19,7 @@
 
 
 body {
+  overflow: hidden;
   margin: 0;
   font-family: 'Roboto', sans-serif;
 }
@@ -44,6 +45,13 @@ h2 {
   top: 60px;
   left: 0;
   z-index: 0;
+}
+.authRender {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 .hide-profile {
   background: #29438F;
@@ -308,8 +316,8 @@ h2 {
   display: flex;
   box-shadow: 0 0 5px;
 }
-.settings {
-  width: 100%
+button.settings {
+  width: 100%;
 }
 .hidden {
   right: -20%;
