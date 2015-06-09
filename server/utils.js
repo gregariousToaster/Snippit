@@ -4,10 +4,6 @@ var _ = require('underscore');
 var client = require('./config/mongo');
 var ObjectId = require('mongodb').ObjectID;
 
-
-
-
-
 // Util function for routes asking for user data.
 // Takes a request, a response, and a callback.
 exports.grabData = function(req, res, cb){
@@ -62,18 +58,14 @@ exports.addSnip = function(req, res, cb){
 // each result to the snips object with key unique ID and value as the snip.
 // callback with the snips object, which gets sent back to the request.
 exports.getSnips = function(req, res, cb){
-
   var snips = {};
   client.then(function(db) {
     for (var i = 0; i < req.body.snips.length; i++) {
       db.collection('snips').findOneAsync({_id: ObjectId(req.body.snips[i])})
         .then(function(snip){
-          if (!snip) {
-            return;
-          }
           snips[snip._id] = snip;
           if(req.body.snips.length === Object.keys(snips).length) {
-            cb(snips);
+            cb(JSON.stringify(snips))
           }
        });
     };
@@ -111,11 +103,25 @@ exports.saveSnip = function(req, res, cb){
   });
 };
 
+
+// exports.getSnips = function(req, res, cb){
+//   client.then(function(db){
+//     db.collection('snips').findAsync()
+//     .then(function(item) {
+//       item.toArray(function(err, snips) {
+//         console.log('snips', snips);
+//         cb(snips);
+//       })
+//     })
+//   });
+// };
+
 // Deletes a snip from the database based on an identifying piece of information
 // for that snip, such as snip name or ID.
-exports.deleteSnip = function(req, res, cb){
+exports.deleteSnip = function(req, res, name, cb){
   client.then(function(db){
-    db.collection('snips').remove({_id: ObjectId(req.body._id)});
+    console.log('DELETING NAME', name);
+    db.collection('snips').remove(name)
   });
 };
 
@@ -155,7 +161,6 @@ exports.FBWallPhotos = function(req, res, data, cb){
   });
 };
 
-//sets the Instagram token into the database after code/token exchange
 exports.refreshInstagramToken = function(req, res, data, cb){
   client.then(function(db){
     return db.collection('users').findOneAsync({id: req.user.id})
@@ -182,18 +187,5 @@ exports.refreshInstagramToken = function(req, res, data, cb){
 };
 
 
-exports.deleteAccount = function(req, res, cb){
-  client.then(function(db){
-    return db.collection('users').findOneAsync({id: req.user.id})
-      .then(function(user){
-        if(!user){
-          console.log("ERROR, USER NOT FOUND UTILS deleteAccount");
-        }else{
-          db.collection('users').remove({_id: ObjectId(user._id)});
-          console.log('account deleted');
-          cb();
-        }
-      })
-  });
-}
+
 
