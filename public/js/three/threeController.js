@@ -11,7 +11,7 @@ angular.module('snippit.three', ['snippit'])
     //the facebook data.
     var setup = false;
 
-    var signedIn = !!document.getElementsByClassName('side')[0];
+    $scope.signedIn = !!document.getElementsByClassName('side')[0];
 
     $scope.hideProfile = function() {
       $rootScope.hiddenProfile = !$rootScope.hiddenProfile;
@@ -20,7 +20,7 @@ angular.module('snippit.three', ['snippit'])
 
     // This is a helper function that returns the total height of the THREE.js scene.
     var sceneWidth = function() {
-      if ($rootScope.hiddenProfile) {
+      if ($rootScope.hiddenProfile || !$scope.signedIn) {
         return $window.innerWidth;
       } else {
         return $window.innerWidth * .8; 
@@ -104,7 +104,7 @@ angular.module('snippit.three', ['snippit'])
     // this user. If not, it'll fetch them from Facebook, if it does, it'll
     // fetch from MongoDB.
     var init = function(){
-      if (signedIn) {
+      if ($scope.signedIn) {
         if ($rootScope.snipId) {
           threeJS(prepSnip($rootScope.snipPhotos));
         } else {

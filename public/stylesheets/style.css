@@ -74,7 +74,7 @@ h2 {
   font-weight: 100;
 }
 .view-select {
-  width: 16%;
+  width: 17%;
   border: none;
   background: rgba(150, 150, 150, .6);
   color: #333;
@@ -179,7 +179,7 @@ h2 {
   margin: 0;
 }
 .snip {
-  display: block;
+  display: flex;
   border: none;
   padding: 10px;
 }
@@ -190,13 +190,10 @@ h2 {
   overflow: auto;
 }
 .add {
+  float: right;
+  flex: 0 0 auto;
   border: none;
-  height: 2em;
-  width: 25%;
-  border-radius: 0 4px 4px 0;
-  margin-left: -4px;
   background: #e6e6e6;
-  text-align: center;
 }
 .save {
   border-radius: 4px;
@@ -217,6 +214,9 @@ h2 {
 }
 .picture {
   float: left;
+}
+.snip-picture {
+  padding: 5px;
 }
 .tab-views {
   flex: 1 10 auto;
@@ -262,27 +262,42 @@ h2 {
   background-color: #282878;
 }
 .snip-name {
-  padding: 4.5px 10px;
-  border-radius: 4px 0 0 4px;
+  padding: 10px;
   margin: 0;
-  width: 75%;
+  width: 100%;
+  flex: 10 10 auto;
   border: none;
 }
 .input {
-  padding: 5px;
+  display: flex;
+}
+.input input {
+  font-family: 'Roboto', sans-serif;
 }
 #snip-view {
   width: 100%;
   float: right;
   padding: 5px;
 }
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
 .snips {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   height: 100%;
-  overflow-y: auto;
   width: 20%;
-  background-color: #29438F;
+  background-color: #ccc;
   box-shadow: 0 0 5px;
+}
+.snip-scroll {
+  overflow-y: auto;
+  flex: 10 10 auto;
+}
+.scroll-photo {
+  height: 100%;
 }
 .loading {
   width: 20%;
@@ -298,6 +313,9 @@ h2 {
   float: right;
   height: 100%;
   overflow: hidden;
+}
+.flex-name {
+  flex: 10 10;
 }
 .thin {
   width: 60%;
