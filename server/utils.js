@@ -84,10 +84,18 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
   cb(JSON.stringify(temp));
 };
 
+exports.disconnectSnip = function(snipId, fbId) {
+  client.then(function(db){
+    db.collection('users.snips').insert({id: fbId}, {$pull: {
+        snips: 'ObjectId("' + snipId + '")'
+    }});
+  });
+};
+
 
 exports.connectSnip = function(snipId, fbId) {
   client.then(function(db){
-    db.collection('users').update({id: fbId}, {$push: {
+    db.collection('users.snips').set({id: fbId}, {$push: {
         snips: snipId
     }});
   });
