@@ -101,8 +101,8 @@ module.exports = function(passport) {
   router.get('/getFacebookWall', function(req, res){
 
     api.facebookGET(req.user.FBtoken, '/v2.3/'+req.user.id+'/photos', function(data) {
-      utils.FBWallPhotos(req, res, data, function(user){
-        res.json(user);
+      utils.FBWallPhotos(req, res, data, function(dat){
+        res.json(dat);
       });
     }, false);
   });

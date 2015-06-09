@@ -61,9 +61,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
           var pics = JSON.parse(resp).wallPhotos;
           for (var i = 0; i < pics.picture.length;i++){
             $rootScope.loading = false;
-            $rootScope.albumPhotos.push({
-              src: pics.picture[i],
-            });
+            $rootScope.albumPhotos[pics.id[i]] = {src: pics.picture[i], thumb: pics.thumbnail[i]}
           }
         });
       } else {
