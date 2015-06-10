@@ -107,10 +107,21 @@ exports.saveSnip = function(req, res, cb){
 
 // Deletes a snip from the database based on an identifying piece of information
 // for that snip, such as snip name or ID.
-exports.deleteSnip = function(req, res, name, cb){
+exports.deleteSnip = function(req, res, cb){
   client.then(function(db){
-    console.log('DELETING NAME', name);
-    db.collection('snips').remove(name)
+    console.log('DELETING NAME', req.body._id);
+    db.collection('snips').remove({_id: new ObjectId(req.body._id)});
+  });
+  client.then(function(db){
+    console.log("removing from user");
+    return db.collection('users').findOneAsync({id: req.user.id})
+    .then(function(user){
+      user.snips.splice()
+      db.collection('users').update(
+        {_id: user._id},
+        {$pull: {snips: new ObjectId(req.body._id)}}
+      );
+    });
   });
 };
 
