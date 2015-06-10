@@ -15,7 +15,7 @@ module.exports = function(passport) {
 
 
   passport.deserializeUser(function(id, done) {
-        new User({facebookID: profile.id})
+        new User({id: id})
         .fetch()
         .then(function(model) {
           if (!model) {
@@ -41,6 +41,7 @@ module.exports = function(passport) {
     function(accessToken, refreshToken, profile, done) {
 //saves user data into database or logs them in if they already exist. Always updates
 //facebook token
+console.log('PROFILEEE', profile);
       new User({facebookID: profile.id})
         .fetch()
         .then(function(model){
