@@ -24,6 +24,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
     $scope.fetchUser = function() {
       Facebook.getFacebookUser().success(function(resp) {
         $rootScope.facebookUser = resp;
+        $scope.instaAuth = !!resp.hasToken;
         Snips.getSnips(resp.snips).success(function(resp) {
           console.log('SNIPS', resp);
           $rootScope.snips = resp;
@@ -71,6 +72,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
             for(var key in parse) {
               $rootScope.loading = false;
               $rootScope.albumPhotos = parse[key];
+              console.log($rootScope.albumPhotos)
             }
         });
       }
@@ -80,6 +82,23 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
         $state.go('^.profile');
       }
     };
+
+     $scope.getInstagram = function(){
+      $rootScope.loading = true;
+      $rootScope.albumPhotos = {};
+      Facebook.getInstagram().success(function(resp) {
+        $rootScope.albumPhotos = JSON.parse(resp);
+        $rootScope.loading = false;
+      }).error(function(data){
+        console.log('Please re-authorize your Instagram', data);
+        $rootScope.instaAuth = false;
+      });
+      if($state.current.name !== 'app.profile') {
+        $rootScope.newSnip = true;
+        $rootScope.snipPhotos = {};
+        $state.go('^.profile');
+      }
+    }
 
     $scope.view2D = function(key, value) {
       $rootScope.snipId = key;

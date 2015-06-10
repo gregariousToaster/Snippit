@@ -34,7 +34,7 @@ module.exports = function(passport) {
 
 
 //checks database for Instagram token and returns 100 Instagram photos
-  router.get('/getInstagram', passport.authenticate('facebook', { failureRedirect: '/#/signin' }),
+  router.get('/getInstagram',
   function(req, res){
     console.log(req.user.instagramToken)
     api.instagramGET(req, res, req.user.instagramToken, function(media){
@@ -64,7 +64,7 @@ module.exports = function(passport) {
   //redirects the url to exchange the code for the token
     api.instagramToken(req, res, code, function(data){
       utils.refreshInstagramToken(req, res, data, function(user){
-        res.redirect('/#/app/profile');
+        res.redirect('/#/app/three');
       });
     });
 
@@ -133,7 +133,8 @@ module.exports = function(passport) {
       return db.collection('users').findOneAsync({id:req.user.id});
     })
     .then(function(user){
-      res.json({name: user.name, id: user.id, snips: user.snips});
+      var hasToken = !!user.instagramToken;
+      res.json({name: user.name, id: user.id, snips: user.snips, hasToken: hasToken});
     });
   });
 

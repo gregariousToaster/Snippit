@@ -7,6 +7,7 @@ var ObjectId = require('mongodb').ObjectID;
 // Util function for routes asking for user data.
 // Takes a request, a response, and a callback.
 exports.grabData = function(req, res, cb){
+  var hasToken = false;
   client.then(function(db){
     return db.collection('users').findOneAsync({id:req.user.id});
   })
@@ -58,9 +59,10 @@ exports.addSnip = function(req, res, cb){
 // each result to the snips object with key unique ID and value as the snip.
 // callback with the snips object, which gets sent back to the request.
 exports.getSnips = function(req, res, cb){
+  var length = req.body.snips.length || 0;
   var snips = {};
   client.then(function(db) {
-    for (var i = 0; i < req.body.snips.length; i++) {
+    for (var i = 0; i < length; i++) {
       db.collection('snips').findOneAsync({_id: ObjectId(req.body.snips[i])})
         .then(function(snip){
           snips[snip._id] = snip;
@@ -71,19 +73,6 @@ exports.getSnips = function(req, res, cb){
     };
   });
 };
-
-// Gets an album's photos based off of data and returns an object with
-// a temp object, which has access to all the album's photos.
-exports.getAlbumPhotos = function(req, res, album, data, cb){
-  var temp ={};
-  temp[album.name] = {};
-  _.each(JSON.parse(data).data, function(photo) {
-    temp[album.name][photo.id] = {src: photo.source, thumb: photo.picture};
-  });
-
-  cb(JSON.stringify(temp));
-};
-
 
 exports.connectSnip = function(snipId, fbId) {
   client.then(function(db){
