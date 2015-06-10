@@ -1,6 +1,6 @@
 <div ui-view>
   <div class="side" ng-class="{hiddenprofile: $root.hiddenProfile}">
-    <div class="logo">
+    <div class="logo" ui-sref="app.three" ng-click="$root.snipOpen = false">
       <h2>Snippit</h2>
     </div>
     <img class="profile-pic full-width" src="http://graph.facebook.com/{{ facebookUser.id }}/picture?width=500"/>
@@ -12,6 +12,7 @@
     </div>
     <div class="tab-views">
       <div class="tab-view full-width" ng-show="tab === 0">
+        <div class="snip hover full-width" ng-show="instaAuth" ng-click="getInstagram()">Instagram Photos</div>
         <div class="snip hover full-width" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)">{{ album.name }}</div>
       </div>
       <div class="tab-view full-width" ng-show="tab === 1">
@@ -26,13 +27,13 @@
         </div>
       </div>
       <div class="tab-view full-width" ng-show="tab === 2">
-        <a href="/" ng-show="!instaAuth">
+        <a href="/auth/instagram" ng-show="!instaAuth">
           <div class="snip hover full-width">Authorize Instagram</div>
         </a>
         <a href="/logout">
           <div class="snip hover full-width">Sign Out</div>
         </a>
-        <a href="/">
+        <a href="/deleteAccount">
           <div class="snip hover full-width">Delete Account</div>
         </a>
       </div>
