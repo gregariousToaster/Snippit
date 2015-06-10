@@ -10,11 +10,13 @@ module.exports = function(passport) {
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.
   passport.serializeUser(function(user, done) {
-    done(null, user.id);
+    console.log('USER', user.attributes.facebookID);
+    done(null, user.attributes.facebookID);
   });
 
 
   passport.deserializeUser(function(id, done) {
+
     client.then(function(db){
       return db.collection('users').findOneAsync({id: id})
         .then(function(user){
@@ -25,6 +27,7 @@ module.exports = function(passport) {
 
         });
     })
+
   });
 
 
