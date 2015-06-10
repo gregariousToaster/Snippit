@@ -27,9 +27,7 @@ var store = new MongoDBStore({
 
 // error handling for session store
 store.on('error', function(error) {
-  console.log("ERROR IN STORE: ", error);
-  // assert.ifError(error);
-  // assert.ok(false);
+  console.log('ERROR IN STORE: ', error);
 });
 
 // pass passport for authentication configuration
