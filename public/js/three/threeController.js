@@ -5,7 +5,7 @@ angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', '$rootScope', function($scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams, $rootScope) {
 
     $rootScope.bool.profile = false;
-
+    
 
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
     var scene, renderer, camera, controls;
