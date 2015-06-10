@@ -1,0 +1,20 @@
+<div ui-view id="container">
+  <div class="mobileMenu" ng-class="{hiddenMenu: hiddenMenu}">
+    <div id="views">
+      <button ng-click="clicked(targets['table'])"><i class="material-icons">crop_square</i></button>  
+      <button ng-click="clicked(targets['sphere'])"><i class="material-icons">panorama_fish_eye</i></button>  
+      <button ng-click="clicked(targets['helix'])"><i class="material-icons">looks_one</i></button>  
+      <button ng-click="clicked(targets['doubleHelix'])"><i class="material-icons">looks_two</i></button>  
+      <button ng-click="clicked(targets['tripleHelix'])"><i class="material-icons">looks_3</i></button>  
+      <button ng-click="clicked(targets['grid'])"><i class="material-icons">apps</i></button>  
+    </div>
+    <div>
+        <div class="snip full-width" ng-repeat="(key, value) in $root.snips" ng-click="view3D(key, value)">{{ value.name }}</div>
+    </div>
+  </div>
+  <div id="mobile">
+    <button class="mobile-hide" ng-click="showMobileMenu()" ng-class="{mobilehideopen: !hiddenMenu}">
+      <i class="material-icons">navigate_next</i>
+    </button>
+  </div>
+</div>

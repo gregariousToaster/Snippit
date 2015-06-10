@@ -162,11 +162,9 @@ module.exports = function(passport) {
 
 //deletes a snip
   router.post('/deleteSnip', function(req, res){
-    console.log('WORK', req.body, req.user.id);
-    utils.connectSnip(req.body._id, req.user.id);
-    // utils.deleteSnip(req, res, function(bool){
-    //   res.json(bool);
-    // });
+    utils.deleteSnip(req, res, function(bool){
+      res.json(bool);
+    });
   });
 
   //delete account

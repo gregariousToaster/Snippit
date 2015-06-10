@@ -84,18 +84,10 @@ exports.getAlbumPhotos = function(req, res, album, data, cb){
   cb(JSON.stringify(temp));
 };
 
-exports.disconnectSnip = function(snipId, fbId) {
-  client.then(function(db){
-    db.collection('users.snips').insert({id: fbId}, {$pull: {
-        snips: 'ObjectId("' + snipId + '")'
-    }});
-  });
-};
-
 
 exports.connectSnip = function(snipId, fbId) {
   client.then(function(db){
-    db.collection('users.snips').set({id: fbId}, {$push: {
+    db.collection('users').update({id: fbId}, {$push: {
         snips: snipId
     }});
   });
@@ -194,6 +186,17 @@ exports.refreshInstagramToken = function(req, res, data, cb){
   });
 };
 
-
-
-
+exports.deleteAccount = function(req, res, cb){
+  client.then(function(db){
+    return db.collection('users').findOneAsync({id: req.user.id})
+      .then(function(user){
+        if(!user){
+          console.log("ERROR, USER NOT FOUND UTILS deleteAccount");
+        }else{
+          db.collection('users').remove({_id: ObjectId(user._id)});
+          console.log('account deleted');
+          cb();
+        }
+      })
+  });
+}
