@@ -3,6 +3,9 @@
 angular.module('snippit.main', ['snippit', 'snippit.services'])
   .controller('MainController', ['$rootScope', '$scope', 'Facebook', 'Snips', '$state', function($rootScope, $scope, Facebook, Snips, $state) {
 
+    $rootScope.bool = {
+    };
+
     $rootScope.facebookUser = {};
 
     $rootScope.loading = false;
@@ -26,12 +29,10 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
         $rootScope.facebookUser = resp;
         $scope.instaAuth = !!resp.hasToken;
         Snips.getSnips(resp.snips).success(function(resp) {
-          console.log('SNIPS', JSON.parse(resp));
           $rootScope.snips = JSON.parse(resp);
         });
       });
     };
-
 
     $scope.snipClose = function() {
       $rootScope.snipOpen = false;  
@@ -58,10 +59,8 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       $rootScope.albumPhotos = {};
       if(!id){
         Facebook.refreshWallData().success(function(resp){
-        //WE'LL COME BACK TO THIS
           var pics = JSON.parse(resp).wallPhotos;
           for (var i = 0; i < pics.picture.length;i++){
-            console.log(pics.picture)
             $rootScope.loading = false;
             $rootScope.albumPhotos[pics.id[i]] = {src: pics.picture[i], thumb: pics.thumbnail[i]}
           }
@@ -72,7 +71,6 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
             for(var key in parse) {
               $rootScope.loading = false;
               $rootScope.albumPhotos = parse[key];
-              console.log($rootScope.albumPhotos)
             }
         });
       }
@@ -112,15 +110,16 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
     };
 
     $scope.view3D = function(key, value) {
-      if($state.current.name !== 'app.three') {
-        $state.go('^.three');
-      }
       $rootScope.snipPhotos = value.img;
       $rootScope.snipId = key;
       $rootScope.newSnip = true;
       $scope.snipName = value.name;
       $rootScope.snipOpen = false;
-      $scope.rerender();
+      if($state.current.name !== 'app.three') {
+        $state.go('^.three');
+      } else {
+        $rootScope.rerender();
+      }
     };
 
     $scope.deleteSnip = function(key) {

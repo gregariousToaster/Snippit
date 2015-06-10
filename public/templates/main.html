@@ -1,5 +1,5 @@
 <div ui-view>
-  <div class="side" ng-class="{hiddenprofile: $root.hiddenProfile}">
+  <div class="side flex-box" ng-class="{hiddenprofile: $root.hiddenProfile}">
     <div class="logo" ui-sref="app.three" ng-click="$root.snipOpen = false">
       <h2>Snippit</h2>
     </div>
@@ -12,33 +12,33 @@
     </div>
     <div class="tab-views">
       <div class="tab-view full-width" ng-show="tab === 0">
-        <div class="snip hover full-width" ng-show="instaAuth" ng-click="getInstagram()">Instagram Photos</div>
-        <div class="snip hover full-width" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)">{{ album.name }}</div>
+        <div class="snip flex-box hover full-width" ng-show="instaAuth" ng-click="getInstagram()">Instagram Photos</div>
+        <div class="snip flex-box hover full-width" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)">{{ album.name }}</div>
       </div>
       <div class="tab-view full-width" ng-show="tab === 1">
-        <div class="snip full-width" ng-repeat="(key, value) in $root.snips">
+        <div class="snip flex-box full-width" ng-repeat="(key, value) in $root.snips">
           <span class="flex-name" ng-click="view3D(key, value)">{{ value.name }}</span>
           <span class="right">
             <button ng-click="view3D(key, value)"><i class="material-icons">open_in_new</i></button>
             <button ng-click="view2D(key, value)"><i class="material-icons">edit</i></button>
             <button ng-click="deleteSnip(key, value)"><i class="material-icons">delete</i></button>
-            <button ng-click="snipClose(key, value)" ng-show="$root.snipId === key"><i class="material-icons">close</i></button>
+            <button ng-click="snipClose(key, value)" ng-show="$root.snipId === key && $root.bool.profile"><i class="material-icons">close</i></button>
           </span>
         </div>
       </div>
       <div class="tab-view full-width" ng-show="tab === 2">
         <a href="/auth/instagram" ng-show="!instaAuth">
-          <div class="snip hover full-width">Authorize Instagram</div>
+          <div class="snip flex-box hover full-width">Authorize Instagram</div>
         </a>
         <a href="/logout">
-          <div class="snip hover full-width">Sign Out</div>
+          <div class="snip flex-box hover full-width">Sign Out</div>
         </a>
         <a href="/deleteAccount">
-          <div class="snip hover full-width">Delete Account</div>
+          <div class="snip flex-box hover full-width">Delete Account</div>
         </a>
       </div>
   </div>
   </div>
   <div ui-view="content" class="content" id="content" ng-class="{thin: $root.snipOpen, fat: !$root.snipOpen, full: $root.hiddenProfile}"></div>
-  <div ui-view="snips" class="snips" id="snips" ng-class="{shown: $root.snipOpen, hidden: !$root.snipOpen}"></div>
+  <div ui-view="snips" class="snips flex-box" id="snips" ng-class="{shown: $root.snipOpen, hidden: !$root.snipOpen}"></div>
 </div>

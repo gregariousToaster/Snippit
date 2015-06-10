@@ -20,10 +20,8 @@ angular.module('snippit.mobile', ['snippit'])
     $scope.fetchUser = function() {
       Facebook.getFacebookUser().success(function(resp) {
         $rootScope.facebookUser = resp;
-        console.log(resp);
         Snips.getSnips(resp.snips).success(function(resp) {
-          console.log('SNIPS', resp);
-          $rootScope.snips = resp;
+          $rootScope.snips = JSON.parse(resp);
         });
       });
     };
@@ -31,9 +29,8 @@ angular.module('snippit.mobile', ['snippit'])
     $scope.view3D = function(key, value) {
       $rootScope.snipPhotos = value.img;
       $rootScope.snipId = key;
-      $rootScope.newSnip = true;
+      $scope.hiddenMenu = true;
       $scope.snipName = value.name;
-      $rootScope.snipOpen = false;
       $scope.rerender();
     };
 
