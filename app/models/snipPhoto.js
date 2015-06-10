@@ -1,7 +1,6 @@
 'use strict';
 
 var db = require('../config');
-console.log("DB ../config", db);
 var Snip = require('./snip');
 
 var SnipPhoto = db.Model.extend({
@@ -16,4 +15,8 @@ var SnipPhoto = db.Model.extend({
   }
 });
 
+console.log("SNIPPHOTO!!!!!!!!!!!!!!!!!!!!!!!", SnipPhoto);
+
 module.exports = db.Model('SnipPhoto', SnipPhoto);
+
+console.log("SNIPPHOTO MODULE.EXPORTS!!!!!!!!!!!!!!!!!!!!!!!", module.exports);

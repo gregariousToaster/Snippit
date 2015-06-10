@@ -19,4 +19,7 @@ var Snip = db.Model.extend({
   }
 });
 
+console.log("SNIP!!!!!!!!!!!!!!!!!!!!!!!", Snip);
+
+
 module.exports = db.Model('Snip', Snip);

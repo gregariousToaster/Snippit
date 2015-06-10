@@ -2,14 +2,22 @@
 
 var Bookshelf = require('bookshelf');
 
-var knex =  !process.env.DATABASE_URL ? require('./local_config.js') :
-  require('knex')({
+var knex = require('knex')({
   client: 'pg',
-  connection: process.env.DATABASE_URL
+  connection: {
+    host     : 'ec2-54-83-46-91.compute-1.amazonaws.com',
+    port: '5432',
+    user     : 'mqifggbxvhkhgy',
+    password : 'saWADVVqRtYBHHmX6y4g98ge5K',
+    database : 'dcrq0g1tamt2uc',
+    charset  : 'utf8',
+    ssl: true
+  }
 });
 
 var db = require('bookshelf')(knex);
 
+db.plugin('registry');
 db.knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
     db.knex.schema.createTable('users', function (user) {
