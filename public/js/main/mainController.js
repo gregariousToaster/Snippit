@@ -26,7 +26,6 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
 
     $scope.fetchUser = function() {
       Facebook.getFacebookUser().success(function(resp) {
-        console.log('RESP', resp);
         $rootScope.facebookUser = resp;
         $scope.instaAuth = !!resp.hasToken;
         Snips.getSnips(resp.snips).success(function(resp) {
