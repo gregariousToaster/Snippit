@@ -8,11 +8,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var util = require('util');
-var client = require('./server/config/mongo');
+// var client = require('./server/config/mongo');
 
 //use express session and then pass it into the MongoDBstore to handle sessions properly
 var session = require('express-session');
-var MongoDBStore = require('connect-mongodb-session')(session);
+// var MongoDBStore = require('connect-mongodb-session')(session);
 
 var routes = require('./routes/index');
 
@@ -24,17 +24,17 @@ var app = express();
 
 //establishes a Session store with MongoDB, this creates persistant sessions that will
 //not cause a memory leak and will persist even when resetting the page or server
-var store = new MongoDBStore({
-  uri: 'mongodb://localhost/GregariousToaster',
-  collection: 'mySessions'
-});
+// var store = new MongoDBStore({
+//   uri: 'mongodb://localhost/GregariousToaster',
+//   collection: 'mySessions'
+// });
 
 // error handling for session store
-store.on('error', function(error) {
-  console.log("ERROR IN STORE: ", error);
-  // assert.ifError(error);
-  // assert.ok(false);
-});
+// store.on('error', function(error) {
+//   console.log("ERROR IN STORE: ", error);
+//   // assert.ifError(error);
+//   // assert.ok(false);
+// });
 
 // pass passport for authentication configuration
 require('./server/config/passport.js')(passport);

@@ -1,8 +1,8 @@
 'use strict';
 
 var _ = require('underscore');
-var client = require('./config/mongo');
-var ObjectId = require('mongodb').ObjectID;
+// var client = require('./config/mongo');
+// var ObjectId = require('mongodb').ObjectID;
 
 // Util function for routes asking for user data.
 // Takes a request, a response, and a callback.

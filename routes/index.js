@@ -3,7 +3,7 @@
 var express = require('express');
 var utils = require('../server/utils.js');
 var api = require('../server/APIrequests.js');
-var client = require('../server/config/mongo');
+// var client = require('../server/config/mongo');
 
 //passes passport into the router to maintain passport configuration
 module.exports = function(passport) {

@@ -15,4 +15,4 @@ var WallPhoto = db.Model.extend({
   }
 });
 
-module.exports = db.model('WallPhoto', WallPhoto);
+module.exports = db.Model('WallPhoto', WallPhoto);

@@ -3,7 +3,7 @@
 //==passport and Oauth
 var FacebookStrategy = require('passport-facebook');
 var configAuth = require('./auth.js');
-var client = require('./mongo');
+var User = require('../../app/models/user');
 
 module.exports = function(passport) {
 // Passport session setup.
@@ -41,31 +41,53 @@ module.exports = function(passport) {
     function(accessToken, refreshToken, profile, done) {
 //saves user data into database or logs them in if they already exist. Always updates
 //facebook token
-      client.then(function(db) {
-        return db.collection('users').findOneAsync({ id: profile.id })
-        .then(function(user) {
-          if (!user) {
-            console.log('user NOT found, creating a new one...');
-            var newUser = {
-              id: profile.id,
-              name: profile.displayName,
-              FBtoken: accessToken
-            };
-            db.collection('users').insert(newUser);
-            return done(null, newUser);
-          }
-          else {
-            console.log('user is found, re-setting accessToken...');
-            db.collection('users').update(
-              {_id: user._id},
-              {$set:
-                {FBtoken : accessToken}
-              }
-            );
-            return done(null, user);
-          }
+
+  new User({facebookID: profile.id})
+    .fetch()
+    .then(function(model){
+      if(!model){
+        new User({
+          facebookID: profile.id,
+          name: profile.displayName,
+          facebookToken: accessToken
+        }, {isNew: true})
+        .save()
+        .then(function(model){
+          return done(null, model);
         });
-      });
+      } else {
+        console.log('user is found, resetting accessToken');
+        model.save({facebookToken: accessToken}, {patch: true})
+        .then(function(model){
+          return done(null, model);
+        });
+      }
+    })
+      // client.then(function(db) {
+      //   return db.collection('users').findOneAsync({ id: profile.id })
+      //   .then(function(user) {
+      //     if (!user) {
+      //       console.log('user NOT found, creating a new one...');
+      //       var newUser = {
+      //         id: profile.id,
+      //         name: profile.displayName,
+      //         FBtoken: accessToken
+      //       };
+      //       db.collection('users').insert(newUser);
+      //       return done(null, newUser);
+      //     }
+      //     else {
+      //       console.log('user is found, re-setting accessToken...');
+      //       db.collection('users').update(
+      //         {_id: user._id},
+      //         {$set:
+      //           {FBtoken : accessToken}
+      //         }
+      //       );
+      //       return done(null, user);
+      //     }
+      //   });
+      // });
 
   }));
 };

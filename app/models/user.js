@@ -19,4 +19,4 @@ var User = db.Model.extend({
   }
 });
 
-module.exports = db.model('User', User);
+module.exports = db.Model('User', User);
