@@ -16,6 +16,13 @@
 .shadow {
   box-shadow: 0 0 5px #888;
 }
+.flex-box {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;
+}
 
 
 body {
@@ -96,11 +103,6 @@ h2 {
   z-index: -2;
 }
 .side {
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex;
   flex-direction: column;
   z-index: 1;
   position: fixed;
@@ -149,11 +151,6 @@ h2 {
   right: 0;
 }
 .center {
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex; 
   align-items: center;
   justify-content: center;
   background: rgba(100, 100, 100, .8);
@@ -189,29 +186,7 @@ h2 {
   height: 50px;
   font-size: 12px;
 }
-.profile {
-  height: 75%;
-  position: fixed;
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex; 
-  flex-direction: column;
-  width: 20%;
-  float: left;
-  background: #e6e6e6;
-  text-align: center;
-}
-.profile h1 {
-  margin: 0;
-}
 .snip {
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex;
   border: none;
   padding: 10px;
 }
@@ -252,7 +227,7 @@ h2 {
   float: left;
 }
 .snip-picture {
-  padding: 5px;
+  padding: 0px 5px 1px 5px;
 }
 .tab-views {
   -webkit-box-flex: 1 10 auto;
@@ -312,14 +287,7 @@ h2 {
   flex: 10 10 auto;
   border: none;
 }
-.input {
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex; 
-}
-.input input {
+.snip-name {
   font-family: 'Roboto', sans-serif;
 }
 #snip-view {
@@ -328,19 +296,9 @@ h2 {
   padding: 5px;
 }
 .flex-col {
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex; 
   flex-direction: column;
 }
 .snips {
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex;
   flex-direction: column;
   position: absolute;
   height: 100%;
@@ -349,7 +307,7 @@ h2 {
   box-shadow: 0 0 5px;
 }
 .snip-scroll {
-overflow-y: auto;
+  overflow-y: auto;
   -webkit-box-flex: 10 10 auto;
   -moz-box-flex: 10 10 auto;
   -webkit-flex: 10 10 auto;
@@ -363,20 +321,6 @@ overflow-y: auto;
   width: 20%;
   margin: 10% 40%;
   box-sizing: content-box;
-}
-.flex {
-  position: absolute;
-  right: 0;
-  top: 0;
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex;
-  width: 80%;
-  float: right;
-  height: 100%;
-  overflow: hidden;
 }
 .flex-name {
   -webkit-box-flex: 10 10;
@@ -421,26 +365,17 @@ button.settings {
 
 #views {
   width: 100%;
-  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox;      /* TWEENER - IE 10 */
-  display: -webkit-flex;     /* NEW - Chrome */
-  display: flex;
+  background: #282878;
 }
 #views button {
-  -webkit-box-flex: 10 10;
-  -moz-box-flex: 10 10;
-  -webkit-flex: 10 10;
-  -ms-flex: 10 10;
-  flex: 10 10;
+  width: 16.3%;
   text-align: center;
-  background: #282878;
+  background: transparent;
   color: white;
   border: none;
 }
 .mobile-hide {
   transition: 1s;
-  width: 5%;
   position: absolute;
   top: 0;
   left: 0;

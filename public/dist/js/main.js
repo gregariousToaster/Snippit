@@ -204,6 +204,9 @@ angular.module('snippit.auth', ['snippit'])
 angular.module('snippit.main', ['snippit', 'snippit.services'])
   .controller('MainController', ['$rootScope', '$scope', 'Facebook', 'Snips', '$state', function($rootScope, $scope, Facebook, Snips, $state) {
 
+    $rootScope.bool = {
+    };
+
     $rootScope.facebookUser = {};
 
     $rootScope.loading = false;
@@ -227,12 +230,10 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
         $rootScope.facebookUser = resp;
         $scope.instaAuth = !!resp.hasToken;
         Snips.getSnips(resp.snips).success(function(resp) {
-          console.log('SNIPS', JSON.parse(resp));
           $rootScope.snips = JSON.parse(resp);
         });
       });
     };
-
 
     $scope.snipClose = function() {
       $rootScope.snipOpen = false;  
@@ -259,10 +260,8 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       $rootScope.albumPhotos = {};
       if(!id){
         Facebook.refreshWallData().success(function(resp){
-        //WE'LL COME BACK TO THIS
           var pics = JSON.parse(resp).wallPhotos;
           for (var i = 0; i < pics.picture.length;i++){
-            console.log(pics.picture)
             $rootScope.loading = false;
             $rootScope.albumPhotos[pics.id[i]] = {src: pics.picture[i], thumb: pics.thumbnail[i]}
           }
@@ -273,7 +272,6 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
             for(var key in parse) {
               $rootScope.loading = false;
               $rootScope.albumPhotos = parse[key];
-              console.log($rootScope.albumPhotos)
             }
         });
       }
@@ -313,15 +311,16 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
     };
 
     $scope.view3D = function(key, value) {
-      if($state.current.name !== 'app.three') {
-        $state.go('^.three');
-      }
       $rootScope.snipPhotos = value.img;
       $rootScope.snipId = key;
       $rootScope.newSnip = true;
       $scope.snipName = value.name;
       $rootScope.snipOpen = false;
-      $scope.rerender();
+      if($state.current.name !== 'app.three') {
+        $state.go('^.three');
+      } else {
+        $rootScope.rerender();
+      }
     };
 
     $scope.deleteSnip = function(key) {
@@ -366,10 +365,8 @@ angular.module('snippit.mobile', ['snippit'])
     $scope.fetchUser = function() {
       Facebook.getFacebookUser().success(function(resp) {
         $rootScope.facebookUser = resp;
-        console.log(resp);
         Snips.getSnips(resp.snips).success(function(resp) {
-          console.log('SNIPS', resp);
-          $rootScope.snips = resp;
+          $rootScope.snips = JSON.parse(resp);
         });
       });
     };
@@ -377,9 +374,8 @@ angular.module('snippit.mobile', ['snippit'])
     $scope.view3D = function(key, value) {
       $rootScope.snipPhotos = value.img;
       $rootScope.snipId = key;
-      $rootScope.newSnip = true;
+      $scope.hiddenMenu = true;
       $scope.snipName = value.name;
-      $rootScope.snipOpen = false;
       $scope.rerender();
     };
 
@@ -571,6 +567,8 @@ angular.module('snippit.mobile', ['snippit'])
 
 angular.module('snippit.profile', ['snippit'])
   .controller('ProfileController', ['$rootScope', '$scope', 'Facebook', '$window', 'Snips', '$http', function($rootScope, $scope, Facebook, $window, Snips, $http) {
+
+    $rootScope.bool.profile = true;
 
     $scope.viewSnip = function(id){
       console.log(id);
@@ -854,6 +852,9 @@ angular.module('snippit.snips', ['snippit'])
 
 angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', '$rootScope', function($scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams, $rootScope) {
+
+    $rootScope.bool.profile = false;
+
 
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
     var scene, renderer, camera, controls;

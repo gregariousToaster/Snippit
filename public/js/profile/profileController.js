@@ -3,6 +3,8 @@
 angular.module('snippit.profile', ['snippit'])
   .controller('ProfileController', ['$rootScope', '$scope', 'Facebook', '$window', 'Snips', '$http', function($rootScope, $scope, Facebook, $window, Snips, $http) {
 
+    $rootScope.bool.profile = true;
+
     $scope.viewSnip = function(id){
       console.log(id);
     }
