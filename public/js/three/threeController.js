@@ -5,7 +5,7 @@ angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', '$rootScope', function($scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams, $rootScope) {
 
     $rootScope.bool.profile = false;
-    
+
 
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
     var scene, renderer, camera, controls;
@@ -26,7 +26,7 @@ angular.module('snippit.three', ['snippit'])
       if ($rootScope.hiddenProfile || !$scope.signedIn) {
         return $window.innerWidth;
       } else {
-        return $window.innerWidth * .8; 
+        return $window.innerWidth * .8;
       }
     };
 
@@ -124,10 +124,11 @@ angular.module('snippit.three', ['snippit'])
           });
         }
       } else {
-        if ($stateParams.snipId) { 
+        if ($stateParams.snipId) {
           Snips.getSnips([$stateParams.snipId])
             .then(function(resp) {
-              threeJS(prepSnip(resp.data[$stateParams.snipId].img));
+              var parseData = JSON.parse(resp.data);
+              threeJS(prepSnip(parseData[$stateParams.snipId].img));
             });
         }
       }
