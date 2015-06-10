@@ -1,13 +1,20 @@
 <div ui-view class="flex-col flex-box">
-    <div class="full-width flex-box">
-      <input ng-model="$root.snipName" class="snip-name" ng-show="$root.newSnip" placeholder="Please type snip name">
-      <button class="add" ng-click="snipAdd()" ng-show="$root.newSnip"><i class="material-icons">add</i></button>
-    </div>
-    <div class="snip-scroll">
-      <div class="scroll-photos">
-        <div ng-repeat="(key, value) in $root.snipPhotos" class="snip-picture full-width">
-          <img ng-src="{{ value.src }}" ng-click="checkOff(key)" class="full-width">
-        </div>
+  <div class="info" ng-class="{infodropped: $root.bool.info}">
+    <span>Click images to add or remove</span>
+    <span ng-show="!$root.newSnip" class="url">snippit.space/#/three/{{$root.snipId}}</span>
+  </div>
+  <div class="full-width flex-box snip-bar">
+    <h3 ng-show="!$root.newSnip">{{ $root.snipName }}</h3>
+    <button class="add" ng-click="snipClose()" ng-show="!$root.newSnip"><i class="material-icons">save</i></button>
+    <input ng-model="$root.snipName" class="snip-name" ng-show="$root.newSnip" placeholder="Please type snip name">
+    <button class="add" ng-click="snipAdd()" ng-show="$root.newSnip"><i class="material-icons">add</i></button>
+    <button class="add" ng-click="showInfo()"><i class="material-icons">info</i></button>
+  </div>
+  <div class="snip-scroll">
+    <div class="scroll-photos">
+      <div ng-repeat="(key, value) in $root.snipPhotos" class="snip-picture full-width">
+        <img ng-src="{{ value.src }}" ng-click="checkOff(key)" class="full-width">
       </div>
     </div>
+  </div>
 </div>

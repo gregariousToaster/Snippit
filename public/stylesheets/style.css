@@ -204,7 +204,8 @@ h2 {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   border: none;
-  background: #e6e6e6;
+  color: #e6e6e6;
+  background: #fff;
 }
 .save {
   border-radius: 4px;
@@ -213,7 +214,7 @@ h2 {
   text-align: center;
 }
 .add:hover {
-  background: #ccc;
+  color: #ccc;
 }
 .grid {
   -webkit-column-count: 4;
@@ -260,7 +261,7 @@ h2 {
   color: #e6e6e6;
 }
 .right i:hover {
-  color: black;
+  color: #ccc;
 }
 .tabs {
   background: #29438F;
@@ -407,4 +408,29 @@ button.settings {
 .hiddenMenu {
   transition: 1s;
   left: -100%;
+}
+.snip-bar {
+  background: #fff;
+  box-shadow: 0 0 5px #888;
+  z-index: 5;
+}
+.snip-bar h3 {
+  margin: 10px;
+  flex: 10;
+}
+.info {
+  transition: .5s;
+  top: -40px;
+  position: absolute;
+  width: 100%;
+  background: white;
+  box-shadow: 0 0 5px #888;
+  padding: 10px;
+}
+.infodropped {
+  transition: .5s;
+  top: 40px;
+}
+.url {
+  font-size: 7pt;
 }
