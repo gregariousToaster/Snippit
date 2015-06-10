@@ -3,7 +3,7 @@
 var express = require('express');
 var utils = require('../server/utils.js');
 var api = require('../server/APIrequests.js');
-var User = require('../app/models/user');
+var client = require('../server/config/mongo');
 
 //passes passport into the router to maintain passport configuration
 module.exports = function(passport) {
@@ -84,8 +84,8 @@ module.exports = function(passport) {
   });
 
 
-  // If photos exist in database, respond with data. If not,
-  // respond with an object with a bool property pointing to
+  // If photos exist in database, response with data. If not,
+  // response with an object with a bool property pointing to
   // false.
   router.get('/getData', function(req, res){
     utils.grabData(req, res, function(user){
@@ -129,20 +129,13 @@ module.exports = function(passport) {
   // Does a MongoDB query based off of logged in Facebook user's ID.
   // Response with name and id of that Facebook user.
   router.get('/facebookUser', function(req, res) {
-    new User({facebookID: req.user.attributes.facebookID})
-    .fetch()
-    .then(function(model) {
-      var hasToken = !!model.attributes.instagramToken;
-      res.json({name: req.user.attributes.displayName, id: req.user.attributes.facebookID, hasToken: hasToken})
+    client.then(function(db){
+      return db.collection('users').findOneAsync({id:req.user.id});
+    })
+    .then(function(user){
+      var hasToken = !!user.instagramToken;
+      res.json({name: user.name, id: user.id, snips: user.snips, hasToken: hasToken});
     });
-
-    // client.then(function(db){
-    //   return db.collection('users').findOneAsync({id:req.user.id});
-    // })
-    // .then(function(user){
-    //   var hasToken = !!user.instagramToken;
-    //   res.json({name: user.name, id: user.id, snips: user.snips, hasToken: hasToken});
-    // });
   });
 
 
@@ -150,7 +143,7 @@ module.exports = function(passport) {
   router.post('/getSnips', function(req, res){
     utils.getSnips(req, res, function(snips){
       console.log(snips);
-      res.json(snips);
+      res.json(snips)
     });
   });
 
@@ -164,7 +157,7 @@ module.exports = function(passport) {
 
 //updates an existing snip
   router.post('/saveSnip', function(req, res){
-    utils.saveSnip(req, res);
+    utils.saveSnip(req, res)
     res.end();
   });
 
@@ -179,9 +172,9 @@ module.exports = function(passport) {
   router.get('/deleteAccount', function(req, res){
     utils.deleteAccount(req, res, function(){
       req.logout();
-      res.redirect('/');
-    });
-  });
+      res.redirect('/')
+    })
+  })
 
   return router;
 };
