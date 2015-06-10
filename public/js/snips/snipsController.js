@@ -34,6 +34,30 @@ angular.module('snippit.snips', ['snippit'])
           });
       }
     };
+
+    $scope.snipClose = function() {
+      $rootScope.snipOpen = false;  
+      $rootScope.newSnip = true;
+      if (Object.keys($rootScope.snipPhotos).length === 0) {
+        delete $rootScope.snips[$rootScope.snipId];
+        $rootScope.snipPhotos = {};
+        $rootScope.snipId = null;
+        $rootScope.snipName = '';
+      } else {
+        $rootScope.snips[$scope.snipId].img = $scope.snipPhotos;
+        Snips.saveSnip({img: $scope.snipPhotos, name: $scope.snipName, _id: $scope.snipId})
+          .success(function(resp){
+            console.log(resp);
+            $rootScope.snipName = '';
+            $rootScope.snipPhotos = {};
+            $rootScope.snipId = null;
+          });
+      }
+    };
+
+    $scope.showInfo = function() {
+      $rootScope.bool.info = !$rootScope.bool.info
+    }
     
     $scope.checkOff = function(pic) {
       delete $rootScope.snipPhotos[pic];
