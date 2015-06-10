@@ -8,16 +8,14 @@ var ObjectId = require('mongodb').ObjectID;
 // Takes a request, a response, and a callback.
 exports.grabData = function(req, res, cb){
   var hasToken = false;
-
-  new User({id: req.user.id})
-  .fetch()
-  .then(function(model) {
-    if (!model) {
-      console.log('Error, User Not Found in Utils Grab Data')
-    }
-    else {
-      console.log('modelll', model);
-      cb(JSON.stringify(model));
+  client.then(function(db){
+    return db.collection('users').findOneAsync({id:req.user.id});
+  })
+  .then(function(user){
+    if (!user) {
+      console.log('Error, User Not Found in Utils Grab Data');
+    } else {
+      cb(JSON.stringify(user.data));
     }
   });
 };
@@ -130,40 +128,37 @@ exports.deleteSnip = function(req, res, cb){
 // Util function for getting user's Facebook wall photos.
 // Takes a request, a response, a data object, and a callback.
 exports.FBWallPhotos = function(req, res, data, cb){
-  console.log('DATA FOR FB WALLPHOTOS', data);
+  client.then(function(db){
+    return db.collection('users').findOneAsync({id: req.user.id})
+    .then(function(user){
+      if(!user) {
+        console.log('ERROR, USER NOT FOUND, UTILS FBWallPhotos');
+      }else{
+        var dat = JSON.parse(data);
+        var datas = {};
+        datas.wallPhotos = {};
+        datas.wallPhotos.picture = [];
+        datas.wallPhotos.id = [];
+        datas.wallPhotos.thumbnail = [];
+        _.each(dat.data, function(post){
+          datas.wallPhotos.picture.push(post.source);
+          datas.wallPhotos.id.push(post.id);
+          datas.wallPhotos.thumbnail.push(post.picture);
+        });
 
-
-  // client.then(function(db){
-  //   return db.collection('users').findOneAsync({id: req.user.id})
-  //   .then(function(user){
-  //     if(!user) {
-  //       console.log('ERROR, USER NOT FOUND, UTILS FBWallPhotos');
-  //     }else{
-  //       var dat = JSON.parse(data);
-  //       var datas = {};
-  //       datas.wallPhotos = {};
-  //       datas.wallPhotos.picture = [];
-  //       datas.wallPhotos.id = [];
-  //       datas.wallPhotos.thumbnail = [];
-  //       _.each(dat.data, function(post){
-  //         datas.wallPhotos.picture.push(post.source);
-  //         datas.wallPhotos.id.push(post.id);
-  //         datas.wallPhotos.thumbnail.push(post.picture);
-  //       });
-
-  //       db.collection('users').update(
-  //         {_id: user._id},
-  //         {$set: {data: datas}}
-  //       );
-  //     }
-  //   }).then(function(){
-  //     db.collection('users').findOneAsync({id:req.user.id})
-  //     .then(function(user) {
-  //       console.log('USER', user);
-  //       cb(JSON.stringify(user.data));
-  //     });
-  //   });
-  // });
+        db.collection('users').update(
+          {_id: user._id},
+          {$set: {data: datas}}
+        );
+      }
+    }).then(function(){
+      db.collection('users').findOneAsync({id:req.user.id})
+      .then(function(user) {
+        console.log('USER', user);
+        cb(JSON.stringify(user.data));
+      });
+    });
+  });
 };
 
 exports.refreshInstagramToken = function(req, res, data, cb){
