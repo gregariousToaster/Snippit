@@ -8,7 +8,7 @@ var client = require('./mongo');
 module.exports = function(passport) {
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
-//   serialize users into and deserialize users out of the session. 
+//   serialize users into and deserialize users out of the session.
   passport.serializeUser(function(user, done) {
     done(null, user.id);
   });
@@ -22,11 +22,11 @@ module.exports = function(passport) {
             console.log("user not found in desiralize")
           }
           done(null, user);
-          
+
         });
     })
   });
-   
+
 
 
 // Use the FacebookStrategy within Passport.
@@ -69,4 +69,3 @@ module.exports = function(passport) {
 
   }));
 };
-
