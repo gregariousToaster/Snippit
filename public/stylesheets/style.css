@@ -349,3 +349,50 @@ button.settings {
   right: 0;
   transition: .5s;
 }
+
+#views {
+  width: 100%;
+  display: flex;
+}
+#views button {
+  flex: 10 10;
+  text-align: center;
+  background: #282878;
+  color: white;
+  border: none;
+}
+.mobile-hide {
+  transition: 1s;
+  width: 5%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  border: none;
+}
+.mobile-hide i {
+  color: #282878;
+}
+.mobileMenu {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transition: 1s;
+  width: 95%;
+  background: #fff;
+  box-shadow: 0 0 5px;
+}
+.mobilehideopen {
+  transition: 1s;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+  left: 95%;
+}
+.hiddenMenu {
+  transition: 1s;
+  left: -100%;
+}

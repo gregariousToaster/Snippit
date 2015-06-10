@@ -56,10 +56,11 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       $rootScope.loading = true;
       $rootScope.albumPhotos = {};
       if(!id){
-        Facebook.getWallData().success(function(resp){
+        Facebook.refreshWallData().success(function(resp){
         //WE'LL COME BACK TO THIS
           var pics = JSON.parse(resp).wallPhotos;
           for (var i = 0; i < pics.picture.length;i++){
+            console.log(pics.picture)
             $rootScope.loading = false;
             $rootScope.albumPhotos[pics.id[i]] = {src: pics.picture[i], thumb: pics.thumbnail[i]}
           }
@@ -97,11 +98,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       $rootScope.newSnip = true;
       $scope.snipName = value.name;
       $rootScope.snipOpen = false;
-      if($state.current.name !== 'app.three') {
-        $state.go('^.three');
-      } else {
-        $rootScope.rerender();
-      }
+      $scope.rerender();
     };
 
     $scope.deleteSnip = function(key) {
@@ -114,10 +111,10 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
 
       Facebook.getAlbumData().success(function(resp) {
         var parse = JSON.parse(resp);
+        $scope.albumNames.push({name:'Facebook Wall Photos'});
         for (var key in parse) {
           $scope.albumNames.push(parse[key]);
         }
-        $scope.albumNames.push({name:'Facebook Wall Photos'});
       });
       $scope.fetchUser();
     }();
