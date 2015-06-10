@@ -313,6 +313,9 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
     };
 
     $scope.view3D = function(key, value) {
+      if($state.current.name !== 'app.three') {
+        $state.go('^.three');
+      }
       $rootScope.snipPhotos = value.img;
       $rootScope.snipId = key;
       $rootScope.newSnip = true;
