@@ -7,7 +7,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var util = require('util');
+// var util = require('util');
 var client = require('./server/config/mongo');
 
 //use express session and then pass it into the MongoDBstore to handle sessions properly
@@ -16,9 +16,9 @@ var MongoDBStore = require('connect-mongodb-session')(session);
 
 var routes = require('./routes/index');
 
-//api requests and data management
-var utils = require('./server/utils.js');
-var api = require('./server/APIrequests.js');
+// //api requests and data management
+// var utils = require('./server/utils.js');
+// var api = require('./server/APIrequests.js');
 
 var app = express();
 
