@@ -2,22 +2,15 @@
 
 var Bookshelf = require('bookshelf');
 
-var knex = require('knex')({
+var knex =  !process.env.DATABASE_URL ? require('./local_config.js') :
+  require('knex')({
   client: 'pg',
-  connection: {
-    host     : 'ec2-54-83-46-91.compute-1.amazonaws.com',
-    port: '5432',
-    user     : 'mqifggbxvhkhgy',
-    password : 'saWADVVqRtYBHHmX6y4g98ge5K',
-    database : 'dcrq0g1tamt2uc',
-    charset  : 'utf8',
-    ssl: true
-  }
+  connection: process.env.DATABASE_URL
 });
 
 var db = require('bookshelf')(knex);
-
 db.plugin('registry');
+
 db.knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
     db.knex.schema.createTable('users', function (user) {
@@ -26,7 +19,7 @@ db.knex.schema.hasTable('users').then(function(exists) {
       user.string('name', 50);
       user.string('facebookToken', 255);
     }).then(function (table) {
-      console.log('Created Table', table);
+      console.log('Created Table users', table);
     });
   }
 });
@@ -44,7 +37,7 @@ db.knex.schema.hasTable('wallPhotos').then(function(exists) {
       .references('id')
       .inTable('users');
     }).then(function (table) {
-      console.log('Created Table', table);
+      console.log('Created Table wallPhotos', table);
     });
   }
 });
@@ -55,7 +48,7 @@ db.knex.schema.hasTable('snips').then(function(exists) {
       snip.increments('id').primary();
       snip.string('name', 255);
     }).then(function (table) {
-      console.log('Created Table', table);
+      console.log('Created Table snips', table);
     });
   }
 });
@@ -73,7 +66,7 @@ db.knex.schema.hasTable('snipPhotos').then(function(exists) {
       .references('id')
       .inTable('snips');
     }).then(function (table) {
-      console.log('Created Table', table);
+      console.log('Created Table snipPhotos', table);
     });
   }
 });

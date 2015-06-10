@@ -52,8 +52,7 @@ app.use(session({
   cookie: {
     //these cookies will last one week
     maxAge: 1000 * 60 * 60 * 24 * 7
-  },
-  store: store
+  }
 }));
 
 // Initializes Passport

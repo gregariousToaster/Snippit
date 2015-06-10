@@ -6,11 +6,7 @@ var User = require('./user');
 
 var Snip = db.Model.extend({
   tableName: 'snips',
-  hasTimestamps: false,
-  defaults: {
-  },
-  initialize: function(){
-  },
+  hasTimestamps: true,
   user: function() {
     return this.belongsToMany('User', 'user_id');
   },
@@ -19,7 +15,4 @@ var Snip = db.Model.extend({
   }
 });
 
-console.log("SNIP!!!!!!!!!!!!!!!!!!!!!!!", Snip);
-
-
-module.exports = db.Model('Snip', Snip);
+module.exports = db.model('Snip', Snip);

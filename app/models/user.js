@@ -7,10 +7,6 @@ var WallPhoto = require('./wallPhoto');
 var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: false,
-  defaults: {
-  },
-  initialize: function(){
-  },
   snip: function() {
     return this.belongsToMany('Snip', 'snip_id');
   },
@@ -19,4 +15,4 @@ var User = db.Model.extend({
   }
 });
 
-module.exports = db.Model('User', User);
+module.exports = db.model('User', User);
