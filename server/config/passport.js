@@ -10,21 +10,22 @@ module.exports = function(passport) {
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.
   passport.serializeUser(function(user, done) {
-    done(null, user.id);
+    console.log('USER', user.attributes.facebookID);
+    done(null, user.attributes.facebookID);
   });
 
 
   passport.deserializeUser(function(id, done) {
-        new User({id: id})
-        .fetch()
-        .then(function(model) {
-          if (!model) {
-            console.log('user not found for deserialize')
-          }
-          else {
-            done(null, model);
-          }
-        })
+    new User({facebookID: id})
+    .fetch()
+    .then(function(model) {
+      if (!model) {
+        console.log('user not found for deserialize');
+      }
+      else {
+        done(null, model);
+      }
+    });
   });
 
 
@@ -41,7 +42,6 @@ module.exports = function(passport) {
     function(accessToken, refreshToken, profile, done) {
 //saves user data into database or logs them in if they already exist. Always updates
 //facebook token
-console.log('PROFILEEE', profile);
       new User({facebookID: profile.id})
         .fetch()
         .then(function(model){
@@ -53,7 +53,8 @@ console.log('PROFILEEE', profile);
             }, {isNew: true})
             .save()
             .then(function(model){
-              return done(null, model);
+              var user = model.attributes;
+              return done(null, user);
             });
           } else {
             console.log('user is found, resetting accessToken');
@@ -62,7 +63,8 @@ console.log('PROFILEEE', profile);
               return done(null, model);
             });
           }
-        })
+        });
+
   }));
 };
 

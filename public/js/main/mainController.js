@@ -26,6 +26,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
 
     $scope.fetchUser = function() {
       Facebook.getFacebookUser().success(function(resp) {
+        console.log('RESP', resp);
         $rootScope.facebookUser = resp;
         $scope.instaAuth = !!resp.hasToken;
         Snips.getSnips(resp.snips).success(function(resp) {
@@ -35,7 +36,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
     };
 
     $scope.snipClose = function() {
-      $rootScope.snipOpen = false;  
+      $rootScope.snipOpen = false;
       $rootScope.newSnip = true;
       if (Object.keys($rootScope.snipPhotos).length === 0) {
         delete $rootScope.snips[$rootScope.snipId];

@@ -18,6 +18,7 @@ db.knex.schema.hasTable('users').then(function(exists) {
       user.string('facebookID', 50).unique();
       user.string('name', 50);
       user.string('facebookToken', 255);
+      user.string('instagramToken', 255);
     }).then(function (table) {
       console.log('Created Table users', table);
     });
