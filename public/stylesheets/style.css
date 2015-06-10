@@ -57,6 +57,10 @@ h2 {
   background: rgba(150, 150, 150, .6);
   border: none;
   color: #333;
+  -webkit-box-flex: 0 0 60px;
+  -moz-box-flex: 0 0 60px;
+  -webkit-flex: 0 0 60px;
+  -ms-flex: 0 0 60px;
   flex: 0 0 60px;
 }
 .hide-profile i {
@@ -92,6 +96,10 @@ h2 {
   z-index: -2;
 }
 .side {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
   display: flex;
   flex-direction: column;
   z-index: 1;
@@ -108,12 +116,24 @@ h2 {
   background: #fff;
 }
 .profile-pic {
+  -webkit-box-flex: 0 0 auto;
+  -moz-box-flex: 0 0 auto;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
   flex: 0 0 auto;
 }
 .name {
+  -webkit-box-flex: 0 0 auto;
+  -moz-box-flex: 0 0 auto;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
   flex: 0 0 auto;
 }
 .logo {
+  -webkit-box-flex: 0 0 60px;
+  -moz-box-flex: 0 0 60px;
+  -webkit-flex: 0 0 60px;
+  -ms-flex: 0 0 60px;
   flex: 0 0 60px;
   background-color: #282878;
   font-family: 'Roboto Slab', sans-serif;
@@ -129,7 +149,11 @@ h2 {
   right: 0;
 }
 .center {
-  display: flex;
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex; 
   align-items: center;
   justify-content: center;
   background: rgba(100, 100, 100, .8);
@@ -168,7 +192,11 @@ h2 {
 .profile {
   height: 75%;
   position: fixed;
-  display: flex;
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex; 
   flex-direction: column;
   width: 20%;
   float: left;
@@ -179,6 +207,10 @@ h2 {
   margin: 0;
 }
 .snip {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
   display: flex;
   border: none;
   padding: 10px;
@@ -191,6 +223,10 @@ h2 {
 }
 .add {
   float: right;
+  -webkit-box-flex: 0 0 auto;
+  -moz-box-flex: 0 0 auto;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   border: none;
   background: #e6e6e6;
@@ -219,6 +255,10 @@ h2 {
   padding: 5px;
 }
 .tab-views {
+  -webkit-box-flex: 1 10 auto;
+  -moz-box-flex: 1 10 auto;
+  -webkit-flex: 1 10 auto;
+  -ms-flex: 1 10 auto;
   flex: 1 10 auto;
   overflow-y: auto;
 }
@@ -265,11 +305,19 @@ h2 {
   padding: 10px;
   margin: 0;
   width: 100%;
+  -webkit-box-flex: 10 10 auto;
+  -moz-box-flex: 10 10 auto;
+  -webkit-flex: 10 10 auto;
+  -ms-flex: 10 10 auto;
   flex: 10 10 auto;
   border: none;
 }
 .input {
-  display: flex;
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex; 
 }
 .input input {
   font-family: 'Roboto', sans-serif;
@@ -280,10 +328,18 @@ h2 {
   padding: 5px;
 }
 .flex-col {
-  display: flex;
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex; 
   flex-direction: column;
 }
 .snips {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -293,7 +349,11 @@ h2 {
   box-shadow: 0 0 5px;
 }
 .snip-scroll {
-  overflow-y: auto;
+overflow-y: auto;
+  -webkit-box-flex: 10 10 auto;
+  -moz-box-flex: 10 10 auto;
+  -webkit-flex: 10 10 auto;
+  -ms-flex: 10 10 auto;
   flex: 10 10 auto;
 }
 .scroll-photo {
@@ -308,6 +368,10 @@ h2 {
   position: absolute;
   right: 0;
   top: 0;
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
   display: flex;
   width: 80%;
   float: right;
@@ -315,6 +379,11 @@ h2 {
   overflow: hidden;
 }
 .flex-name {
+  -webkit-box-flex: 10 10;
+  -moz-box-flex: 10 10;
+  -webkit-flex: 10 10;
+  -webkit-flex: 10 10;
+  -ms-flex: 10 10;
   flex: 10 10;
 }
 .thin {
@@ -352,9 +421,17 @@ button.settings {
 
 #views {
   width: 100%;
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
   display: flex;
 }
 #views button {
+  -webkit-box-flex: 10 10;
+  -moz-box-flex: 10 10;
+  -webkit-flex: 10 10;
+  -ms-flex: 10 10;
   flex: 10 10;
   text-align: center;
   background: #282878;
