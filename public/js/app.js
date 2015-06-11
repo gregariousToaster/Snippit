@@ -26,6 +26,11 @@ angular.module('snippit', ['snippit.main',
           if (!resp.auth) {
             $location.path('/signin');
           } else if (check) {
+            $window.onpageshow = function(event) {
+              if (event.persisted) {
+                  $window.location.reload() 
+              }
+            };
             setTimeout(function() {
               $location.path('/mobile');
             });
