@@ -1,0 +1,6 @@
+<div ui-view>
+  <div ng-show="$root.bool.loading" class="loading"><img src="../images/loading.gif" /></div>
+  <div class="grid full_width">
+    <img ng-repeat="(key, value) in $root.albumPhotos" class="left full_width" ng-src="{{ value.src }}" ng-show="!$root.snipPhotos[key]" ng-click="addPhoto(key, value)">
+  </div>
+<div>

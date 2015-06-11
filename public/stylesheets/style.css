@@ -381,7 +381,7 @@ button.settings {
   transition: 1s;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   background: transparent;
   border: none;
 }
@@ -405,7 +405,6 @@ button.settings {
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
-  left: 95%;
 }
 .hiddenMenu {
   transition: 1s;
