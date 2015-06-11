@@ -28,7 +28,7 @@ angular.module('snippit', ['snippit.main',
           } else if (check) {
             $window.onpageshow = function(event) {
               if (event.persisted) {
-                  $window.location.reload() 
+                  $window.location.reload()
               }
             };
             setTimeout(function() {
@@ -86,6 +86,11 @@ angular.module('snippit', ['snippit.main',
       .state('signin', {
         url: '/signin',
         templateUrl: 'templates/signin.html',
+        controller: 'AuthController',
+      })
+      .state('chrome', {
+        url: '/chrome',
+        templateUrl: 'templates/getchrome.html',
         controller: 'AuthController',
       })
       .state('privacy', {
