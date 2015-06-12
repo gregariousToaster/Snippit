@@ -115,6 +115,62 @@ angular.module('snippit', ['snippit.main',
 
 'use strict';
 
+angular.module('snippit.albums', ['snippit'])
+  .controller('AlbumsController', ['$rootScope', '$scope', 'Facebook', '$window', 'Snips', '$http', function($rootScope, $scope, Facebook, $window, Snips, $http) {
+
+    $rootScope.bool.profile = true;
+
+    // Invoke Facebook getFacebook user method, on success, assign
+    // $scope.facebookUser to that response (Facebook name and id).
+    $scope.fetchUser = function() {
+      Snips.getSnips($rootScope.facebookUser.snips).success(function(resp) {
+        $scope.snips = resp;
+      });
+    };
+
+    // Check if there any items in $scope.snipPhotos to determine
+    // whether or not we should show the snip sidebar on the right.
+    // If there are no photos in that object, it means that we haven't
+    // selected any images to add to our snip or there are no existing
+    // photos in an existing snip.
+    $scope.snipCheck = function(){
+      return !!Object.keys($scope.snipPhotos).length;
+    };
+
+    // Call Snips' getSnips method, upon success, responds with
+    // a resp object that's an array, which we loop over and set
+    // as values on the $scope.snips object. This allows the user
+    // to see the snips that they've created.
+    $scope.fetchSnips = function(){
+      Snips.getSnips().success(function(resp) {
+        for (var i = 0; i < resp.length; i++) {
+          $scope.snips[resp[i]._id] = {
+            name: resp[i].name,
+            img: resp[i].img
+          }
+        }
+      })
+    }
+
+    // Adds a clicked photo to the snipPhotos object, which consists of
+    // the picture ID as the key, the link, thumbnail, and position of
+    // the photo (within the snippit) for the values.
+    $scope.addPhoto = function(id, pic) {
+
+      var pos = Object.keys($rootScope.snipPhotos).length;
+      $rootScope.snipPhotos[id] = {
+        src: pic.src,
+        thumb: pic.thumb,
+        position: pos
+      };
+
+      $rootScope.snipOpen = true;
+
+    };
+  }]);
+
+'use strict';
+
 angular.module('snippit.auth', ['snippit'])
   .controller('AuthController', ['$scope', '$window', 'ThreeFactory', function($scope, $window, ThreeFactory) {
     //This page is a modified version of the ThreeJS we are using for the main page
@@ -619,6 +675,51 @@ angular.module('snippit.profile', ['snippit'])
 
     };
   }]);
+
+'use strict';
+
+angular.module('snippit.services', ['snippit'])
+  .factory('Facebook', ['$http', function($http) {
+
+    // This is a helper function to get the Wall Photos of the current user.
+    var getWallData = function() {
+      return $http.get('/getData');
+    };
+
+    var refreshWallData = function() {
+      return $http.get('/getFacebookWall');
+    };
+
+    // This is a helper function to get an Album List of the current user.
+    var getAlbumData = function() {
+      return $http.get('/getFacebookAlbums');
+    };
+
+    // This is a helper function to get the Album Photos of the current user,
+    // it takes an Album Name and Album ID.
+    var getAlbumPhotos = function(name, id) {
+      var obj = {name: name, id: id};
+      return $http.post('/getFacebookAlbumPhotos', obj);
+    };
+
+    // Makes a get request and fetches Facebook user's name and ID.
+    var getFacebookUser = function() {
+      return $http.get('/facebookUser');
+    };
+    var fetchInstagram = function(){
+      return $http.get('/getInstagram');
+    }
+
+    return {
+      getWallData: getWallData,
+      getAlbumData: getAlbumData,
+      getAlbumPhotos: getAlbumPhotos,
+      getFacebookUser: getFacebookUser,
+      refreshWallData: refreshWallData,
+      fetchInstagram: fetchInstagram
+    };
+  }])
+;
 
 'use strict';
 

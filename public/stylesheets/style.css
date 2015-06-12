@@ -371,7 +371,7 @@ button.settings {
   background: #282878;
 }
 #views button {
-  width: 16.3%;
+  width: 15.3%;
   text-align: center;
   background: transparent;
   color: white;
@@ -381,7 +381,7 @@ button.settings {
   transition: 1s;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   background: transparent;
   border: none;
 }
@@ -394,7 +394,7 @@ button.settings {
   top: 0;
   left: 0;
   transition: 1s;
-  width: 95%;
+  width: 90%;
   background: #fff;
   box-shadow: 0 0 5px;
 }
@@ -405,7 +405,6 @@ button.settings {
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
-  left: 95%;
 }
 .hiddenMenu {
   transition: 1s;
