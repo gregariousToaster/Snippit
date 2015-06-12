@@ -19,9 +19,9 @@
         <div class="snip flex-box full-width" ng-repeat="(key, value) in $root.snips">
           <span class="flex-name" ng-click="view3D(key, value)">{{ value.name }}</span>
           <span class="right">
-            <button ng-click="view3D(key, value)"><i class="material-icons">open_in_new</i></button>
-            <button ng-click="view2D(key, value)"><i class="material-icons">edit</i></button>
-            <button ng-click="deleteSnip(key, value)"><i class="material-icons">delete</i></button>
+            <button ng-click="view3D(key, value)" title="view in 3d"><i class="material-icons">open_in_new</i></button>
+            <button ng-click="view2D(key, value)" title="edit in 2d"><i class="material-icons">edit</i></button>
+            <button ng-click="deleteSnip(key, value)" title="delete this snip"><i class="material-icons">delete</i></button>
           </span>
         </div>
       </div>
