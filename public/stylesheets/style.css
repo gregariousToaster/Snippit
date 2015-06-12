@@ -142,6 +142,8 @@ h2 {
   font-weight: 300;
   font-size: 1.5em;
   color: #fff;
+  cursor: pointer;
+  cursor: hand;
 }
 .full-screen {
   position: fixed;
