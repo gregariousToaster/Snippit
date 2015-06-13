@@ -24,7 +24,6 @@
   display: flex;
 }
 
-
 body {
   overflow: hidden;
   margin: 0;
@@ -439,4 +438,34 @@ button.settings {
 }
 .highlighted {
   background: #e6e6e6;
+}
+
+i.three-info {
+  position: absolute;
+  bottom: 5px !important;
+  right: 5px;
+  border: none;
+  background: transparent;
+  z-index: 10;
+  color: #ccc;
+  cursor: pointer;
+}
+
+div.three-info {
+  font-weight: 100;
+  color: #fff;
+  padding: 10px;
+  background: rgba(50,50,50,.5);
+  width: 100%;
+  position: absolute;
+  /*left: 5px;*/
+  transition: .5s;
+  bottom: -75%;
+}
+.three-shown {
+  transition: .5s;
+  bottom: 0px !important;
+}
+i.three-shown {
+  color: #e6e6e6;
 }

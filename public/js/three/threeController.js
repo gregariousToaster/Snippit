@@ -5,6 +5,7 @@ angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', '$rootScope', function($scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams, $rootScope) {
 
     $rootScope.bool.profile = false;
+    $scope.info = false;
 
 
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
@@ -222,5 +223,10 @@ angular.module('snippit.three', ['snippit'])
       $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
       init();
       animate();
+    };
+
+    $scope.showInfo = function() {
+      console.log('clicked');
+      $scope.info = !$scope.info;
     };
   }]);
