@@ -1,7 +1,8 @@
 <div ui-view class="flex-col flex-box">
   <div class="info" ng-class="{infodropped: $root.bool.info}">
-    <span>Click images to add or remove</span>
-    <span ng-show="!$root.newSnip" class="url">snippit.space/#/three/{{$root.snipId}}</span>
+    <span>Click images to add/remove</span>
+    <span ng-show="!$root.newSnip" class="url"><br /><input class="url" type="text" readonly="readonly" onclick="this.select();" value="snippit.space/#/three/{{$root.snipId}}"/>
+</textarea></span>
   </div>
   <div class="full-width flex-box snip-bar">
     <h3 ng-show="!$root.newSnip">{{ $root.snipName }}</h3>
