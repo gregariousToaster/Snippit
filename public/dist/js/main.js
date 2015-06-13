@@ -115,6 +115,62 @@ angular.module('snippit', ['snippit.main',
 
 'use strict';
 
+angular.module('snippit.albums', ['snippit'])
+  .controller('AlbumsController', ['$rootScope', '$scope', 'Facebook', '$window', 'Snips', '$http', function($rootScope, $scope, Facebook, $window, Snips, $http) {
+
+    $rootScope.bool.profile = true;
+
+    // Invoke Facebook getFacebook user method, on success, assign
+    // $scope.facebookUser to that response (Facebook name and id).
+    $scope.fetchUser = function() {
+      Snips.getSnips($rootScope.facebookUser.snips).success(function(resp) {
+        $scope.snips = resp;
+      });
+    };
+
+    // Check if there any items in $scope.snipPhotos to determine
+    // whether or not we should show the snip sidebar on the right.
+    // If there are no photos in that object, it means that we haven't
+    // selected any images to add to our snip or there are no existing
+    // photos in an existing snip.
+    $scope.snipCheck = function(){
+      return !!Object.keys($scope.snipPhotos).length;
+    };
+
+    // Call Snips' getSnips method, upon success, responds with
+    // a resp object that's an array, which we loop over and set
+    // as values on the $scope.snips object. This allows the user
+    // to see the snips that they've created.
+    $scope.fetchSnips = function(){
+      Snips.getSnips().success(function(resp) {
+        for (var i = 0; i < resp.length; i++) {
+          $scope.snips[resp[i]._id] = {
+            name: resp[i].name,
+            img: resp[i].img
+          }
+        }
+      })
+    }
+
+    // Adds a clicked photo to the snipPhotos object, which consists of
+    // the picture ID as the key, the link, thumbnail, and position of
+    // the photo (within the snippit) for the values.
+    $scope.addPhoto = function(id, pic) {
+
+      var pos = Object.keys($rootScope.snipPhotos).length;
+      $rootScope.snipPhotos[id] = {
+        src: pic.src,
+        thumb: pic.thumb,
+        position: pos
+      };
+
+      $rootScope.snipOpen = true;
+
+    };
+  }]);
+
+'use strict';
+
 angular.module('snippit.auth', ['snippit'])
   .controller('AuthController', ['$scope', '$window', 'ThreeFactory', function($scope, $window, ThreeFactory) {
     //This page is a modified version of the ThreeJS we are using for the main page
@@ -245,17 +301,14 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       Facebook.getFacebookUser().success(function(resp) {
         $rootScope.facebookUser = resp;
         $scope.instaAuth = !!resp.hasToken;
-        setTimeout(function(){
-            Snips.getSnips(resp.snips).success(function(resp) {
-            console.log(JSON.parse(resp))
-            $rootScope.snips = JSON.parse(resp);
-            console.log($rootScope.snips)
-          }
-        }, 5000);
+        Snips.getSnips(resp.snips).success(function(resp) {
+          $rootScope.snips = JSON.parse(resp);
+        })
       });
     };
 
     $scope.albumClick = function(name, id) {
+      $rootScope.albumName = name;
       $rootScope.loading = true;
       $rootScope.albumPhotos = {};
       if(!id){
@@ -282,7 +335,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       }
     };
 
-     $scope.getInstagram = function(){
+    $scope.getInstagram = function(){
       $rootScope.loading = true;
       $rootScope.albumPhotos = {};
       Facebook.getInstagram().success(function(resp) {
@@ -293,7 +346,6 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
         $rootScope.instaAuth = false;
       });
       if($state.current.name !== 'app.profile') {
-        $rootScope.newSnip = true;
         $rootScope.snipPhotos = {};
         $state.go('^.profile');
       }
@@ -338,7 +390,9 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
           $scope.albumNames.push(parse[key]);
         }
       });
+
       $scope.fetchUser();
+      // setTimeout($scope.fetchUser, 4000)
     }();
 
   }]);
@@ -628,6 +682,51 @@ angular.module('snippit.profile', ['snippit'])
 'use strict';
 
 angular.module('snippit.services', ['snippit'])
+  .factory('Facebook', ['$http', function($http) {
+
+    // This is a helper function to get the Wall Photos of the current user.
+    var getWallData = function() {
+      return $http.get('/getData');
+    };
+
+    var refreshWallData = function() {
+      return $http.get('/getFacebookWall');
+    };
+
+    // This is a helper function to get an Album List of the current user.
+    var getAlbumData = function() {
+      return $http.get('/getFacebookAlbums');
+    };
+
+    // This is a helper function to get the Album Photos of the current user,
+    // it takes an Album Name and Album ID.
+    var getAlbumPhotos = function(name, id) {
+      var obj = {name: name, id: id};
+      return $http.post('/getFacebookAlbumPhotos', obj);
+    };
+
+    // Makes a get request and fetches Facebook user's name and ID.
+    var getFacebookUser = function() {
+      return $http.get('/facebookUser');
+    };
+    var fetchInstagram = function(){
+      return $http.get('/getInstagram');
+    }
+
+    return {
+      getWallData: getWallData,
+      getAlbumData: getAlbumData,
+      getAlbumPhotos: getAlbumPhotos,
+      getFacebookUser: getFacebookUser,
+      refreshWallData: refreshWallData,
+      fetchInstagram: fetchInstagram
+    };
+  }])
+;
+
+'use strict';
+
+angular.module('snippit.services', ['snippit'])
   .factory('ThreeFactory', function() {
 
     // This is a helper function that creates a CSS3D object
@@ -860,6 +959,7 @@ angular.module('snippit.three', ['snippit'])
   .controller('ThreeController', ['$scope', 'ThreeFactory', '$window', '$document', 'Facebook', 'Snips', '$stateParams', '$rootScope', function($scope, ThreeFactory, $window, $document, Facebook, Snips, $stateParams, $rootScope) {
 
     $rootScope.bool.profile = false;
+    $scope.info = false;
 
 
     // These instantiate the THREE.js scene, renderer, camera, controls, and data.
@@ -1077,5 +1177,10 @@ angular.module('snippit.three', ['snippit'])
       $scope.targets = {table: [], sphere: [], helix: [], doubleHelix: [], tripleHelix: [], grid: []};
       init();
       animate();
+    };
+
+    $scope.showInfo = function() {
+      console.log('clicked');
+      $scope.info = !$scope.info;
     };
   }]);

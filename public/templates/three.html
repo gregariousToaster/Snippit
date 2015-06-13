@@ -6,4 +6,15 @@
     </button>
     <button class="view-select" ng-repeat="target in targetNames"  ng-click="clicked(targets[target[0]])"><h2>{{ target[1] }}</h2></button>
   </div>
+  <i class="material-icons three-info" ng-click="showInfo()" ng-class="{ 'three-shown': info }">info</i>
+  <div class="three-info" ng-class="{ 'three-shown': info }">
+  <p>To make a new snip, go to a photo album, and click photos you want to add.  The photos will appear on the right-hand side in the snip preview pane.  When you’re done, click the + symbol to save the snip.</p>
+
+<p>On the snip tab, you can click the snip to view it in 3d, or click the edit icon to edit it in 2d.  On the edit page, click the more information icon to get a publicly shareable snip link!</p>
+
+<ul>
+<li>Left click and drag to rotate</li>
+<li>Right click and drag to pan</li>
+<li>Move scroll wheel to zoom</li></ul>
+</div>
 </div>
