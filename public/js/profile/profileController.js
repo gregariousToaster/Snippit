@@ -15,6 +15,7 @@ angular.module('snippit.profile', ['snippit'])
     $scope.fetchUser = function() {
       Snips.getSnips($rootScope.facebookUser.snips).success(function(resp) {
         $scope.snips = resp;
+        $rootScope.snips = resp;
       });
     };
 
@@ -32,6 +33,7 @@ angular.module('snippit.profile', ['snippit'])
     // as values on the $scope.snips object. This allows the user
     // to see the snips that they've created.
     $scope.fetchSnips = function(){
+
       Snips.getSnips().success(function(resp) {
         for (var i = 0; i < resp.length; i++) {
           $scope.snips[resp[i]._id] = {
@@ -46,7 +48,6 @@ angular.module('snippit.profile', ['snippit'])
     // the picture ID as the key, the link, thumbnail, and position of
     // the photo (within the snippit) for the values.
     $scope.checkOn = function(id, pic) {
-
       var pos = Object.keys($rootScope.snipPhotos).length;
       $rootScope.snipPhotos[id] = {
         src: pic.src,
