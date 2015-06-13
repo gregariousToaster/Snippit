@@ -34,6 +34,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
     };
 
     $scope.albumClick = function(name, id) {
+      $rootScope.albumName = name;
       $rootScope.loading = true;
       $rootScope.albumPhotos = {};
       if(!id){
@@ -60,7 +61,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
       }
     };
 
-     $scope.getInstagram = function(){
+    $scope.getInstagram = function(){
       $rootScope.loading = true;
       $rootScope.albumPhotos = {};
       Facebook.getInstagram().success(function(resp) {
