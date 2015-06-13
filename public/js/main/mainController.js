@@ -29,7 +29,7 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
         $scope.instaAuth = !!resp.hasToken;
         Snips.getSnips(resp.snips).success(function(resp) {
           $rootScope.snips = JSON.parse(resp);
-        });
+        })
       });
     };
 
@@ -71,7 +71,6 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
         $rootScope.instaAuth = false;
       });
       if($state.current.name !== 'app.profile') {
-        $rootScope.newSnip = true;
         $rootScope.snipPhotos = {};
         $state.go('^.profile');
       }
@@ -116,7 +115,9 @@ angular.module('snippit.main', ['snippit', 'snippit.services'])
           $scope.albumNames.push(parse[key]);
         }
       });
+
       $scope.fetchUser();
+      // setTimeout($scope.fetchUser, 4000)
     }();
 
   }]);
