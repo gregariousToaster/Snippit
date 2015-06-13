@@ -74,6 +74,7 @@ exports.getSnips = function(req, res, cb){
   });
 };
 
+//connects a new snip to the user owner
 exports.connectSnip = function(snipId, fbId) {
   client.then(function(db){
     db.collection('users').update({id: fbId}, {$push: {
@@ -128,6 +129,7 @@ exports.deleteSnip = function(req, res, cb){
 // Util function for getting user's Facebook wall photos.
 // Takes a request, a response, a data object, and a callback.
 exports.FBWallPhotos = function(req, res, data, cb){
+  var snip = {name: 'FB Wall Photos', img: {}}
   client.then(function(db){
     return db.collection('users').findOneAsync({id: req.user.id})
     .then(function(user){
@@ -144,22 +146,35 @@ exports.FBWallPhotos = function(req, res, data, cb){
           datas.wallPhotos.picture.push(post.source);
           datas.wallPhotos.id.push(post.id);
           datas.wallPhotos.thumbnail.push(post.picture);
+          snip.img[post.id] = {src: post.source, thumb: post.picture}
         });
+
 
         db.collection('users').update(
           {_id: user._id},
           {$set: {data: datas}}
         );
+
+
       }
+        db.collection('snips').insert(snip, function(err, id){
+          db.collection('users').update({id: req.user.id}, {$push: {
+            snips: id.ops[0]._id
+          }});
+        });
+      
+      
     }).then(function(){
       db.collection('users').findOneAsync({id:req.user.id})
       .then(function(user) {
+        
         console.log('USER', user);
         cb(JSON.stringify(user.data));
       });
     });
   });
 };
+
 
 exports.refreshInstagramToken = function(req, res, data, cb){
   client.then(function(db){
