@@ -163,6 +163,11 @@ h2 {
   font-size: 8em;
   font-family: 'Roboto Slab', sans-serif;
 }
+
+.album {
+  cursor: pointer;
+  cursor: hand;
+}
 .element {
   box-sizing: content-box;
   width: 120px;
