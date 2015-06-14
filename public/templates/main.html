@@ -13,7 +13,7 @@
     <div class="tab-views">
       <div class="tab-view full-width" ng-show="tab === 0">
         <div class="snip flex-box hover full-width" ng-show="instaAuth" ng-click="getInstagram()">Instagram Photos</div>
-        <div class="snip flex-box hover full-width" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)" ng-class="{highlighted: $root.albumName === album.name }">{{ album.name }}</div>
+        <div class="snip flex-box hover full-width album" ng-repeat="album in albumNames" ng-click="albumClick(album.name, album.id)" ng-class="{highlighted: $root.albumName === album.name }">{{ album.name }}</div>
       </div>
       <div class="tab-view full-width" ng-show="tab === 1">
         <div class="snip flex-box full-width" ng-repeat="(key, value) in $root.snips">
