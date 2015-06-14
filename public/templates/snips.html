@@ -1,6 +1,7 @@
 <div ui-view class="flex-col flex-box">
   <div class="info" ng-class="{infodropped: $root.bool.info}">
-    <span>Click images to add/remove</span>
+    <span ng-show="$root.newSnip">Click images to add/remove</span>
+    <span ng-show="!$root.newSnip">Shareable Snippit Link</span>
     <span ng-show="!$root.newSnip" class="url"><br /><input class="url" type="text" readonly="readonly" onclick="this.select();" value="snippit.space/#/three/{{$root.snipId}}"/>
 </textarea></span>
   </div>
