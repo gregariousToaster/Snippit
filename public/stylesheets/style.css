@@ -462,6 +462,7 @@ div.three-info {
   padding: 10px;
   background: rgba(50,50,50,.5);
   width: 100%;
+  display: none;
   position: absolute;
   /*left: 5px;*/
   transition: .5s;
@@ -469,6 +470,7 @@ div.three-info {
 }
 .three-shown {
   transition: .5s;
+  display: block !important;
   bottom: 0px !important;
 }
 i.three-shown {
